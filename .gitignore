@@ -1,0 +1,17 @@
+/node_modules/
+/.idea/
+/doc/
+/coverage/
+/site
+/report/
+/.c9revisions/
+/.settings/
+
+bower_components
+*~
+
+.settings
+.classpath
+.project
+.metadata
+npm-debug.log
