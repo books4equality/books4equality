@@ -37,7 +37,7 @@ app.use(function(err, req, res, next) {
 });
 
 var server = http.createServer(app);
-server.listen(process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000, function() {
+server.listen(process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080, function() {
     logger.info('b4e listening on', server.address());
 });
 
