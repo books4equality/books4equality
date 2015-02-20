@@ -1,42 +1,41 @@
 'use strict';
 
+var db = require('./db'),
+    ObjectID = require('mongodb').ObjectID;
+
 function tags(callback) {
     var tags = ['anatomy', 'chemistry', 'french', 'ornithology', 'biology'];
 
-    return callback(null, tags);
+    process.nextTick(function() {
+        return callback(null, tags);
+    });
 }
 
 function find(options, callback) {
-    var books = [
-        {
-            id: '1',
-            title: 'Foundations in microbiology',
-            tags: ['microbiology'],
-            isbn: '9780072994896',
-            status: 'A+',
-            date_added: new Date(),
-            year: 2008
-        },
-        {
-            id: '2',
-            title: 'Holes essentials of human anatomy & physiology',
-            tags: ['anatomy', 'human', 'physiology'],
-            isbn: '9780073378152',
-            status: 'B-',
-            date_added: new Date(),
-            year: 2012
-        }
-    ];
+    var criteria = {
+        available: true
+    };
 
-    // TODO
-    return callback(null, books);
+    db.get().collection('books').find(criteria).toArray(function(err, books) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, books);
+    });
 }
 
 function findOne(id, callback) {
-    // TODO
-    
-    find({}, function(err, books) {
-        callback(null, books[0]);
+    var oid = new ObjectID(id)
+    var criteria = {
+        _id: oid,
+        available: true
+    };
+
+    db.get().collection('books').findOne(criteria, function(err, book) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, book);
     })
 }
 

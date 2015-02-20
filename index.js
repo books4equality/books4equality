@@ -6,6 +6,7 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     health = require('express-ping'),
     logger = require('./services/logger'),
+    db = require('./services/db')
     routes = require('./routes/index'),
     api = require('./routes/api');
 
@@ -40,13 +41,22 @@ app.use(function(err, req, res, next) {
     });
 });
 
-var server = http.createServer(app);
-server.listen(process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080, function() {
-    logger.info('b4e listening on', server.address());
+db.connect(function(err) {
+    if (err) {
+        process.exit(1);
+    }
+
+    var server = http.createServer(app);
+    var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080;
+    server.listen(port, function() {
+        logger.info('b4e listening on', server.address());
+    });
 });
 
-process.on('SIGTERM', function onsigterm() {
-    server.close(function onclose() {
-        process.exit(0);
+process.on('SIGTERM', function() {
+    server.close(function() {
+        db.disconnect(function() {
+            process.exit(0);
+        });
     });
 });
