@@ -1,1 +1,14 @@
-IMPACT
+<h3>Looking for a book?</h3>
+
+<label>Title</label>
+<input type="text" name="query" /><br>
+
+<label>Tags</label>
+<select>
+    <option value=""></option>
+    <% tags.forEach(function(tag) { %>
+        <option value="<%= tag %>"><%= tag %></option>
+    <% }) %>
+</select>
+
+<input type="submit" value="Search" />

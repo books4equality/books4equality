@@ -6,7 +6,8 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     health = require('express-ping'),
     logger = require('./services/logger'),
-    routes = require('./routes/index');
+    routes = require('./routes/index'),
+    api = require('./routes/api');
 
 var app = express();
 app.use(health.ping());
@@ -22,6 +23,7 @@ app.use(less(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/api', api);
 
 app.use(function notFound(req, res, next) {
     var err = new Error('Not Found');
@@ -31,7 +33,7 @@ app.use(function notFound(req, res, next) {
 
 app.use(function(err, req, res, next) {
     logger.warn(err);
-    
+
     res.status(err.status || 500);
     res.render('error', {
         message: err.message

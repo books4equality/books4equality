@@ -6,12 +6,14 @@
     "start": "node index"
   },
   "dependencies": {
+    "cors": "^2.5.3",
     "ejs": "^2.2.3",
     "ejs-locals": "^1.0.2",
     "express": "^4.11.1",
     "express-ping": "^1.1.0",
     "less-middleware": "^1.0.4",
     "logops": "^0.2.0",
-    "serve-favicon": "^2.2.0"
+    "serve-favicon": "^2.2.0",
+    "waterline": "^0.10.18"
   }
 }

@@ -1,15 +1,27 @@
 var express = require('express'),
-    router = express.Router();
+    books = require('../services/books');
 
-var STATIC_PAGES = ['about', 'impact', 'contact'];
+var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.render('index');
+    res.render('index');
 });
 
-STATIC_PAGES.forEach(function(page) {
-    router.get('/' + page, function(req, res, next) {
-        res.render(page);
+router.get('/about', function(req, res, next) {
+    res.render('about');
+});
+
+router.get('/contact', function(req, res, next) {
+    res.render('contact');
+});
+
+router.get('/impact', function(req, res, next) {
+    books.tags(function(err, tags) {
+        if (err) {
+            return next(err);
+        }
+
+        return res.render('impact', {tags: tags});
     });
 });
 
