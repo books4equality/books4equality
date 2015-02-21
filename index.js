@@ -4,14 +4,12 @@ var express = require('express'),
     less = require('less-middleware'),
     engine = require('ejs-locals'),
     favicon = require('serve-favicon'),
-    health = require('express-ping'),
     logger = require('./services/logger'),
     db = require('./services/db')
     routes = require('./routes/index'),
     api = require('./routes/api');
 
 var app = express();
-app.use(health.ping());
 
 app.disable('x-powered-by');
 

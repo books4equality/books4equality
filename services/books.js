@@ -1,7 +1,16 @@
 'use strict';
 
 var db = require('./db'),
+    logger = require('./logger'),
     ObjectID = require('mongodb').ObjectID;
+
+function parseTags(tags) {
+    function isEmpty(element) {
+        return element;
+    }
+
+    return tags.split(',').filter(isEmpty);
+}
 
 function tags(callback) {
     var tags = ['anatomy', 'chemistry', 'french', 'ornithology', 'biology'];
@@ -13,8 +22,29 @@ function tags(callback) {
 
 function find(options, callback) {
     var criteria = {
-        available: true
+        $query: {
+            available: true
+        },
+        limit: 100
     };
+
+    if (options.title) {
+        criteria.$query.title = { $regex: options.title };
+    }
+
+    if (options.tags) {
+        var tags = parseTags(options.tags);
+        if (tags.length > 0) {
+            criteria.$query.tags = { $in: tags };
+        }
+    }
+
+    if (options.orderby) {
+        criteria.$orderby = {};
+        criteria.$orderby[options.orderby] = -1;
+    }
+
+    logger.info('search criteria %j', criteria);
 
     db.get().collection('books').find(criteria).toArray(function(err, books) {
         if (err) {

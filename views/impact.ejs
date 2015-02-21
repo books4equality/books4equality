@@ -1,7 +1,12 @@
 <h3>Looking for a book?</h3>
 
 <label>Title</label>
-<input type="text" name="query" /><br>
+<input type="text" id="title" /><br>
+
+<!-- TODO use local bower_components -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-2.1.3.js"></script>
+<script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 
 <label>Tags</label>
 <select>
@@ -12,3 +17,25 @@
 </select>
 
 <input type="submit" value="Search" />
+
+<script>
+$(function() {
+    $("#title").autocomplete({
+        source: function(request, response) {
+            $.getJSON('/api/books', {title: request.term})
+                .done(function(books) {
+                    var data = [];
+                    books.forEach(function(book) {
+                        data.push(book.title);
+                    })
+                    response(data);
+                })
+                .fail(function(data, status, xhr) {
+                    alert('something went wrong'); // TODO
+                });
+        },
+        minLength: 3,
+        delay: 300
+    });
+});
+</script>
