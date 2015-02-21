@@ -1,7 +1,16 @@
 {
   "name": "books4equality",
+  "description": "Books For Equality web site",
   "version": "1.0.0",
   "private": true,
+  "author": {
+    "name": "Guido García",
+    "email": "guido.garcia.bernardo@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:palmerabollo/books4equality.git"
+  },
   "scripts": {
     "start": "node index"
   },
@@ -14,5 +23,6 @@
     "logops": "^0.2.0",
     "mongodb": "^1.4.31",
     "serve-favicon": "^2.2.0"
-  }
+  },
+  "keywords": ["books", "equality"]
 }

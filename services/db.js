@@ -4,7 +4,7 @@ var MongoClient = require('mongodb').MongoClient,
     logger = require('./logger');
 
 var db;
-var url = process.env.MONGO_URL || 'mongodb://localhost:27017/b4e'; // TODO
+var url = process.env.MONGO_URL || 'mongodb://localhost:27017/b4e';
 
 var connect = function connect(callback) {
     if (db) {

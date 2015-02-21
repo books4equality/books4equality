@@ -45,13 +45,14 @@ db.connect(function(err) {
     }
 
     var server = http.createServer(app);
-    var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080;
+    var port = process.env.PORT || 3200;
     server.listen(port, function() {
         logger.info('b4e listening on', server.address());
     });
 });
 
 process.on('SIGTERM', function() {
+    logger.info('SIGTERM received, try ordered shutdown');
     server.close(function() {
         db.disconnect(function() {
             process.exit(0);
