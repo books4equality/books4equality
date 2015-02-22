@@ -1,18 +1,41 @@
 <% layout('./layout') -%>
 
-<h1>Books 4 Equality</h1>
+<style>
+.headline {
+    padding-top: 0;
+    padding-bottom: 50px;
+}
+</style>
 
-<p>Books 4 Equality was created September, 2014 by three students of the University of Vermont.</p>
+<div class='headline'>
+  <!--
+  <img class='logo' src='/bower_components/flat-ui/dist/img/icons/png/Book.png'>
+  -->
+  <h1>
+    Books For Equality
+    <p class='lead'>Close the education gap, one book at a time.</p>
+  </h1>
+</div>
 
-<p>
-We accept any books in fair condition and use them to reduce the education gap around the globe.
-Most books that we receive are donated to <a href="http://www.booksforafrica.org/">Books For Africa</a>,
+<p class='lead'>
+We accept any books in fair condition and use them to close the education gap around the globe.
+Most books that we receive are <strong>donated</strong> to <a href="http://www.booksforafrica.org/">Books For Africa</a>,
 and a number of others are sold to generate funding for shipping them.
 </p>
 
-<p><b>To donate books:</b>
-<a href="mailto:books4equality@gmail.com?body=For a book donation, please indicate Day, Time and Location and we will take care of everything else. Thank you! Books4Equality">Email us</a> and we will come pick them up from your office whenever you are available. </p>
+<div class="demo-row row">
+  <div class="col-xs-3">
+    <a class='btn btn-block btn-lg btn-primary'
+       title='Email us and we will come pick them up from your office whenever you are available'
+       href="mailto:books4equality@gmail.com?body=For a book donation, please indicate Day, Time and Location and we will take care of everything else. Thank you! Books4Equality">
+       Donate books
+    </a>
+  </div>
+  <div class="col-xs-3">
+    <a class='btn btn-block btn-lg btn-default' disabled>
+       Donate money
+    </a>
+  </div>
+</div>
 
-<p><b>To donate money: </b>Click the donation button --></p>
-
-<p>Keep the pages turning!</p>
+<p class='lead'>Keep the pages turning!</p>

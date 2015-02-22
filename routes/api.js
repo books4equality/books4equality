@@ -22,17 +22,7 @@ router.get('/tags', function(req, res, next) {
 
 // i.e. /books?title=anatomy&tags=lang:en,anatomy
 router.get('/books', function(req, res, next) {
-    var options = {};
-
-    if (req.query.title) {
-        options.title = req.query.title;
-    }
-    if (req.query.tags) {
-        options.tags = req.query.tags;
-    }
-    if (req.query.orderby) {
-        options.orderby = req.query.orderby;
-    }
+    var options = req.query;
 
     books.find(options, function(err, books) {
         if (err) {

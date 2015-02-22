@@ -21,11 +21,20 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(less(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function populateLocals(req, res, next) {
+    res.locals.stats = {
+        // TODO take from database
+        books: 272,
+        money: 1733
+    };
+    next();
+});
+
 app.use('/', routes);
 app.use('/api', api);
 
 app.use(function notFound(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Resource not Found');
     err.status = 404;
     next(err);
 });

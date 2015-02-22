@@ -24,8 +24,7 @@ function find(options, callback) {
     var criteria = {
         $query: {
             available: true
-        },
-        limit: 100
+        }
     };
 
     if (options.title) {
@@ -41,12 +40,21 @@ function find(options, callback) {
 
     if (options.orderby) {
         criteria.$orderby = {};
-        criteria.$orderby[options.orderby] = -1;
+        criteria.$orderby[options.orderby] = parseInt(options.dir) || 1;
+    }
+
+    var hints = {
+        limit: 100
+    };
+
+    if (options.skip) {
+        hints.skip = parseInt(options.skip);
     }
 
     logger.info('search criteria %j', criteria);
+    logger.info('search hints %j', hints);
 
-    db.get().collection('books').find(criteria).toArray(function(err, books) {
+    db.get().collection('books').find(criteria, hints).toArray(function(err, books) {
         if (err) {
             return callback(err);
         }

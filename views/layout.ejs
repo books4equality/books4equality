@@ -8,25 +8,28 @@
     <meta name="description" content="Books 4 Equality" />
 
     <link rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/bower_components/flat-ui/dist/css/flat-ui.min.css'>
+    <link rel='stylesheet' href='/bower_components/flat-ui/docs/assets/css/demo.css'>
 
     <!--[if lt IE 9]>
     <script src='/bower_components/html5shiv/dist/html5shiv.min.js'></script>
     <script src='/bower_components/respond/dest/respond.min.js'></script>
     <![endif]-->
 
-    <link rel='stylesheet' href='/stylesheets/style.css'>
-
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/flat-ui/dist/js/flat-ui.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css'>
 </head>
 <body>
     <% include partials/navbar %>
 
     <div class='container'>
-        <%- body %>
+      <%- body %>
     </div>
+    
+    <% include partials/footer %>
 </body>
 
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
 <% include partials/analytics %>
 </html>
