@@ -124,9 +124,10 @@ You can [create a free Openshift account](https://www.openshift.com/app/account/
 Once your account is ready, you only need to create a Node.js 0.10 application with a MongoDB 2.4 cartridge.
 
 ```
+> export APP_NAME=b4e
 > sudo gem install rhc
 > rhc setup
-> rhc app create b4e nodejs-0.10 mongodb-2.4 --scaling --from-code=git://github.com/palmerabollo/books4equality.git
+> rhc app create $APP_NAME nodejs-0.10 mongodb-2.4 --scaling --from-code=git://github.com/palmerabollo/books4equality.git
 ```
 
 That will deploy and give you some information about the URL to access the site.
@@ -134,7 +135,7 @@ That will deploy and give you some information about the URL to access the site.
 You will also find your private git repository. It looks like this:
 
 ```
-ssh://ab45fc4df38aec39250000ab@prueba-guido.rhcloud.com/~/git/b4e.git/
+ssh://ab45fc4df38aec39250000ab@b43-youruser.rhcloud.com/~/git/b4e.git/
 ```
 
 ### Development
@@ -149,3 +150,12 @@ After committing your changes, you can redeploy them:
 ```
 
 Don't forget to PR your changes back to improve Books For Equality.
+
+### Backup your database
+
+```
+rhc port-forward -a $APP_NAME # this will show you your mongodb port
+mongodump --host localhost -d $APP_NAME --port 50221 --username admin --password YOUR_DB_PASSWORD
+```
+
+That will place a backup in a ./dump folder. You can later use ```mongorestore``` to restore the backup.

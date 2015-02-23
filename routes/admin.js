@@ -44,7 +44,7 @@ router.get('/search/:isbn', passport.authenticate('basic', {session: false}), fu
     });
 });
 
-router.post('/book', passport.authenticate('basic', {session: false}), function(req, res, next) {
+router.post('/books', passport.authenticate('basic', {session: false}), function(req, res, next) {
     var book = req.body.book;
 
     books.insert(book, function(err, result) {
