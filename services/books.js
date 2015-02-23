@@ -77,8 +77,18 @@ function findOne(id, callback) {
     })
 }
 
+function insert(book, callback) {
+    db.get().collection('books').save(book, function(err, result) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, result);
+    })
+}
+
 module.exports = {
     tags: tags,
     find: find,
-    findOne: findOne
+    findOne: findOne,
+    insert: insert
 };

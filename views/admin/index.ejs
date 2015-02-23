@@ -1,4 +1,45 @@
-<% layout('./layout') -%>
+<% layout('../layout') -%>
 
-Add a book by ISBN
+ISBN
 <input type="text" id="isbn">
+<a id="search" class='btn btn-link'>Search ISBN</a>
+
+<br>
+
+<form id="form_book" method="post" action="/admin/book">
+  Title
+  <input type="text" id="title" name="title"><br>
+
+  Publisher
+  <input type="text" id="publisher" name="publisher"><br>
+
+  Published Date
+  <input type="text" id="year" name="year"><br>
+
+  <a id="submit" class='btn btn-primary'>Register this book</a>
+</form>
+
+<script>
+$(function() {
+    $("#search").click(function() {
+        var isbn = $("#isbn").val();
+
+        $.getJSON('/admin/search/' + isbn)
+            .done(function(book) {
+                $("#title").val(book.title);
+                $("#publisher").val(book.publisher);
+                $("#year").val(book.publishedDate);
+                // TODO
+                // console.log(book);
+            })
+            .fail(function(data, status, xhr) {
+                alert('Book with isbn ' + isbn + ' not found');
+            });
+    });
+
+    $("#submit").click(function() {
+        // TODO
+        return false;
+    })
+});
+</script>
