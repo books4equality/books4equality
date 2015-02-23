@@ -30,6 +30,7 @@ The following environment variables are available:
 
 * **PORT**: Web server port (default 3200).
 * **MONGO_URL**: Connection string to the mongodb database (default mongodb://localhost:27017/b4e).
+* **ADMIN_PASS**: Administrative password (default random password).
 
 ## Public API
 
@@ -129,3 +130,22 @@ Once your account is ready, you only need to create a Node.js 0.10 application w
 ```
 
 That will deploy and give you some information about the URL to access the site.
+
+You will also find your private git repository. It looks like this:
+
+```
+ssh://ab45fc4df38aec39250000ab@prueba-guido.rhcloud.com/~/git/b4e.git/
+```
+
+### Development
+
+If you want to make changes, fork and clone this repository.
+After committing your changes, you can redeploy them:
+
+```
+> git remote add openshift -f ssh://YOUR_PRIVATE_GIT_REPOSITORY
+> git merge openshift/master -s recursive -X ours
+> git push openshift master
+```
+
+Don't forget to PR your changes back to improve Books For Equality.
