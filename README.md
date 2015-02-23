@@ -116,3 +116,16 @@ This resource is still under consideration.
 
 **AGPL v3.0 LICENSE**
 http://www.gnu.org/licenses/agpl-3.0.html
+
+## Deploy your own pod
+
+You can [create a free Openshift account](https://www.openshift.com/app/account/new) to deploy the app.
+Once your account is ready, you only need to create a Node.js 0.10 application with a MongoDB 2.4 cartridge.
+
+```
+> sudo gem install rhc
+> rhc setup
+> rhc app create b4e nodejs-0.10 mongodb-2.4 --scaling --from-code=git://github.com/palmerabollo/books4equality.git
+```
+
+That will deploy and give you some information about the URL to access the site.

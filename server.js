@@ -8,6 +8,7 @@ var express = require('express'),
     db = require('./services/db')
     routes = require('./routes/index'),
     api = require('./routes/api');
+    admin = require('./routes/admin');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use(function populateLocals(req, res, next) {
 
 app.use('/', routes);
 app.use('/api', api);
+app.use('/admin', admin);
 
 app.use(function notFound(req, res, next) {
     var err = new Error('Resource not Found');
