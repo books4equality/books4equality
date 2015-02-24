@@ -24,6 +24,8 @@ Prerequisites:
 
 The web server will be up and running at [localhost:3200](http://localhost:3200).
 
+See also [how to get it up and running into the cloud](/docs/DEPLOY.md) for free.
+
 ### Advanced configuration
 
 The following environment variables are available:
@@ -32,130 +34,9 @@ The following environment variables are available:
 * **MONGO_URL**: Connection string to the mongodb database (default mongodb://localhost:27017/b4e).
 * **ADMIN_PASS**: Administrative password (default random password).
 
-## Public API
-
-### GET /api/books/:id
-
-Find one book by its identifier.
-
-```json
-GET /books/54e882333ea21f357a2f9a64
-
-{
-    "_id": "54e882333ea21f357a2f9a64",
-    "available": true,
-    "title": "Another book in the store",
-    "isbn": "1780073378153",
-    "tags": [
-        "lang:es",
-        "book",
-        "physiology"
-    ],
-    "status": "B-",
-    "date_added": null,
-    "year": 2013
-}
-```
-
-### GET /api/books
-
-Find a list of books by title and/or tags.
-
-```json
-GET /books?title=book&tags=lang:es&orderby=year
-
-[
-    {
-        "_id": "54e882333ea21f357a2f9a64",
-        "available": true,
-        "title": "Another book in the store",
-        "isbn": "1780073378153",
-        "tags": [
-            "lang:es",
-            "book",
-            "physiology"
-        ],
-        "status": "B-",
-        "date_added": null,
-        "year": 2013
-    },
-    {
-        "_id": "54e763933ea21f357a2f9a62",
-        "available": true,
-        "title": "This is a book with a very long title",
-        "isbn": "9780073378152",
-        "tags": [
-            "lang:es",
-            "anatomy",
-            "human",
-            "physiology"
-        ],
-        "status": "B-",
-        "date_added": null,
-        "year": 2012
-    }
-]
-```
-
-### GET /api
-
-Returns the status of the service.
-
-```json
-GET /books/54e882333ea21f357a2f9a64
-
-{
-    "status": 1
-}
-```
-
-### GET /api/tags
-
-This resource is still under consideration.
+## [Public API](/docs/API.md)
 
 ## License
 
 **AGPL v3.0 LICENSE**
 http://www.gnu.org/licenses/agpl-3.0.html
-
-## Deploy your own pod
-
-You can [create a free Openshift account](https://www.openshift.com/app/account/new) to deploy the app.
-Once your account is ready, you only need to create a Node.js 0.10 application with a MongoDB 2.4 cartridge.
-
-```
-> export APP_NAME=b4e
-> sudo gem install rhc
-> rhc setup
-> rhc app create $APP_NAME nodejs-0.10 mongodb-2.4 --scaling --from-code=git://github.com/palmerabollo/books4equality.git
-```
-
-That will deploy and give you some information about the URL to access the site.
-
-You will also find your private git repository. It looks like this:
-
-```
-ssh://ab45fc4df38aec39250000ab@b43-youruser.rhcloud.com/~/git/b4e.git/
-```
-
-### Development
-
-If you want to make changes, fork and clone this repository.
-After committing your changes, you can redeploy them:
-
-```
-> git remote add openshift -f ssh://YOUR_PRIVATE_GIT_REPOSITORY
-> git merge openshift/master -s recursive -X ours
-> git push openshift master
-```
-
-Don't forget to PR your changes back to improve Books For Equality.
-
-### Backup your database
-
-```
-rhc port-forward -a $APP_NAME # this will show you your mongodb port
-mongodump --host localhost -d $APP_NAME --port 50221 --username admin --password YOUR_DB_PASSWORD
-```
-
-That will place a backup in a ./dump folder. You can later use ```mongorestore``` to restore the backup.
