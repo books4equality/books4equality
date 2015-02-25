@@ -7,19 +7,14 @@
 
 <input type="text" id="title">
 
-<label>Category</label>
-<select id="tags">
-    <option value=""></option>
-    <% tags.forEach(function(tag) { %>
-        <option value="<%= tag %>"><%= tag %></option>
-    <% }) %>
-</select>
+<label>Categories</label>
+<input type="text" id="categories"></input>
 
 <label>Order by</label>
 <select id="orderby">
     <option value=""></option>
     <option value="title">Title</option>
-    <option value="year">Year</option>
+    <option value="publishedDate">Published Date</option>
 </select>
 
 <a id="search" class='btn btn-primary'>Search</a>
@@ -28,9 +23,9 @@
 <div>
     {{#each books}}
     <div class="entry">
-        <span>{{title}} ({{year}}) · {{isbn}}</span>
+        <span>{{title}} ({{publishedDate}}) · {{isbn}}</span>
         <br>
-        {{#each tags}}
+        {{#each categories}}
         <span class="label label-primary"><a href="">{{this}}</a></span>
         {{/each}}
     </div>
@@ -52,7 +47,7 @@ $(function() {
 
     $("#search").click(function() {
         var criteria = {};
-        ["title", "tags", "orderby"].forEach(function(field) {
+        ["title", "categories", "orderby"].forEach(function(field) {
             if ($("#" + field).val()) {
                 criteria[field] = $("#" + field).val()
             }

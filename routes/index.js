@@ -12,13 +12,7 @@ router.get('/contact', function(req, res, next) {
 });
 
 router.get('/impact', function(req, res, next) {
-    books.tags(function(err, tags) {
-        if (err) {
-            return next(err);
-        }
-
-        return res.render('impact', {tags: tags});
-    });
+    res.render('impact');
 });
 
 module.exports = router;

@@ -10,17 +10,7 @@ router.get('/', function(req, res, next) {
     return res.json({status: 1});
 });
 
-router.get('/tags', function(req, res, next) {
-    books.tags(function(err, tags) {
-        if (err) {
-            return next(err);
-        }
-
-        return res.json(tags);
-    })
-});
-
-// i.e. /books?title=anatomy&tags=lang:en,anatomy
+// i.e. /books?title=anatomy&categories=lang:en,anatomy
 router.get('/books', function(req, res, next) {
     var options = req.query;
 

@@ -1,44 +1,65 @@
 <% layout('../layout') -%>
 
+<script src="/bower_components/handlebars/handlebars.min.js"></script>
+
 ISBN
 <input type="text" id="isbn">
 <a id="search" class='btn btn-link'>Search ISBN</a>
 
 <br>
+<br>
 
-<form id="form_book" method="post" action="/admin/books">
-  Title
-  <input type="text" id="title" name="title"><br>
+<script id="entry-template" type="text/x-handlebars-template">
+<!-- XXX use div -->
+<table>
+  <tr>
+    <td>
+      <img src="{{imageLinks.thumbnail}}" />
+      &nbsp;&nbsp;
+    </td>
+    <td>
+      <span><strong>{{title}}</strong> ({{publishedDate}})</span>
+      <br>
+      {{#each authors}}
+        <em>{{this}}</em>
+      {{/each}}
+      <br>
+      <br>
 
-  Publisher
-  <input type="text" id="publisher" name="publisher"><br>
+      <form id="form_book" method="post" action="/admin/books">
+        <input type="hidden" name="isbn" value="{{isbn}}">
+        <a id="submit" class='btn btn-primary'>Register this book</a>
+      </form>
+    </td>
+  </tr>
+</table>
+</script>
 
-  Published Date
-  <input type="text" id="year" name="year"><br>
-
-  <a id="submit" class='btn btn-primary'>Register this book</a>
-</form>
+<div id="results"></div>
 
 <script>
 $(function() {
+    var source = $("#entry-template").html();
+    var template = Handlebars.compile(source);
+
     $("#search").click(function() {
         var isbn = $("#isbn").val();
+        if (!isbn) {
+            return false;
+        }
 
         $.getJSON('/admin/search/' + isbn)
             .done(function(book) {
-                $("#title").val(book.title);
-                $("#publisher").val(book.publisher);
-                $("#year").val(book.publishedDate);
-                // TODO
-                // console.log(book);
+                var html = template(book);
+                $("#results").html(html);
             })
             .fail(function(data, status, xhr) {
                 alert('Book with isbn ' + isbn + ' not found');
             });
     });
 
-    $("#submit").click(function() {
-        // TODO
+    $(document).on('click', '#submit', function() {
+        alert('TODO');
         return false;
     })
 });

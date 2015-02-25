@@ -36,14 +36,14 @@ Don't forget to PR your changes back to improve Books For Equality.
 You need to forward the local ports to the remote ports in order to access the mongodb database from your local machine.
 
 ```
-rhc port-forward -a $APP_NAME # this will show your mongodb port
+rhc port-forward -a $APP_NAME # this will show your local MONGODB_PORT
 ```
 
 Then use ```mongodump```:
 
 ```
 rhc apps # will show your database password
-mongodump --host localhost -d $APP_NAME --port 50221 --username admin --password YOUR_DB_PASSWORD
+mongodump --host localhost -d $APP_NAME --port <MONGODB_PORT> --username admin --password <YOUR_MONGODB_PASSWORD>
 ```
 
 That will place a backup in a local folder (```./dump```).

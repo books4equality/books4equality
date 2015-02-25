@@ -4,20 +4,12 @@ var db = require('./db'),
     logger = require('./logger'),
     ObjectID = require('mongodb').ObjectID;
 
-function parseTags(tags) {
+function parseCategories(categories) {
     function isEmpty(element) {
         return element;
     }
 
-    return tags.split(',').filter(isEmpty);
-}
-
-function tags(callback) {
-    var tags = ['anatomy', 'chemistry', 'french', 'ornithology', 'biology'];
-
-    process.nextTick(function() {
-        return callback(null, tags);
-    });
+    return categories.split(',').filter(isEmpty);
 }
 
 function find(options, callback) {
@@ -31,10 +23,10 @@ function find(options, callback) {
         criteria.$query.title = { $regex: options.title };
     }
 
-    if (options.tags) {
-        var tags = parseTags(options.tags);
-        if (tags.length > 0) {
-            criteria.$query.tags = { $in: tags };
+    if (options.categories) {
+        var categories = parseCategories(options.categories);
+        if (categories.length > 0) {
+            criteria.$query.categories = { $in: categories };
         }
     }
 
@@ -74,7 +66,7 @@ function findOne(id, callback) {
             return callback(err);
         }
         return callback(null, book);
-    })
+    });
 }
 
 function insert(book, callback) {
@@ -83,11 +75,10 @@ function insert(book, callback) {
             return callback(err);
         }
         return callback(null, result);
-    })
+    });
 }
 
 module.exports = {
-    tags: tags,
     find: find,
     findOne: findOne,
     insert: insert
