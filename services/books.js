@@ -79,24 +79,13 @@ function insert(book, callback) {
 }
 
 function stats(callback) {
-    var aggregation = [
-        {
-            $match: {}
-        }, {
-            $group: {
-                _id: null,
-                count: { $sum: 1 }
-            }
-        }
-    ];
-
-    db.get().collection('books').aggregate(aggregation, function(err, results) {
+    db.get().collection('books').count(function(err, result) {
         if (err) {
             return callback(err);
         }
 
         var stats = {};
-        stats.count = results[0].count;
+        stats.count = result;
 
         return callback(null, stats);
     });
