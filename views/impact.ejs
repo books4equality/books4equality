@@ -20,17 +20,9 @@
 <a id="search" class='btn btn-primary'>Search</a>
 
 <script id="entry-template" type="text/x-handlebars-template">
-<div>
     {{#each books}}
-    <div class="entry">
-        <span>{{title}} ({{publishedDate}}) · {{isbn}}</span>
-        <br>
-        {{#each categories}}
-        <span class="label label-primary"><a href="">{{this}}</a></span>
-        {{/each}}
-    </div>
+    <% include partials/book-template %>
     {{/each}}
-</div>
 </script>
 
 <div id="results"></div>

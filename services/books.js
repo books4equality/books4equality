@@ -20,7 +20,7 @@ function find(options, callback) {
     };
 
     if (options.title) {
-        criteria.$query.title = { $regex: options.title };
+        criteria.$query.title = { $regex: options.title, $options: 'i' };
     }
 
     if (options.categories) {

@@ -10,30 +10,17 @@ ISBN
 <br>
 
 <script id="entry-template" type="text/x-handlebars-template">
-<!-- XXX use div & css layout-->
-<table>
-  <tr>
-    <td>
-      <img src="{{book.imageLinks.thumbnail}}" />
-      &nbsp;&nbsp;
-    </td>
-    <td>
-      <span><strong>{{book.title}}</strong> ({{book.publishedDate}})</span>
-      <br>
-      {{#each book.authors}}
-        <em>{{this}}</em>
-      {{/each}}
-      <br>
-      <br>
+    {{#with book}}
+    <% include ../partials/book-template %>
+    {{/with}}
 
-      <form id="form_book" method="post" action="/admin/books">
-        <!-- XXX could be sent with ajax for a better UX -->
-        <input type="hidden" name="isbn" value="{{isbn}}" required>
-        <input type="submit" class='btn btn-primary' value="Register this book"></input>
-      </form>
-    </td>
-  </tr>
-</table>
+    <br>
+
+    <form id="form_book" method="post" action="/admin/books">
+      <!-- XXX could be sent with ajax for a better UX -->
+      <input type="hidden" name="isbn" value="{{isbn}}" required>
+      <input type="submit" class='btn btn-primary' value="Register this book"></input>
+    </form>
 </script>
 
 <div id="results"></div>
