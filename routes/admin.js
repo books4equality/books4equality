@@ -28,6 +28,7 @@ passport.use(new BasicStrategy(
 var router = express.Router();
 
 router.use(passport.initialize());
+router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json({ limit: '10kb' }));
 
 router.get('/', passport.authenticate('basic', {session: false}), function(req, res) {
@@ -45,14 +46,24 @@ router.get('/search/:isbn', passport.authenticate('basic', {session: false}), fu
 });
 
 router.post('/books', passport.authenticate('basic', {session: false}), function(req, res, next) {
-    var book = req.body.book;
-
-    books.insert(book, function(err, result) {
+    isbn.resolve(req.body.isbn, function(err, book) {
         if (err) {
             return next(err);
         }
 
-        return res.json(result);
+        // complete book with custom fields
+        book._meta = {};
+        book._meta.isbn = req.body.isbn;
+        book._meta.creationDate = new Date();
+        book._meta.available = true;
+
+        books.insert(book, function(err, result) {
+          if (err) {
+              return next(err);
+          }
+
+          return res.redirect('/admin'); // redirect after post pattern
+        });
     });
 });
 

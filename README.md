@@ -32,7 +32,8 @@ The following environment variables are available:
 
 * **PORT**: Web server port (default 3200).
 * **MONGO_URL**: Connection string to the mongodb database (default mongodb://localhost:27017/b4e).
-* **ADMIN_PASS**: Administrative password (default random password).
+* **ADMIN_PASS**: Administrative password (default random password). The administration zone is
+password protected at [localhost:3200/admin](http://localhost:3200/admin).
 
 ## [Public API](/docs/API.md)
 

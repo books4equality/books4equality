@@ -5,7 +5,8 @@ var express = require('express'),
     engine = require('ejs-locals'),
     favicon = require('serve-favicon'),
     logger = require('./services/logger'),
-    db = require('./services/db')
+    db = require('./services/db'),
+    books = require('./services/books'),
     routes = require('./routes/index'),
     api = require('./routes/api');
     admin = require('./routes/admin');
@@ -23,12 +24,13 @@ app.use(less(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function populateLocals(req, res, next) {
-    res.locals.stats = {
-        // TODO take from database
-        books: 272,
-        money: 1733
-    };
-    next();
+    books.stats(function(err, stats) {
+        if (err) {
+            return next(err);
+        }
+        res.locals.stats = stats;
+        return next();
+    });
 });
 
 app.use('/', routes);

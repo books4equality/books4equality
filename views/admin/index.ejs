@@ -10,25 +10,26 @@ ISBN
 <br>
 
 <script id="entry-template" type="text/x-handlebars-template">
-<!-- XXX use div -->
+<!-- XXX use div & css layout-->
 <table>
   <tr>
     <td>
-      <img src="{{imageLinks.thumbnail}}" />
+      <img src="{{book.imageLinks.thumbnail}}" />
       &nbsp;&nbsp;
     </td>
     <td>
-      <span><strong>{{title}}</strong> ({{publishedDate}})</span>
+      <span><strong>{{book.title}}</strong> ({{book.publishedDate}})</span>
       <br>
-      {{#each authors}}
+      {{#each book.authors}}
         <em>{{this}}</em>
       {{/each}}
       <br>
       <br>
 
       <form id="form_book" method="post" action="/admin/books">
-        <input type="hidden" name="isbn" value="{{isbn}}">
-        <a id="submit" class='btn btn-primary'>Register this book</a>
+        <!-- XXX could be sent with ajax for a better UX -->
+        <input type="hidden" name="isbn" value="{{isbn}}" required>
+        <input type="submit" class='btn btn-primary' value="Register this book"></input>
       </form>
     </td>
   </tr>
@@ -50,17 +51,12 @@ $(function() {
 
         $.getJSON('/admin/search/' + isbn)
             .done(function(book) {
-                var html = template(book);
+                var html = template({book: book, isbn: isbn});
                 $("#results").html(html);
             })
             .fail(function(data, status, xhr) {
-                alert('Book with isbn ' + isbn + ' not found');
+                $("#results").html('<p class="text-warning">Book with ISBN ' + isbn + ' not found</p>');
             });
     });
-
-    $(document).on('click', '#submit', function() {
-        alert('TODO');
-        return false;
-    })
 });
 </script>

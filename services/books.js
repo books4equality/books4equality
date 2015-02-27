@@ -15,7 +15,7 @@ function parseCategories(categories) {
 function find(options, callback) {
     var criteria = {
         $query: {
-            available: true
+            "_meta.available": true
         }
     };
 
@@ -78,8 +78,34 @@ function insert(book, callback) {
     });
 }
 
+function stats(callback) {
+    var aggregation = [
+        {
+            $match: {}
+        }, {
+            $group: {
+                _id: null,
+                count: { $sum: 1 }
+            }
+        }
+    ];
+
+    db.get().collection('books').aggregate(aggregation, function(err, results) {
+        if (err) {
+            return callback(err);
+        }
+
+        var stats = {};
+        stats.count = results[0].count;
+
+        return callback(null, stats);
+    });
+}
+
+
 module.exports = {
     find: find,
     findOne: findOne,
-    insert: insert
+    insert: insert,
+    stats: stats
 };
