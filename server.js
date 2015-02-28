@@ -35,7 +35,7 @@ app.use(function populateLocals(req, res, next) {
 
 app.use('/', routes);
 app.use('/api', api);
-app.use('/admin', admin);
+app.use('/', admin);
 
 app.use(function notFound(req, res, next) {
     var err = new Error('Resource not Found');
@@ -47,9 +47,14 @@ app.use(function(err, req, res, next) {
     logger.warn(err);
 
     res.status(err.status || 500);
-    res.render('error', {
-        message: err.message
-    });
+
+    if (req.xhr) {
+        res.json({'error': err.message});
+    } else {
+        res.render('error', {
+            message: err.message
+        });
+    }
 });
 
 db.connect(function(err) {

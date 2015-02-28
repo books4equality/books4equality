@@ -15,7 +15,7 @@
 
     <br>
 
-    <form id="form_book" method="post" action="/admin/books">
+    <form id="form_book" method="post" action="/api/books">
       <!-- XXX form could be sent with ajax for a better UX -->
       <input type="hidden" name="isbn" value="{{isbn}}" required>
       <input type="submit" data-loading-text="Saving..." class='btn btn-primary' value="Register this book"></input>
@@ -40,7 +40,7 @@ $(function() {
             return false;
         }
 
-        $.getJSON('/admin/search/' + isbn)
+        $.getJSON('/search/' + isbn)
             .done(function(book) {
                 var html = template({book: book, isbn: isbn});
                 $("#results").html(html);

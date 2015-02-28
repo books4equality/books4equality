@@ -1,6 +1,7 @@
 'use strict';
 
-var db = require('./db'),
+var memoize = require('memoizeasync'),
+    db = require('./db'),
     logger = require('./logger'),
     ObjectID = require('mongodb').ObjectID;
 
@@ -78,6 +79,38 @@ function insert(book, callback) {
     });
 }
 
+function remove(id, callback) {
+    var oid = new ObjectID(id)
+    var criteria = {
+        _id: oid
+    };
+
+    db.get().collection('books').deleteOne(criteria, function(err, result) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, result);
+    });
+}
+
+function update(id, book, callback) {
+    var oid = new ObjectID(id)
+    var criteria = {
+        _id: oid
+    };
+
+    var update = {
+        $set: book
+    };
+
+    db.get().collection('books').updateOne(criteria, update, function(err, result) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, result);
+    });
+}
+
 function stats(callback) {
     db.get().collection('books').count(function(err, result) {
         if (err) {
@@ -96,5 +129,6 @@ module.exports = {
     find: find,
     findOne: findOne,
     insert: insert,
-    stats: stats
+    remove: remove,
+    stats: memoize(stats, {maxAge: 30000})
 };

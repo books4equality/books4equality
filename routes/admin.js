@@ -31,7 +31,7 @@ router.use(passport.initialize());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json({ limit: '10kb' }));
 
-router.get('/', passport.authenticate('basic', {session: false}), function(req, res) {
+router.get('/admin', passport.authenticate('basic', {session: false}), function(req, res) {
     return res.render('admin/index');
 });
 
@@ -45,7 +45,7 @@ router.get('/search/:isbn', passport.authenticate('basic', {session: false}), fu
     });
 });
 
-router.post('/books', passport.authenticate('basic', {session: false}), function(req, res, next) {
+router.post('/api/books', passport.authenticate('basic', {session: false}), function(req, res, next) {
     isbn.resolve(req.body.isbn, function(err, book) {
         if (err) {
             return next(err);
@@ -58,12 +58,30 @@ router.post('/books', passport.authenticate('basic', {session: false}), function
         book._meta.available = true;
 
         books.insert(book, function(err, result) {
-          if (err) {
-              return next(err);
-          }
+            if (err) {
+                return next(err);
+            }
 
-          return res.redirect('/admin'); // redirect after post pattern
+            if (req.xhr) {
+                return res.json(result);
+            }
+
+            return res.redirect('/admin'); // redirect after post pattern
         });
+    });
+});
+
+router.delete('/api/books/:id', passport.authenticate('basic', {session: false}), function(req, res, next) {
+    books.remove(req.params.id, function(err, result) {
+        if (err) {
+            return next(err);
+        }
+
+        if (req.xhr) {
+            return res.json(result);
+        }
+
+        return res.redirect('/admin');
     });
 });
 
