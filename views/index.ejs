@@ -32,13 +32,14 @@ and a number of others are sold to generate funding for shipping them.
     </a>
   </div>
 
+  <% if (config.paypal.hosted_button_id) { %>
   <div class='col-xs-3'>
     or
-    <!-- TODO move button_id to config -->
-    <a class='btn btn-lg btn-link' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KGN92Z66DVE7J'>
+    <a class='btn btn-lg btn-link' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=<%= config.paypal.hosted_button_id %>'>
       Donate some money
     </a>
   </div>
+  <% } %>
 </div>
 
 <p class='lead'>Keep the pages turning!</p>
