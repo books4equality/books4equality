@@ -46,6 +46,7 @@ router.get('/search/:isbn', passport.authenticate('basic', {session: false}), fu
 });
 
 router.post('/api/books', passport.authenticate('basic', {session: false}), function(req, res, next) {
+    var start = Date.now();
     isbn.resolve(req.body.isbn, function(err, book) {
         if (err) {
             logger.warn('Not able to resolve %s', req.body.isbn, err);
