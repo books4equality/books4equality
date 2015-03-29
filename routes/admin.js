@@ -48,6 +48,7 @@ router.get('/search/:isbn', passport.authenticate('basic', {session: false}), fu
 router.post('/api/books', passport.authenticate('basic', {session: false}), function(req, res, next) {
     isbn.resolve(req.body.isbn, function(err, book) {
         if (err) {
+            logger.warn('Not able to resolve %s', req.body.isbn, err);
             return next(err);
         }
 
@@ -57,7 +58,11 @@ router.post('/api/books', passport.authenticate('basic', {session: false}), func
         book._meta.creationDate = new Date();
         book._meta.available = true;
 
+        var start = Date.now();
         books.insert(book, function(err, result) {
+            var elapsed = Date.now() - start;
+            logger.debug('Book insert %d, err:%s', elapsed, err);
+
             if (err) {
                 return next(err);
             }
