@@ -1,7 +1,7 @@
 {
   "name": "books4equality",
   "description": "Books For Equality web site",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "author": {
     "name": "Guido García",
