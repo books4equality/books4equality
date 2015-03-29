@@ -71,13 +71,13 @@ db.connect(function(err) {
     server.listen(port, host, function() {
         logger.info('b4e listening on', server.address());
     });
-});
 
-process.on('SIGTERM', function() {
-    logger.info('SIGTERM received, try ordered shutdown');
-    server.close(function() {
-        db.disconnect(function() {
-            process.exit(0);
+    process.on('SIGTERM', function() {
+        logger.info('SIGTERM received, try ordered shutdown');
+        server.close(function() {
+            db.disconnect(function() {
+                process.exit(0);
+            });
         });
     });
 });
