@@ -61,7 +61,7 @@ router.post('/api/books', passport.authenticate('basic', {session: false}), func
         var start = Date.now();
         books.insert(book, function(err, result) {
             var elapsed = Date.now() - start;
-            logger.debug('Book insert %d, err:%s', elapsed, err);
+            logger.info('Book insert %d, err:%s', elapsed, err);
 
             if (err) {
                 return next(err);
