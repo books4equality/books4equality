@@ -8,7 +8,8 @@ var express = require('express'),
     db = require('./services/db'),
     books = require('./services/books'),
     routes = require('./routes/index'),
-    api = require('./routes/api');
+    api = require('./routes/api'),
+    config = require('./config'),
     admin = require('./routes/admin');
 
 var app = express();
@@ -29,6 +30,7 @@ app.use(function populateLocals(req, res, next) {
             return next(err);
         }
         res.locals.stats = stats;
+        res.locals.config = config;
         return next();
     });
 });

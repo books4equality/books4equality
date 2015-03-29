@@ -7,7 +7,7 @@ Once your account is ready, you only need to create a Node.js 0.10 application w
 > export APP_NAME=b4e
 > sudo gem install rhc
 > rhc setup
-> rhc app create $APP_NAME nodejs-0.10 mongodb-2.4 --scaling --from-code=git://github.com/palmerabollo/books4equality.git
+> rhc app create $APP_NAME nodejs-0.10 mongodb-2.4 --scaling --from-code=git://github.com/books4equalitypa/books4equality.git
 ```
 
 That will deploy and give you some information about the URL to access the site.
