@@ -11,8 +11,8 @@ router.get('/contact', function(req, res, next) {
     res.render('contact');
 });
 
-router.get('/impact', function(req, res, next) {
-    res.render('impact');
+router.get('/library', function(req, res, next) {
+    res.render('library');
 });
 
 module.exports = router;
