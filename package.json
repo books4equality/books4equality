@@ -24,13 +24,14 @@
     "logops": "^0.2.0",
     "memoizeasync": "^0.8.0",
     "mongodb": "^1.4.31",
-    "node-isbn": "^1.1.2",
+    "node-isbn": "^1.2.0",
     "passport": "^0.2.1",
     "passport-http": "^0.2.2",
     "serve-favicon": "^2.2.0"
   },
   "keywords": [
     "books",
-    "equality"
+    "equality",
+    "education"
   ]
 }
