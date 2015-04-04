@@ -11,6 +11,7 @@ var express = require('express'),
     api = require('./routes/api'),
     config = require('./config'),
     admin = require('./routes/admin');
+    org = require('./routes/organizations');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use(function populateLocals(req, res, next) {
 app.use('/', routes);
 app.use('/api', api);
 app.use('/', admin);
+app.use('/', org);
 
 app.use(function notFound(req, res, next) {
     var err = new Error('Resource not Found');
