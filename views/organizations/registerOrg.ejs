@@ -6,7 +6,7 @@
 }
 </style>
 
-
+// Log in
 <div class="container">    
 <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
     <div class="panel panel-info" >
@@ -19,7 +19,7 @@
 
                 <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                     
-                <form id="loginform" class="form-horizontal" role="form">
+                <form id="loginform" class="form-horizontal" role="form" action="/routes/organizations" method="post">
                             
                     <div style="margin-bottom: 25px" class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -46,8 +46,8 @@
                             <!-- Button -->
 
                             <div class="col-sm-12 controls">
-                              <a id="btn-login" href="#" class="btn btn-success">Login  </a>
-                              <a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>
+			      <input id="btn-login" class="btn btn-success" type="submit" value="Log In"/>
+                              // Not for people<a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>
 
                             </div>
                         </div>
@@ -70,6 +70,8 @@
                 </div>                     
             </div>  
 </div>
+
+// Sign up
 <div id="signupbox" style="display:none; margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -114,13 +116,13 @@
                             </div>
                         </div>
                         
-                        <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
+                        //<div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
                             
-                            <div class="col-md-offset-3 col-md-9">
-                                <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button>
-                            </div>                                           
+                            //<div class="col-md-offset-3 col-md-9">
+                            //    <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button>
+                            //</div>                                           
                                 
-                        </div>
+                        //</div>
                         
                         
                         
