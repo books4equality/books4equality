@@ -21,6 +21,7 @@
     "ejs": "^2.2.3",
     "ejs-locals": "^1.0.2",
     "express": "^4.11.1",
+    "express-session": "^1.10.4",
     "less-middleware": "^1.0.4",
     "logops": "^0.2.0",
     "memoizeasync": "^0.8.0",

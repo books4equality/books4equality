@@ -43,6 +43,8 @@ passport.deserializeUser(function deserialize(user, done) {
 var router = express.Router();
 
 router.use(passport.initialize());
+router.use(passport.session());
+
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/organizations',

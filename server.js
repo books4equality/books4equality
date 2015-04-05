@@ -1,4 +1,5 @@
 var express = require('express'),
+    session = require('express-session'),
     http = require('http'),
     path = require('path'),
     less = require('less-middleware'),
@@ -24,6 +25,14 @@ app.engine('ejs', engine);
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(less(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// TODO use MongoStore for sessions (see https://github.com/kcbanner/connect-mongo)
+app.use(session({
+    cookie: {maxAge: 24 * 60 * 60 * 1000},
+    secret: 'b4e-secret',
+    saveUninitialized: false,
+    resave: false
+}));
 
 app.use(function populateLocals(req, res, next) {
     books.stats(function(err, stats) {
