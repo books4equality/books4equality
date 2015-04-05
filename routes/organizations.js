@@ -71,17 +71,30 @@ router.post('/organizations/login',
 router.get('/organizations/logout',
     function logout(req, res) {
         req.logout();
-        res.redirect('/');
+        res.redirect('/organizations');
     }
 );
 
 router.post('/organizations/signup',
     login.ensureNotLoggedIn(),
     function(req, res, next) {
-        //
-        // TODO implement, call organizations.insert, don't forget to hash password
-        //
-        next(new Error('Not implemented yet'));
+
+        // TODO validate format, existing orgs, etc. with 'revalidator'
+
+        var organization = {
+            username: req.body.email,
+            password: req.body.password,
+            name: req.body.name,
+            createdAt: new Date()
+        };
+
+        organizations.insert(organization, function(err, result) {
+            if (err) {
+                return next(new Error('Not able to create organization'));
+            }
+
+            return res.redirect('/organizations');
+        });
     }
 );
 
