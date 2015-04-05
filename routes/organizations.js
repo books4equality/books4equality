@@ -1,48 +1,76 @@
-var express = require('express');
-
-var router = express.Router();
-
-module.exports = router;
-
-
 'use strict';
 
-var express = require('express'),
+var crypto = require("crypto"),
+    express = require('express'),
     passport = require('passport'),
-    BasicStrategy = require('passport-http').BasicStrategy,
-    isbn = require('node-isbn'),
+    LocalStrategy = require('passport-local').Strategy,
     bodyParser = require('body-parser'),
+    login = require('connect-ensure-login'),
+    organizations = require('../services/organizations'),
     logger = require('../services/logger');
 
-
-
-passport.use(new BasicStrategy(
+passport.use(new LocalStrategy(
     function(username, password, done) {
-        /*
-	var ORG_PASS = false || Math.random().toString(36).substring(7);
+        var passwordHash = crypto.createHash("sha256").update(password, "utf8").digest("base64");
 
-        if (password !== ORG_PASS) {
-            logger.warn('Authentication failed');
-            return done(null, false);
-        }
-	*/
+        var criteria = {
+            username: username,
+            password: passwordHash
+        };
 
-        return done(null, username);
+        organizations.findOne(criteria, function(err, organization) {
+            if (err) {
+                logger.info('user auth failed %j', err);
+                return done(null, false, err);
+            } else {
+                logger.info('user info %j', organization);
+                return done(null, organization);
+            }
+        })
     }
 ));
+
+passport.serializeUser(function serialize(user, done) {
+    logger.debug('serialize %j', user);
+    done(null, user);
+});
+
+passport.deserializeUser(function deserialize(user, done) {
+    logger.debug('deserialize %j', user);
+    return done(null, user);
+});
 
 var router = express.Router();
 
 router.use(passport.initialize());
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json({ limit: '10kb' }));
 
+router.get('/organizations',
+    login.ensureLoggedIn('/organizations/login'),
+    function(req, res, next) {
+        res.render('organizations/index');
+    }
+);
 
-router.get('/organizations', function(req, res, next) {
-    res.render('organizations');
-});
+router.get('/organizations/login',
+    function(req, res, next) {
+        res.render('organizations/login');
+    }
+);
 
+router.post('/organizations/login',
+    login.ensureNotLoggedIn(),
+    passport.authenticate('local', {
+        successRedirect: '/organizations',
+        failureRedirect: '/organizations?unauthorized'
+    })
+);
+
+router.get('/organizations/logout',
+    function logout(req, res) {
+        req.logout();
+        res.redirect('/');
+    }
+);
 
 module.exports = router;
-
-
