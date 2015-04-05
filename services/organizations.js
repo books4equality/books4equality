@@ -1,8 +1,7 @@
 'use strict';
 
 var db = require('./db'),
-    logger = require('./logger'),
-    ObjectID = require('mongodb').ObjectID;
+    logger = require('./logger');
 
 function findOne(criteria, callback) {
     db.get().collection('organizations').findOne(criteria, function(err, result) {
