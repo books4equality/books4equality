@@ -81,9 +81,10 @@ router.post('/organizations/signup',
 
         // TODO validate format, existing orgs, etc. with 'revalidator'
 
+        var passwordHash = crypto.createHash("sha256").update(req.body.password, "utf8").digest("base64");
         var organization = {
             username: req.body.email,
-            password: req.body.password,
+            password: passwordHash, // do not store plain password
             name: req.body.name,
             createdAt: new Date()
         };
