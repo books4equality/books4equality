@@ -75,4 +75,14 @@ router.get('/organizations/logout',
     }
 );
 
+router.post('/organizations/signup',
+    login.ensureNotLoggedIn(),
+    function(req, res, next) {
+        //
+        // TODO implement, call organizations.insert, don't forget to hash password
+        //
+        next(new Error('Not implemented yet'));
+    }
+);
+
 module.exports = router;
