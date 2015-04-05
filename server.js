@@ -1,5 +1,6 @@
 var express = require('express'),
     session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
     http = require('http'),
     path = require('path'),
     less = require('less-middleware'),
@@ -14,68 +15,63 @@ var express = require('express'),
     admin = require('./routes/admin');
     organizations = require('./routes/organizations');
 
-var app = express();
+function initializeApplication() {
+    var app = express();
 
-app.disable('x-powered-by');
+    app.disable('x-powered-by');
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.engine('ejs', engine);
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'ejs');
+    app.engine('ejs', engine);
 
-app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(less(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+    app.use(favicon(__dirname + '/public/favicon.ico'));
+    app.use(less(path.join(__dirname, 'public')));
+    app.use(express.static(path.join(__dirname, 'public')));
 
-// TODO use MongoStore for sessions (see https://github.com/kcbanner/connect-mongo)
-app.use(session({
-    cookie: {maxAge: 24 * 60 * 60 * 1000},
-    secret: 'b4e-secret',
-    saveUninitialized: false,
-    resave: false
-}));
+    app.use(session({
+        store: new MongoStore({ db: db.get() }),
+        saveUninitialized: false,
+        resave: false,
+        secret: 'b4e-secret'
+    }));
 
-app.use(function populateLocals(req, res, next) {
-    res.locals.user = req.user;
-    res.locals.config = config;
+    app.use(function populateLocals(req, res, next) {
+        res.locals.user = req.user;
+        res.locals.config = config;
 
-    books.stats(function(err, stats) {
-        if (err) {
-            return next(err);
-        }
-        res.locals.stats = stats;
-        return next();
-    });
-});
-
-app.use('/', routes);
-app.use('/api', api);
-app.use('/', admin);
-app.use('/', organizations);
-
-app.use(function notFound(req, res, next) {
-    var err = new Error('Resource not Found');
-    err.status = 404;
-    next(err);
-});
-
-app.use(function(err, req, res, next) {
-    logger.warn(err);
-
-    res.status(err.status || 500);
-
-    if (req.xhr) {
-        res.json({'error': err.message});
-    } else {
-        res.render('error', {
-            message: err.message
+        books.stats(function(err, stats) {
+            if (err) {
+                return next(err);
+            }
+            res.locals.stats = stats;
+            return next();
         });
-    }
-});
+    });
 
-db.connect(function(err) {
-    if (err) {
-        process.exit(1);
-    }
+    app.use('/', routes);
+    app.use('/api', api);
+    app.use('/', admin);
+    app.use('/', organizations);
+
+    app.use(function notFound(req, res, next) {
+        var err = new Error('Resource not Found');
+        err.status = 404;
+        next(err);
+    });
+
+    app.use(function(err, req, res, next) {
+        logger.warn(err);
+
+        res.status(err.status || 500);
+
+        if (req.xhr) {
+            res.json({'error': err.message});
+        } else {
+            res.render('error', {
+                message: err.message
+            });
+        }
+    });
 
     var server = http.createServer(app);
     var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3200;
@@ -93,4 +89,12 @@ db.connect(function(err) {
             });
         });
     });
+}
+
+db.connect(function(err) {
+    if (err) {
+        process.exit(1);
+    }
+
+    initializeApplication();
 });
