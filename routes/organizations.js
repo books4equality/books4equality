@@ -7,6 +7,7 @@ var crypto = require("crypto"),
     bodyParser = require('body-parser'),
     multer = require('multer'),
     login = require('connect-ensure-login'),
+    validations = require('../middlewares/validations'),
     organizations = require('../services/organizations'),
     logger = require('../services/logger');
 
@@ -47,7 +48,13 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(multer());
+
+var fileUploadOptions = {
+  inMemory: true, // XXX might not scale well !
+  limits: { files: 1 },
+  putSingleFilesInArray: true // XXX will be the default value in future multer releases
+};
+router.use(multer(fileUploadOptions));
 
 router.get('/organizations',
     function(req, res, next) {
@@ -77,17 +84,23 @@ router.post('/organizations/login',
 );
 
 router.get('/organizations/logout',
-    function logout(req, res) {
+    function(req, res) {
         req.logout();
         res.redirect('/organizations');
     }
 );
 
-router.post('/organizations/signup',
-    function(req, res, next) {
-        // TODO validate format, existing orgs, etc. with 'revalidator'
-        // TODO upload logo (use multer, req.files)
+router.get('/organizations/:id/logo',
+    function(req, res) {
+        res.set('Content-Type', 'image/png');
+        // TODO organizations.find by id
+        res.status(200);
+    }
+);
 
+router.post('/organizations/signup',
+    validations.validate('organization'),
+    function(req, res, next) {
         var passwordHash = crypto.createHash("sha256").update(req.body.password, "utf8").digest("base64");
         var organization = {
             email: req.body.email,
@@ -99,6 +112,13 @@ router.post('/organizations/signup',
             createdAt: new Date()
         };
 
+        if (req.files.logo) {
+            organization.logo = {
+                mimetype: req.files.logo[0].mimetype,
+                size: req.files.logo[0].size,
+                data: req.files.logo[0].buffer // XXX works with inMemory multer, otherwise read from logo.path
+            };
+        }
         organizations.insert(organization, function(err, result) {
             if (err) {
                 return next(new Error('Not able to create organization'));

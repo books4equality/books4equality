@@ -32,7 +32,7 @@
     </div>
 
     <div id="signup-form" style="display:none;" class="login-form">
-      <form method="post" action="/organizations/signup">
+      <form method="post" action="/organizations/signup" enctype="multipart/form-data">
         <!-- Email -->
         <div class="form-group">
           <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address">
@@ -58,9 +58,9 @@
         </div>
 
         <!-- Logo  -->
-        <!--
+        <!-- TODO
         <div class="form-group">
-          <input type="file" class="form-control signup-field" id="signup-logo" name="location" placeholder="Donation Location">
+          <input type="file" class="form-control signup-field" id="signup-logo" name="logo" placeholder="Organization logo">
           <label class="login-field-icon fui-upload" for="signup-logo"></label>
         </div>
         -->
