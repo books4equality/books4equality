@@ -18,7 +18,11 @@ $(function() {
     var criteria = {};
     $.getJSON('/api/organizations', criteria)
         .done(function(organizations) {
-            var html = template({organizations: organizations});
+            if (organizations.length === 0) {
+                var html = '<strong>No organizations yet. Stay tuned.</strong>';
+            } else {
+                var html = template({organizations: organizations});
+            }
             $("#results").html(html);
         })
         .fail(function(data, status, xhr) {

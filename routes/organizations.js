@@ -7,6 +7,7 @@ var crypto = require("crypto"),
     bodyParser = require('body-parser'),
     multer = require('multer'),
     login = require('connect-ensure-login'),
+    ObjectID = require('mongodb').ObjectID,
     validations = require('../middlewares/validations'),
     organizations = require('../services/organizations'),
     logger = require('../services/logger');
@@ -91,10 +92,23 @@ router.get('/organizations/logout',
 );
 
 router.get('/organizations/:id/logo',
+    // XXX could use Etag headers to cache images in the browser and save some juice
     function(req, res) {
-        res.set('Content-Type', 'image/png');
-        // TODO organizations.find by id
-        res.status(200);
+        var criteria = {
+            _id: new ObjectID(req.params.id) // XXX routers shouldn't know about mongo details
+        };
+        organizations.findOne(criteria, function(err, organization) {
+            if (err) {
+                // TODO serve empty image
+                res.set('Content-Type', 'image/png');
+                return res.status(200);
+            }
+
+            res.set('Content-Length', organization.logo.size);
+            res.set('Content-Type', organization.logo.mimetype);
+            res.write(organization.logo.data.buffer);
+            res.end();
+        });
     }
 );
 

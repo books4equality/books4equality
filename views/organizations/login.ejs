@@ -1,5 +1,21 @@
 <% layout( '../layout') -%>
 
+<style>
+.login {
+  background: none;
+  padding: 8px 38px 0px;
+}
+
+.login-screen {
+  min-height: 273px;
+  padding: 40px 150px 33px 306px;
+}
+
+.login-icon {
+  top: 40px;
+}
+</style>
+
 <div id="loginbox" class="login" >
   <div class="login-screen">
     <div class="login-icon">
@@ -22,8 +38,8 @@
         </div>
 
         <div>
-          <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
           <a class="btn btn-lg btn-link" href="#" onClick="$('#login-form').hide(); $('#signup-form').show()">Sign Up</a>
+          <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
           <!--
           <a class="login-link" href="#">Lost your password?</a>
           -->
@@ -31,7 +47,7 @@
       </form>
     </div>
 
-    <div id="signup-form" style="display:none;" class="login-form">
+    <div id="signup-form" style="display:none" class="login-form">
       <form method="post" action="/organizations/signup" enctype="multipart/form-data">
         <!-- Email -->
         <div class="form-group">
@@ -58,14 +74,15 @@
         </div>
 
         <!-- Logo  -->
-        <!-- TODO
         <div class="form-group">
           <input type="file" class="form-control signup-field" id="signup-logo" name="logo" placeholder="Organization logo">
           <label class="login-field-icon fui-upload" for="signup-logo"></label>
         </div>
-        -->
 
-        <input id="btn-login" class="btn btn-block btn-lg btn-info" type="submit" value="Sign Up"/></a>
+        <div>
+          <a class="btn btn-lg btn-link" href="#" onClick="$('#login-form').show(); $('#signup-form').hide()">Login</a>
+          <input id="btn-login" class="btn btn-lg btn-info" type="submit" value="Sign Up"/></a><
+        </div>
       </form>
     </div>
   </div>

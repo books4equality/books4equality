@@ -49,7 +49,9 @@ router.get('/organizations', function(req, res, next) {
         organizations.forEach(function removePrivateInformation(org) {
           delete org.password;
           delete org.email;
-          delete org.logo;
+          if (org.logo) {
+            delete org.logo.data;
+          }
         });
 
         return res.json(organizations);
