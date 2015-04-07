@@ -1,10 +1,11 @@
 <!-- XXX use div & css layout-->
+
 <div class="entry">
   <table>
     <tr>
       <td width="150">
         {{#if logo}}
-        <img src="{{logo.smallThumbnail}}" />
+        <img src="{{logo}}" />
         {{else}}
         <img src="http://dummyimage.com/128x168/eeeeee/000000.png&text=No+preview" />
         {{/if}}
@@ -13,13 +14,11 @@
       <td>
         <span><strong>{{username}}</strong></span>
         <br>
-        {{#each location}}
-          <em>{{this}}</em> ·
-        {{/each}}
+        <span class="text-muted">Books: {{ numberBooks }}</span>
         <br>
-        <span class="text-muted">Books collected</span> //: {{booksCollected}}
+        <span class="text-muted">Outreach: {{ outreach }}</span>
         <br>
-        <span class="label label-primary">Join!</span> //{{outreach}}
+        <span class="label label-primary">Join!</span> <!-- TODO -->
       </td>
     </tr>
   </table>

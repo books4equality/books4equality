@@ -27,10 +27,12 @@
     "logops": "^0.2.0",
     "memoizeasync": "^0.8.0",
     "mongodb": "^1.4.31",
+    "multer": "^0.1.8",
     "node-isbn": "^1.2.0",
     "passport": "^0.2.1",
     "passport-http": "^0.2.2",
     "passport-local": "^1.0.0",
+    "revalidator": "^0.3.1",
     "serve-favicon": "^2.2.0"
   },
   "keywords": [

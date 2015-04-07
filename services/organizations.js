@@ -25,10 +25,10 @@ function find(options, callback) {
         hints.skip = parseInt(options.skip);
     }
 
-    logger.info('search criteria %j', criteria);
-    logger.info('search hints %j', hints);
+    logger.info('search org criteria %j', criteria);
+    logger.info('search org hints %j', hints);
 
-    db.get().collection('organizations').find(criteria, hints).toArray(function(err, books) {
+    db.get().collection('organizations').find(criteria, hints).toArray(function(err, organizations) {
         if (err) {
             return callback(err);
         }

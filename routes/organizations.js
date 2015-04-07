@@ -5,6 +5,7 @@ var crypto = require("crypto"),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     bodyParser = require('body-parser'),
+    multer = require('multer'),
     login = require('connect-ensure-login'),
     organizations = require('../services/organizations'),
     logger = require('../services/logger');
@@ -14,7 +15,7 @@ passport.use(new LocalStrategy(
         var passwordHash = crypto.createHash("sha256").update(password, "utf8").digest("base64");
 
         var criteria = {
-            username: username,
+            email: username,
             password: passwordHash
         };
 
@@ -46,13 +47,13 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.use(bodyParser.urlencoded({ extended: true }));
+router.use(multer());
 
-//router.get('/organizations',
-//   login.ensureLoggedIn('/organizations/login'),
-//    function(req, res, next) {
-//        res.render('organizations/index');
-//    }
-//);
+router.get('/organizations',
+    function(req, res, next) {
+        res.render('organizations/index');
+    }
+);
 
 router.get('/organizations/login',
     function(req, res, next) {
@@ -60,11 +61,18 @@ router.get('/organizations/login',
     }
 );
 
+router.get('/organizations/home',
+    login.ensureLoggedIn('/organizations/login'),
+    function(req, res, next) {
+        res.render('organizations/home');
+    }
+);
+
 router.post('/organizations/login',
     login.ensureNotLoggedIn(),
     passport.authenticate('local', {
-        successRedirect: '/organizations',
-        failureRedirect: '/organizations?unauthorized'
+        successRedirect: '/organizations/home',
+        failureRedirect: '/organizations/login?unauthorized'
     })
 );
 
@@ -76,22 +84,18 @@ router.get('/organizations/logout',
 );
 
 router.post('/organizations/signup',
-    login.ensureNotLoggedIn(),
     function(req, res, next) {
-
         // TODO validate format, existing orgs, etc. with 'revalidator'
+        // TODO upload logo (use multer, req.files)
 
         var passwordHash = crypto.createHash("sha256").update(req.body.password, "utf8").digest("base64");
         var organization = {
-            username: req.body.name,
-            password: passwordHash, // do not store plain password
-//            name: req.body.name,
-//            location: req.body.location,
-//            logo: req.body.logo,
             email: req.body.email,
+            password: passwordHash, // do not store plain password
+            location: req.body.location,
+            name: req.body.name,
             numberBooks: 0,
             outreach: 0,
-
             createdAt: new Date()
         };
 
@@ -100,7 +104,7 @@ router.post('/organizations/signup',
                 return next(new Error('Not able to create organization'));
             }
 
-            return res.redirect('/organizations');
+            return res.redirect('/organizations/login');
         });
     }
 );

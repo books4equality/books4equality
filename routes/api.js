@@ -1,6 +1,6 @@
 var express = require('express'),
     cors = require('cors'),
-    books = require('../services/books');
+    books = require('../services/books'),
     organizations = require('../services/organizations');
 
 var router = express.Router();
@@ -20,23 +20,11 @@ router.get('/books', function(req, res, next) {
             return next(err);
         }
 
-        return res.json(books);
-    })
-});
-
-router.get('/organizations', function(req, res, next) {
-    var options = req.query;
-
-    organizations.find(options, function(err, books) {
-        if (err) {
-            return next(err);
-        }
+        // TODO remove private information
 
         return res.json(books);
     })
 });
-
-
 
 router.get('/books/:id', function(req, res, next) {
     books.findOne(req.params.id, function(err, book) {
@@ -44,7 +32,23 @@ router.get('/books/:id', function(req, res, next) {
             return next(err);
         }
 
+        // TODO remove private information
+
         return res.json(book);
+    })
+});
+
+router.get('/organizations', function(req, res, next) {
+    var options = req.query;
+
+    organizations.find(options, function(err, organizations) {
+        if (err) {
+            return next(err);
+        }
+
+        // TODO remove private information
+
+        return res.json(organizations);
     })
 });
 
