@@ -3,22 +3,22 @@
 <div class="entry">
   <table>
     <tr>
-      <td width="150">
+      <td width="100">
         {{#if logo}}
         <img src="{{logo}}" />
         {{else}}
-        <img src="http://dummyimage.com/128x168/eeeeee/000000.png&text=No+preview" />
+        <img src="http://dummyimage.com/96/dedede/fff.png&text=No+logo" />
         {{/if}}
-        &nbsp;&nbsp;
       </td>
       <td>
-        <span><strong>{{username}}</strong></span>
+	<span class="label label-primary">Support</span> <!-- TODO --><span><strong>{{name}}</strong></span> 
+	<br>
+	<span>Donation box available at: {{location}}</span>
+        <br>        
+        <span class="text-muted">Books collected: {{ numberBooks }} &emsp; &emsp;</span>
+        <span class="text-muted">Supported by: {{ outreach }}</span>
         <br>
-        <span class="text-muted">Books: {{ numberBooks }}</span>
-        <br>
-        <span class="text-muted">Outreach: {{ outreach }}</span>
-        <br>
-        <span class="label label-primary">Join!</span> <!-- TODO -->
+        
       </td>
     </tr>
   </table>

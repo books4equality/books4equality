@@ -14,7 +14,8 @@ function findOne(criteria, callback) {
 
 function find(options, callback) {
     var criteria = {
-        $query: { }
+        $query: { },
+	$orderby: { numberBooks : -1 }
     };
 
     var hints = {
@@ -27,6 +28,7 @@ function find(options, callback) {
 
     logger.info('search org criteria %j', criteria);
     logger.info('search org hints %j', hints);
+
 
     db.get().collection('organizations').find(criteria, hints).toArray(function(err, organizations) {
         if (err) {
