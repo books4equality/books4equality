@@ -47,12 +47,12 @@ router.use(passport.session());
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
-router.get('/organizations',
-    login.ensureLoggedIn('/organizations/login'),
-    function(req, res, next) {
-        res.render('organizations/index');
-    }
-);
+//router.get('/organizations',
+//   login.ensureLoggedIn('/organizations/login'),
+//    function(req, res, next) {
+//        res.render('organizations/index');
+//    }
+//);
 
 router.get('/organizations/login',
     function(req, res, next) {
@@ -83,9 +83,15 @@ router.post('/organizations/signup',
 
         var passwordHash = crypto.createHash("sha256").update(req.body.password, "utf8").digest("base64");
         var organization = {
-            username: req.body.email,
+            username: req.body.name,
             password: passwordHash, // do not store plain password
-            name: req.body.name,
+//            name: req.body.name,
+//            location: req.body.location,
+//            logo: req.body.logo,
+            email: req.body.email,
+            numberBooks: 0,
+            outreach: 0,
+
             createdAt: new Date()
         };
 

@@ -1,0 +1,26 @@
+<!-- XXX use div & css layout-->
+<div class="entry">
+  <table>
+    <tr>
+      <td width="150">
+        {{#if logo}}
+        <img src="{{logo.smallThumbnail}}" />
+        {{else}}
+        <img src="http://dummyimage.com/128x168/eeeeee/000000.png&text=No+preview" />
+        {{/if}}
+        &nbsp;&nbsp;
+      </td>
+      <td>
+        <span><strong>{{username}}</strong></span>
+        <br>
+        {{#each location}}
+          <em>{{this}}</em> ·
+        {{/each}}
+        <br>
+        <span class="text-muted">Books collected</span> //: {{booksCollected}}
+        <br>
+        <span class="label label-primary">Join!</span> //{{outreach}}
+      </td>
+    </tr>
+  </table>
+</div>

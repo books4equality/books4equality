@@ -1,6 +1,7 @@
 var express = require('express'),
     cors = require('cors'),
     books = require('../services/books');
+    organizations = require('../services/organizations');
 
 var router = express.Router();
 
@@ -22,6 +23,8 @@ router.get('/books', function(req, res, next) {
         return res.json(books);
     })
 });
+
+
 
 router.get('/books/:id', function(req, res, next) {
     books.findOne(req.params.id, function(err, book) {
