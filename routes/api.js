@@ -46,7 +46,10 @@ router.get('/organizations', function(req, res, next) {
             return next(err);
         }
 
-        // TODO remove private information
+        organizations.forEach(function removePrivateInformation(org) {
+          delete org.password;
+          delete org.email;
+        });
 
         return res.json(organizations);
     })
