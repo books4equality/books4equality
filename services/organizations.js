@@ -14,9 +14,7 @@ function findOne(criteria, callback) {
 
 function find(options, callback) {
     var criteria = {
-        $query: {
-            "_meta.available": true
-        }
+        $query: { }
     };
 
     var hints = {

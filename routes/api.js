@@ -24,6 +24,18 @@ router.get('/books', function(req, res, next) {
     })
 });
 
+router.get('/organizations', function(req, res, next) {
+    var options = req.query;
+
+    organizations.find(options, function(err, books) {
+        if (err) {
+            return next(err);
+        }
+
+        return res.json(books);
+    })
+});
+
 
 
 router.get('/books/:id', function(req, res, next) {
