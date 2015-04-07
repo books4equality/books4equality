@@ -1,0 +1,89 @@
+<% layout( '../layout') -%>
+
+<style>
+.login {
+  background: none;
+  padding: 8px 38px 0px;
+}
+
+.login-screen {
+  min-height: 273px;
+  padding: 40px 150px 33px 306px;
+}
+
+.login-icon {
+  top: 40px;
+}
+</style>
+
+<div id="loginbox" class="login" >
+  <div class="login-screen">
+    <div class="login-icon">
+      <img src="/images/logo-small.png" alt="B4E" />
+      <h4><small>Books4Equality Community Portal</small></h4>
+    </div>
+
+    <div id="login-form" class="login-form">
+      <form method="post" action="/organizations/login">
+        <!-- Email (field name must be 'username')-->
+        <div class="form-group">
+          <input type="text" class="form-control login-field" id="login-email" type="text" name="username" value="" placeholder="Email Address" />
+          <label class="login-field-icon fui-user" for="login-email"></label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input type="password" class="form-control login-field" id="login-password" name="password" placeholder="Password" />
+          <label class="login-field-icon fui-lock" for="login-pass"></label>
+        </div>
+
+        <div>
+          <a class="btn btn-lg btn-link" href="#" onClick="$('#login-form').hide(); $('#signup-form').show()">Sign Up</a>
+          <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
+          <!--
+          <a class="login-link" href="#">Lost your password?</a>
+          -->
+        </div>
+      </form>
+    </div>
+
+    <div id="signup-form" style="display:none" class="login-form">
+      <form method="post" action="/organizations/signup" enctype="multipart/form-data">
+        <!-- Email -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address">
+          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input type="password" class="form-control signup-field" id="signup-password" name="password" value="" placeholder="Password" />
+          <label class="login-field-icon fui-lock" for="signup-pass"></label>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-name" type="text" name="name" placeholder="Organization Name"/>
+          <label class="login-field-icon fui-user" for="signup-name"></label>
+        </div>
+
+        <!-- Box Location -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-location" name="location" placeholder="Donation Location">
+          <label class="login-field-icon fui-home" for="signup-location"></label>
+        </div>
+
+        <!-- Logo  -->
+        <div class="form-group">
+          <input type="file" class="form-control signup-field" id="signup-logo" name="logo" placeholder="Organization logo">
+          <label class="login-field-icon fui-upload" for="signup-logo"></label>
+        </div>
+
+        <div>
+          <a class="btn btn-lg btn-link" href="#" onClick="$('#login-form').show(); $('#signup-form').hide()">Login</a>
+          <input id="btn-login" class="btn btn-lg btn-info" type="submit" value="Sign Up"/></a><
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

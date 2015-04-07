@@ -14,8 +14,14 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="/organizations">Organizations</a></li>
         <li><a href="/library">Library</a></li>
         <li><a href="/contact">Contact</a></li>
+        <% if (user) { %>
+          <li><a href="/organizations/logout">Logout</a></li>
+        <% } else { %>
+          <li><a href="/organizations/login">Login</a></li>
+        <% } %>
       </ul>
     </div>
   </nav>

@@ -1,0 +1,27 @@
+<!-- XXX use div & css layout-->
+
+<div class="entry">
+  <table>
+    <tr>
+      <td width="100">
+        {{#if logo}}
+          <img width="96" height="96" src="/organizations/{{_id}}/logo" />
+        {{else}}
+          <img src="http://dummyimage.com/96/dedede/fff.png&text=No+logo" />
+        {{/if}}
+      </td>
+      <td>
+        <!-- TODO
+      	<span class="label label-primary">Support</span>
+        -->
+        <strong>{{name}}</strong>
+	      <br>
+	      <span>Donation box available at: {{location}}</span>
+        <br>
+        <span class="text-muted">Books collected: {{ numberBooks }} &emsp; &emsp;</span>
+        <span class="text-muted">Supported by: {{ outreach }}</span>
+        <br>
+      </td>
+    </tr>
+  </table>
+</div>
