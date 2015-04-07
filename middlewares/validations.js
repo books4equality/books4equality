@@ -1,7 +1,6 @@
 'use strict';
 
-var _ = require('underscore'),
-    revalidator = require('revalidator'),
+var revalidator = require('revalidator'),
     logger = require('../services/logger');
 
 function validate(schemaName) {
