@@ -8,20 +8,32 @@
 
 <div class='headline center-block'>
   <img src='/images/logo-big.png' class='img-responsive'>
-  <p class='lead'>Equal Access to textbooks for Everyone.<b>For Free.</b></p>
+  <p class='lead'>Your Free Textbook Library</p>
 </div>
 
 <div class='jumbotron'>
   <p class='lead'>
-  Books4Equality finds the best textbooks so you don't have to.<br>  <strong>Get next semester's textbooks for free.</strong>
+  <ul>
+  Books4Equality strives to decrease the cost of college education. Our principles are:
+  <li>
+  <strong>Affordability.</strong> The cost of textbooks increased by 82% in the last decade. Now, students spend an average of $1200 in books and supplies per year. With books4equality, your bills will be reduced.
+  </li>
+  <li>
+  <strong>Equality.</strong> 65% of the students decide against buying a textbook because of the price. With books4equality, the cost of the classes will not stop you from taking that extra class.
+  </li>
+  <li>
+  <strong>Sustainability.</strong> Reducing the carbon footprint. The CO<sub>2</sub> resulting from the manufacture of all the books used yearly at UVM is equivalent to the CO<sub>2</sub> produced by a car travelling to the moon and back. 
+  </li>
+  </ul>
+  <br>  <strong>Get next semester's textbooks for free.</strong>
   </p>
 
   <div class='demo-row row'>
     <div class='col-xs-3'>
       <a class='btn btn-block btn-lg btn-primary'
-         title='Email us and we will work together to organize a pickup whenever you are available'
-         href='mailto:books4equality@gmail.com?body=For a book donation, please indicate Day, Time and Location and we will take care of everything else. Thank you! Books4Equality'>
-         Give
+         title='Check the list of organizations'
+         href='/organizations'>
+         Donate
       </a>
     </div>
      <div class='col-xs-1'>
@@ -39,7 +51,7 @@
       <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
         <input type='hidden' name='cmd' value='_s-xclick'>
         <input type='hidden' name='hosted_button_id' value='<%= config.paypal.hosted_button_id %>'>
-        <input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif' border='0' name='submit' alt='Donate to books4equality'>
+        <input type='image' src='https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png' border='0' name='submit' alt='Donate to books4equality'>
       </form>
     </div>
     <% } %>
