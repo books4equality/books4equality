@@ -15,5 +15,8 @@ router.get('/library', function(req, res, next) {
     res.render('library');
 });
 
+router.get('/mission', function(req, res, next) {
+    res.render('mission');
+});
 
 module.exports = router;
