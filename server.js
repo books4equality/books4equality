@@ -75,7 +75,7 @@ function initializeApplication() {
 
     var server = http.createServer(app);
     var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3200;
-    var host = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+    var host = process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0";
 
     server.listen(port, host, function() {
         logger.info('b4e listening on', server.address());
