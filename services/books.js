@@ -24,11 +24,11 @@ function find(options, callback) {
         criteria.$query.title = { $regex: options.title, $options: 'i' };
     }
 
-    if (options._meta.isbn) {
-        var isbn = parseCategories(options._meta.isbn);
-        if (isbn.length > 0) {
-            criteria.$query._meta.isbn = { $in: options._meta.isbn };
-        }
+    if (options.isbn) {
+        //var isbn = parseCategories(options.isbn);
+        //if (isbn.length > 0) {
+        criteria.$query._meta.isbn = { $in: options.isbn };
+        //}
     }
 
     if (options.orderby) {
