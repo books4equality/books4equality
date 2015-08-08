@@ -24,12 +24,18 @@ function find(options, callback) {
         criteria.$query.title = { $regex: options.title, $options: 'i' };
     }
 
-    if (options.isbn) {
+    if (options.categories) {
+        var categories = parseCategories(options.categories);
+        if (categories.length > 0) {
+            criteria.$query.categories = { $in: categories };
+        }
+    }
+    //if (options.isbn) {
         //var isbn = parseCategories(options.isbn);
         //if (isbn.length > 0) {
-        criteria.$query._meta.isbn = { $eq: options.isbn };
+        //criteria.$query._meta.isbn = { $eq: options.isbn };
         //}
-    }
+    //}
 
     if (options.orderby) {
         criteria.$orderby = {};
