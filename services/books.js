@@ -27,7 +27,7 @@ function find(options, callback) {
     if (options._meta.isbn) {
         var isbn = parseCategories(options._meta.isbn);
         if (isbn.length > 0) {
-            criteria.$query.isbn = { $in: isbn };
+            criteria.$query._meta.isbn = { $in: options._meta.isbn };
         }
     }
 
