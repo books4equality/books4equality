@@ -30,12 +30,10 @@ function find(options, callback) {
             criteria.$query.categories = { $in: categories };
         }
     }
-    //if (options.isbn) {
-        //var isbn = parseCategories(options.isbn);
-        //if (isbn.length > 0) {
-        //criteria.$query._meta.isbn = { $eq: options.isbn };
-        //}
-    //}
+
+    if (options.isbn) {
+        criteria.$query["_meta.isbn"] = options.isbn;
+    }
 
     if (options.orderby) {
         criteria.$orderby = {};

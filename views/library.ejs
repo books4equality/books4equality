@@ -13,6 +13,10 @@
 
 <form class="form-inline">
   <div class="form-group">
+    <input class="form-control input-lg" placeholder="ISBN..." type="text" id="isbn">
+  </div>
+
+  <div class="form-group">
     <input class="form-control input-lg" placeholder="Title..." type="text" id="title">
   </div>
 
@@ -55,7 +59,7 @@ $(function() {
 
     $("#search").click(function() {
         var criteria = {};
-        ["title", "categories", "orderby"].forEach(function(field) {
+        ["title", "categories", "isbn", "orderby"].forEach(function(field) {
             if ($("#" + field).val()) {
                 criteria[field] = $("#" + field).val()
             }
