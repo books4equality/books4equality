@@ -24,10 +24,10 @@ function find(options, callback) {
         criteria.$query.title = { $regex: options.title, $options: 'i' };
     }
 
-    if (options.categories) {
-        var categories = parseCategories(options.categories);
-        if (categories.length > 0) {
-            criteria.$query.categories = { $in: categories };
+    if (options._meta.isbn) {
+        var isbn = parseCategories(options._meta.isbn);
+        if (isbn.length > 0) {
+            criteria.$query.isbn = { $in: isbn };
         }
     }
 
