@@ -12,58 +12,32 @@
 </div>
 
 <div class='jumbotron'>
-
-  <div class='demo-row row'>
-     <div class='col-xs-3'>
-      <a class='btn btn-block btn-lg btn-info'
-         title='Send us you semesters class schedule and we get you your textbooks for free!'
-         href='mailto:books4equality@gmail.com?body=We are implementing this feature in the way right now. What classes are you planning on taking? Please give us the official Class Number from the UVM Course Catalogue. Thank you! Books4Equality'>
-         Get Free Books
-      </a>
-    </div>
-    <div class='col-xs-4'>
-      <a class='btn btn-block btn-lg btn-primary'
-         title='Check the list of organizations'
-         href='/organizations'>
-         Donation Locations
-      </a>
-    </div>
-
-    <div class='col-xs-4'>
-      <a class='btn btn-block btn-lg btn-info'
-         title='Check the list of organizations'
-         href='/organizations/login'>
-         Enter the Competition
-      </a>
-    </div>
-  </div>
-
-
-
   <p class='lead'>
-	Books4Equality provides <strong>free books</strong> to UVM students. There are three ways to join the cause:
-	<ul>
-	<li><strong>Donate books!</strong> Click in the button above to find the closest donation box to you.
-	</li>
-	<li><strong>Start your own organization and compete for prizes</strong>. Click on enter the competition and tell us the location where you can set up a box. We will send the box to you and pick it up at the end of the semester or whenever it's full. You only need to encourage people to donate!
-	</li>
-	<li>Donate money to pay for storage, severs and outreach. Remember, we're a 501(c)3 so you can deduct taxes with your donation.
-	</li>
-	</ul>
+    Classes are starting sooner than you think, we've got your textbooks so you can focus on everything else.
+    </p>
+    <p>During the first week of classes we will be giving away free textbooks on the library steps. Check our <a class='btn btn-block btn-lg btn-primary'
+         title='Check the list of organizations'
+         href='/schedule'>
+         Schedule
+      </a> to see which day your subjects will be offered.
+      </p>
 
-
+	<p>If you have books that you don't need any more, feel free to bring them and support our cause.</p>
+    
+    <p>Storage costs money, have a few dollars to share?  
+    
     <% if (config.paypal.hosted_button_id) { %>
     <div class='col-xs-12'>
       <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
         <input type='hidden' name='cmd' value='_s-xclick'>
         <input type='hidden' name='hosted_button_id' value='<%= config.paypal.hosted_button_id %>'>
-        <input type='image' src='https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png' border='0' name='submit' alt='Donate to books4equality'>
+        <input type='image' src='https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png' border='0'             name='submit' alt='Donate to books4equality'>
       </form>
     </div>
     <% } %>
-  </div>
-  </p>
-
-
+    </p>
+    
+    <p>Books4Equality is a certified Non-profit organization.</p>
   <p class='lead'><strong>Help keep the pages turning!</strong></p>
 </div>
+
