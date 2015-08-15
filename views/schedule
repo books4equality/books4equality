@@ -1,0 +1,139 @@
+<% layout('./layout') -%>
+
+<style>
+.headline {
+  max-width: 80%;
+}
+</style>
+
+<div class='headline center-block'>
+  <img src='/images/logo-big.png' class='img-responsive'>
+  <p class='lead'>Your Free Textbook Library</p>
+</div>
+
+<div class='jumbotron'>
+  <p class='lead'>
+    Classes are starting sooner than you think, we've got your textbooks so you can focus on everything else.
+    </p>
+    <!doctype html>
+<html>
+<head>
+    <title>Timetable</title>
+    <style type="text/css">
+    body
+    {
+        font-family: arial;
+    }
+
+    th,td
+    {
+        margin: 0;
+        text-align: center;
+        border-collapse: collapse;
+        outline: 1px solid #e3e3e3;
+    }
+
+    td
+    {
+        padding: 5px 10px;
+    }
+
+    th
+    {
+        background: #666;
+        color: white;
+        padding: 5px 10px;
+    }
+
+    td:hover
+    {
+        cursor: pointer;
+        background: #666;
+        color: white;
+    }
+    </style>
+
+</head>
+<body>
+    <table width="80%" align="center" >
+    <div id="head_nav">
+    <tr>
+        <th>Subject Offerings</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thrusday</th>
+        <th>Friday</th>
+    </tr>
+</div>  
+
+    <tr>
+        <th></th>
+        
+            <td>Communications</td>
+            <td>Languages</td>
+            <td>Food Science</td>
+            <td>Statistics</td>
+            <td>Chemistry</td>
+        </div>
+    </tr>
+
+    <tr>
+        <th></td>
+            <td>Arts</td>
+            <td>Literature</td>
+            <td>Biology</td>
+            <td>Environmental Studies</td>
+            <td>Mathematics</td>
+        </div>
+    </tr>
+
+    <tr>
+        <th></td>
+            <td>Anthropolgy</td>
+            <td>Psychology</td>
+            <td>Business</td>
+            <td>Physics</td>
+            <td></td>
+        </div>
+    </tr>
+
+    <tr>
+        <th></td>
+            <td>Ethnographical Texts</td>
+            <td></td>
+            <td>Political Science</td>
+            <td>Computer Lab</td>
+            <td></td>
+        </div>
+    </tr>
+
+    <tr>
+        <th></td>
+            <td>Sociology</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </div>
+    </tr>
+</table>
+	<p>If you have books that you don't need any more, feel free to bring them and support our cause.</p>
+    
+    <p>Storage costs money, have a few dollars to share?  
+    
+    <% if (config.paypal.hosted_button_id) { %>
+    <div class='col-xs-12'>
+      <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
+        <input type='hidden' name='cmd' value='_s-xclick'>
+        <input type='hidden' name='hosted_button_id' value='<%= config.paypal.hosted_button_id %>'>
+        <input type='image' src='https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png' border='0'             name='submit' alt='Donate to books4equality'>
+      </form>
+    </div>
+    <% } %>
+    </p>
+    
+    <p>Books4Equality is a certified 501(c)3 Non-profit organization.</p>
+  <p class='lead'><strong>Help keep the pages turning!</strong></p>
+</div>
+
