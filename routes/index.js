@@ -19,4 +19,8 @@ router.get('/mission', function(req, res, next) {
     res.render('mission');
 });
 
+router.get('/schedule', function(req, res, next) {
+    res.render('schedule');
+});
+
 module.exports = router;
