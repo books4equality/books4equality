@@ -14,11 +14,14 @@
 <div class='jumbotron'>
   <p class='lead'>
     Classes are starting sooner than you think, we've got your textbooks so you can focus on everything else.
-    </p>
+  </p>
+  <h4>Got books to donate?</h4>
+  <p>Bring them to our table outside the library between 10-2</p>
+
     <!doctype html>
 <html>
 <head>
-    <title>Timetable</title>
+    <title>Schedule</title>
     <style type="text/css">
     body
     {
@@ -47,7 +50,6 @@
 
     td:hover
     {
-        cursor: pointer;
         background: #666;
         color: white;
     }
@@ -58,68 +60,55 @@
     <table width="80%" align="center" >
     <div id="head_nav">
     <tr>
-        <th>Subject Offerings</th>
         <th>Monday</th>
         <th>Tuesday</th>
         <th>Wednesday</th>
         <th>Thrusday</th>
         <th>Friday</th>
     </tr>
-</div>  
+    </div>  
 
     <tr>
-        <th></th>
-        
             <td>Communications</td>
             <td>Languages</td>
             <td>Food Science</td>
             <td>Statistics</td>
             <td>Chemistry</td>
-        </div>
     </tr>
 
     <tr>
-        <th></td>
             <td>Arts</td>
             <td>Literature</td>
             <td>Biology</td>
             <td>Environmental Studies</td>
             <td>Mathematics</td>
-        </div>
     </tr>
 
     <tr>
-        <th></td>
             <td>Anthropolgy</td>
             <td>Psychology</td>
             <td>Business</td>
             <td>Physics</td>
             <td></td>
-        </div>
     </tr>
 
     <tr>
-        <th></td>
             <td>Ethnographical Texts</td>
             <td></td>
             <td>Political Science</td>
             <td>Computer Lab</td>
             <td></td>
-        </div>
     </tr>
 
     <tr>
-        <th></td>
             <td>Sociology</td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-        </div>
     </tr>
 </table>
-	<p>If you have books that you don't need any more, feel free to bring them and support our cause.</p>
-    
+    <div>
     <p>Storage costs money, have a few dollars to share?  
     
     <% if (config.paypal.hosted_button_id) { %>
