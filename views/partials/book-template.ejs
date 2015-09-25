@@ -4,7 +4,11 @@
     <tr>
       <td width="150">
         {{#if imageLinks}}
-        <img src="{{imageLinks.smallThumbnail}}" />
+          {{#if imageLinks.smallThumbnail}}
+            <img src="{{imageLinks.smallThumbnail}}" />
+          {{else}}
+            <img src="http://dummyimage.com/128x168/eeeeee/000000.png&text=No+preview" />
+          {{/if}}
         {{else}}
         <img src="http://dummyimage.com/128x168/eeeeee/000000.png&text=No+preview" />
         {{/if}}
@@ -18,6 +22,9 @@
         {{/each}}
         <br>
         <span class="text-muted">Pages: {{pageCount}}</span>
+        {{#if _meta.barcode}}
+        · <span class="text-muted">Barcode: {{_meta.barcode}}</span>
+        {{/if}}
         <br>
         {{#each categories}}
         <span class="label label-primary">{{this}}</span>
