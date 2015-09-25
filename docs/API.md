@@ -121,3 +121,27 @@ GET /books/54e882333ea21f357a2f9a64
     "status": 1
 }
 ```
+
+# Private API
+
+There is a private API for administration. Requests to this API must use basic
+authentication (username and password).
+
+## POST /api/books
+
+**Request body:**
+
+```json
+{
+    "isbn": "1780073378153",
+    "barcode": "12345" // books4equality internal barcode
+}
+```
+
+# DELETE /api/books/:id
+
+To be completed.
+
+# GET /api/search/:isbn
+
+To be completed.

@@ -31,11 +31,13 @@ router.use(passport.initialize());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json({ limit: '10kb' }));
 
-router.get('/admin', passport.authenticate('basic', {session: false}), function(req, res) {
+var basicAuth = passport.authenticate('basic', {session: false});
+
+router.get('/admin', basicAuth, function(req, res) {
     return res.render('admin/index');
 });
 
-router.get('/search/:isbn', passport.authenticate('basic', {session: false}), function(req, res, next) {
+router.get('/search/:isbn', basicAuth, function(req, res, next) {
     isbn.resolve(req.params.isbn, function(err, book) {
         if (err) {
             return next(err);
@@ -45,7 +47,7 @@ router.get('/search/:isbn', passport.authenticate('basic', {session: false}), fu
     });
 });
 
-router.post('/api/books', passport.authenticate('basic', {session: false}), function(req, res, next) {
+router.post('/api/books', basicAuth, function(req, res, next) {
     var start = Date.now();
     isbn.resolve(req.body.isbn, function(err, book) {
         if (err) {
@@ -53,9 +55,12 @@ router.post('/api/books', passport.authenticate('basic', {session: false}), func
             return next(err);
         }
 
+        // TODO check whether the barcode (req.body.barcode) already exists
+
         // complete book with custom fields
         book._meta = {};
         book._meta.isbn = req.body.isbn;
+        book._meta.barcode = req.body.barcode;
         book._meta.creationDate = new Date();
         book._meta.available = true;
 
@@ -77,7 +82,7 @@ router.post('/api/books', passport.authenticate('basic', {session: false}), func
     });
 });
 
-router.delete('/api/books/:id', passport.authenticate('basic', {session: false}), function(req, res, next) {
+router.delete('/api/books/:id', basicAuth, function(req, res, next) {
     books.remove(req.params.id, function(err, result) {
         if (err) {
             return next(err);
