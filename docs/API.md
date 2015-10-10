@@ -140,8 +140,8 @@ authentication (username and password).
 
 # DELETE /api/books/:id
 
-To be completed.
+Removes a book from the database. The `:id` is the internal identifier of the book in the database (not the ISBN).
 
-# GET /api/search/:isbn
+# GET /search/:isbn
 
-To be completed.
+Search a book by `:isbn` in different third-party services, and returns the book information.
