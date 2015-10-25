@@ -1,0 +1,10 @@
+<% layout( '../layout') -%>
+
+<h2>This is your private profile!</h2>
+
+<ul>
+    <li>facebook id: <%= user.id %></li>
+    <li>display name: <%= user.displayName %></li>
+</ul>
+
+<a href="/auth/logout">Log out</a>

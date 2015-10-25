@@ -12,7 +12,8 @@ var express = require('express'),
     routes = require('./routes/index'),
     api = require('./routes/api'),
     config = require('./config'),
-    admin = require('./routes/admin');
+    admin = require('./routes/admin'),
+    users = require('./routes/users'),
     organizations = require('./routes/organizations');
 
 function initializeApplication() {
@@ -36,7 +37,7 @@ function initializeApplication() {
     }));
 
     app.use(function populateLocals(req, res, next) {
-        res.locals.user = req.user;
+        res.locals.user = req.session.passport && req.session.passport.user;
         res.locals.config = config;
 
         books.stats(function(err, stats) {
@@ -48,6 +49,7 @@ function initializeApplication() {
         });
     });
 
+    app.use('/', users);
     app.use('/', routes);
     app.use('/api', api);
     app.use('/', admin);
