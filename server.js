@@ -64,7 +64,7 @@ function initializeApplication() {
 
         res.status(err.status || 500);
 
-        if (req.xhr) {
+        if (req.is('json')) {
             res.json({'error': err.message});
         } else {
             res.render('error', {

@@ -73,7 +73,7 @@ router.post('/api/books', basicAuth, function(req, res, next) {
                 return next(err);
             }
 
-            if (req.xhr) {
+            if (req.is('json')) {
                 return res.json(result);
             }
 
@@ -88,7 +88,7 @@ router.delete('/api/books/:id', basicAuth, function(req, res, next) {
             return next(err);
         }
 
-        if (req.xhr) {
+        if (req.is('json')) {
             return res.json(result);
         }
 
