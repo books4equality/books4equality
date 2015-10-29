@@ -23,4 +23,8 @@ router.get('/schedule', function(req, res, next) {
     res.render('schedule');
 });
 
+router.get('/about_us', function(req, res, next) {
+    res.render('about_us');
+});
+
 module.exports = router;
