@@ -8,21 +8,43 @@ height: 53px; 		/*  min-height of navbar is 53px, so image must match */
 margin: -14px 0 0 -21px;	/* since it's contained in a bootstrap container, i messed with the margins to get it to fit */
 float:left;					/* must float to the left of the anchor tag */
 }
+#special-link {
+    color: #FFF000;
+    text-shadow: #00ff00 0px 0px 8px;
+}
+
+/* Change Navbar font to Diavlo (font is locally installed) */
+@font-face {
+font-family: diavlo;
+src: url(fonts/Diavlo_BLACK_II_37.otf);
+}
+nav a {
+font-family: diavlo, sans-serif;
+}
 </style>
 
 <div>
   <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+	<!--
+	<div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img alt="Brand" src="...">
+      </a>
+    </div>
+	-->
+	
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
         <span class="sr-only">Toggle navigation</span>
       </button>
       <a class="navbar-brand" href="/"> <img src="/images/logo-square.png" alt="" id="logo-link"> Books4Equality</a> <!-- 10/29/15 added image to link -->
     </div>
+	
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
       <ul class="nav navbar-nav navbar-right">
+		<li><a href="/library" id="special-link">Library</a></li>
         <li><a href="/mission">Mission</a></li>
        <!-- <li><a href="/organizations">Organizations</a></li> -->
-        <li><a href="/library">Library</a></li>
         <li><a href="/contact">Contact</a></li>
 		<li><a href="/about_us">About Us</a></li>
       </ul>
