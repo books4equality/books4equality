@@ -4,10 +4,88 @@
 .headline {
   max-width: 80%;
 }
+
+
+/* not sure if we need this */
+#wrapper {
+  padding-left: 150px;
+  transition: all 0.4s ease 0s;
+}
+
+#sidebar-wrapper {
+  margin-left: -150px;
+  margin-top:-30px; /*push it up to meet bottom of main nav */
+  left: 150px;
+  width: 150px;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+  background: #edeff1;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 150px;
+  list-style: none;
+  margin: 0 0 0 8px;
+  padding: 0;
+}
+
+@media (max-width:1230px) { /* smaller than 1230, it overlaps the main centered content */
+    #wrapper {
+      padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+      left: 0;
+    }
+
+    #wrapper.active {
+      position: relative;
+      left: 150px;
+    }
+
+    #wrapper.active #sidebar-wrapper {
+      left: 150px;
+      width: 150px;
+      transition: all 0.4s ease 0s;
+    }
+}
+
+/* add a border on the left when mouse hovers */
+#sidebar-wrapper a:hover, #sidebar-wrapper a:active, #sidebar-wrapper a:focus {
+	border-left: 4px solid black;
+	padding-left:1px;
+}
+
 </style>
-<div >
+
+<!-- copied from http://stackoverflow.com/questions/20557912/creating-a-fixed-sidebar-alongside-a-centered-bootstrap-3-grid -->
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+		<li><a id ="we" href="#mission">Mission</a></li>
+		<li><a href="#what-we-do">What We Do</a></li>
+		<li><a href="#philosophy">Philosophy</a></li>
+		<li><a href="#start">How did it start?</a></li>
+		<li><a href="#situation">The Situation</a></li>
+		<li><a href="#references">References</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<!--
+<div id="id-links">
 	<ul>
-		<li><a href="#mission"">Mission</a></li>
+		<li><a href="#mission">Mission</a></li>
 		<li><a href="#what-we-do">What We Do</a></li>
 		<li><a href="#philosophy">Philosophy</a></li>
 		<li><a href="#start">How did it start?</a></li>
@@ -15,6 +93,7 @@
 		<li><a href="#references">References</a></li>
 	</ul>
 </div>
+-->
 
 <div class='jumbotron' id="mission">
 <p class="lead"> <strong>Mission Statement:</strong> Equal access to textbooks for everyone. For free.</p>
