@@ -35,6 +35,10 @@ function find(options, callback) {
         criteria.$query["_meta.isbn"] = options.isbn;
     }
 
+    if (options.barcode){
+        criteria.$query["_meta.barcode"] = options.barcode;
+    }
+
     if (options.orderby) {
         criteria.$orderby = {};
         criteria.$orderby[options.orderby] = parseInt(options.dir) || 1;
