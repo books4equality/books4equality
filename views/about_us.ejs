@@ -16,6 +16,26 @@
 height:200px;
 }
 
+/*MUST ADD BIO CLASS TO EACH BOOTSTRAP TILE */
+.bio{ /* this is spacing between tiles to override 15-left/15-right from somewhere else */
+	padding:0 5px 0 5px;
+}
+.tile {		/*height for bio tiles at largest screen size */
+	height: 880px;
+	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
+	padding: 0 14px 0 14px;/* override original tile class padding */
+}
+@media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
+	.tile {
+		height: 750px;
+	}
+}
+@media (max-width:768px) { /* at the smallest screen size "col-xs-12", reset height to auto, no pixels when it's only 1 per line */
+	.tile {
+		height: auto;
+	}
+}
+
 
 </style>
 
@@ -28,9 +48,9 @@ height:200px;
 
 	<!-- each ROW must have a "row" class for bootsrap and demo-tiles adds mystery margin/padding. 3 tiles per row, or re-do the bootstrap columns -->
 	<div class="row demo-tiles">
-	  <div class="col-xs-12 col-sm-6 col-md-4">
+	  <div class="col-xs-12 col-sm-6 col-md-4 bio">
 		<div class="tile">
-		  <img src="/images/selfie1.png" class="tile-image" alt="Ben Kaufman">
+		  <img src="/images/about-us/bio/2015-2016/ben-kaufman.jpg" class="tile-image" alt="Ben Kaufman">
 		  <h3 class="tile-title">Ben Kaufman</h3>
 		  <h4>Chief Executive Officer</h4>
 		  <p>Ben Kaufman, pursuing a Masters in Natural Resources at UVM, is one of the founders of Books4Equality and is acting CEO of the organization. Ben completed his undergraduate degree in Environmental Studies and Computer Science at the University of Vermont this past spring. Ben hopes that Books4Equality will spread to many other schools in the Northeast and across the United States. Scalability is an integral part of his vision for the future of B4E. In his free time, he is an avid landscape photographer and captains the UVM Men’s Rugby club.
@@ -38,19 +58,20 @@ height:200px;
 		</div>
 	  </div>
 
-	  <div class="col-xs-12 col-sm-6 col-md-4">
+	  <div class="col-xs-12 col-sm-6 col-md-4 bio">
 		<div class="tile">
-		  <img src="/images/selfie2.png" class="tile-image" alt="Alex Perkins">
+		  <img src="/images/about-us/bio/2015-2016/alex-perkins.jpg" class="tile-image" alt="Alex Perkins">
 		  <h3 class="tile-title">Alex Perkins</h3>
-		  <h4>Title</h4>
-		  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque venenatis vestibulum arcu eu eleifend. Aliquam ullamcorper metus ac orci tincidunt ultrices. Pellentesque scelerisque neque id arcu vulputate pretium. Sed porta aliquet dui, ac auctor neque auctor a. Cras aliquet consequat facilisis. Nullam consectetur egestas orci, id congue libero suscipit vitae. Donec tincidunt elit ut orci rutrum imperdiet. Nunc mattis ante non aliquet vestibulum. Phasellus eleifend nibh vel quam semper, id maximus diam gravida. Sed fringilla justo tellus, id convallis purus tempor eget. Cras nec mauris ornare, dapibus felis sit amet, commodo ante. Integer a erat dolor. Cras convallis tellus ut.
+		  <h4>Co-Founder</h4>
+		  <p>Alex Perkins studied mechanical engineering at the University of Vermont. He co-founded Books4Equality while at school, and continues to be involved in many areas, including strategic development and growth, inventory management, and grant writing. When he is not giving out free textbooks, Alex enjoys brewing beer or hiking. He envisions a bright future for the organization, and is excited to help B4E move forward.
+		  <br><a href="mailto:alex@books4equality.com">Alex@books4equality.com</a>
 		  </p>
 		</div>
 	  </div>
 
-	  <div class="col-xs-12 col-sm-6 col-md-4">
+	  <div class="col-xs-12 col-sm-6 col-md-4 bio">
 		<div class="tile">
-		  <img src="/images/selfie3.png" class="tile-image" alt="Javier GB">
+		  <img src="/images/about-us/bio/2015-2016/javier-gb.jpg" class="tile-image" alt="Javier GB">
 		  <h3 class="tile-title">Javier GB</h3>
 		  <h4>Co-Founder</h4>
 		  <p>Javier B, a UVM graduate with a M.Sc in Computer Science, was one of the original members of the B4E team. He met this awesome group of people in 2014, and spent many hours coding, filling up forms, reaching out to professors, students, and Burlington businesses. His role at Books4Equality is to collect and analyze data to move the organization further along. Currently a resident of Amsterdam, Javi gives support from the other side of the ocean. Among other plans for B4E, he would like to start an online community around open-source, modular, high-quality textbooks.
@@ -61,11 +82,11 @@ height:200px;
 	</div>
 </section>
 
+
 <section>
-<h5>Staff/Team</h5>
-<p>Content or blurb to explain the general role of these people?</p>
+<h5>The Team</h5>
 <div class="row demo-tiles">
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/kelly-molloy.jpg" class="tile-image" alt="Kelly Molloy">
       <h3 class="tile-title">Kelly Molloy</h3>
@@ -76,7 +97,7 @@ height:200px;
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/ben-vaughan.jpg" class="tile-image" alt="Ben Vaughan">
       <h3 class="tile-title">Ben Vaughan</h3>
@@ -87,7 +108,7 @@ height:200px;
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/toby-howe.jpg" class="tile-image" alt="Toby Howe">
       <h3 class="tile-title">Toby Howe</h3>
@@ -99,7 +120,7 @@ height:200px;
   </div>
 </div>
 <div class="row demo-tiles">
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/brian-killackey.jpg" class="tile-image" alt="Brian Killackey">
       <h3 class="tile-title">Brian Killackey</h3>
@@ -110,7 +131,7 @@ height:200px;
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/zacadia-nevin.jpg" class="tile-image" alt="Zacadia Nevin">
       <h3 class="tile-title">Zacadia Nevin</h3>
@@ -121,7 +142,7 @@ height:200px;
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/benjamin-uinn.jpg" class="tile-image" alt="Benjamin Quinn">
       <h3 class="tile-title">Benjamin Quinn</h3>
@@ -137,7 +158,7 @@ height:200px;
 <h5>Interns</h5>
 <p></p>
 <div class="row demo-tiles">
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/noah-patullo.png" class="tile-image" alt="Noah Patullo">
       <h3 class="tile-title">Noah Patullo</h3>
@@ -147,7 +168,7 @@ height:200px;
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
       <img src="/images/about-us/bio/2015-2016/chris-sullivan.jpg" class="tile-image" alt="Chris Sullivan">
       <h3 class="tile-title">Chris Sullivan</h3>
@@ -157,5 +178,14 @@ height:200px;
     </div>
   </div>
 
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/connor-dermody.jpg" class="tile-image" alt="Connor Dermody">
+      <h3 class="tile-title">Connor Dermody</h3>
+	  <h4>Student Outreach Intern</h4>
+      <p>Connor Dermody, a sophomore studying English Literature at the University of Vermont, is the student outreach intern at Books4Equality. He hopes to help his fellow students by informing them about the great opportunities that B4E has to offer. Connor is also a member of the UVM men’s rugby team, and works with fellow officers in the Student Government Association. He aspires to become an English professor after having the experience of teaching abroad through the Peace Corps.
+      </p>
+    </div>
+  </div>
 </div> 
 </section>
