@@ -1,8 +1,5 @@
 <% layout('./layout') -%>
 <style type="text/css">
-	#email-link {
-		text-decoration: underline
-	}
 	.title1 {
 		margin-top: -30px;
 	}	
@@ -13,9 +10,23 @@
     Books 4 Equality was created September, 2014 by three students of the University of Vermont.
 </p>
 
-<section>
-contact form
-</section>
-
-<p>Send us an email: <a href="mailto:books4equality@gmail.com" id="email-link">Books4Equality@gmail.com</a> 
+<p>Send us an email: <a href="mailto:books4equality@gmail.com" class="underline">Books4Equality@gmail.com</a> 
 </p>
+
+<form id="contact-form" method="post"><!-- action attribute needed -->
+	<label for="name">Name*<br>
+	<input type="text" id="name" name="name" onfocus="this.select()" ><!-- required -->
+	</label>
+	
+	<label for="email" id="email-label">Email Address*<br>
+	<input type="text" id="email" name="email" onfocus="this.select()" ><!--html5::::  type="email" required -->
+	</label>
+	
+	<br>
+	<label for="message">Message*<br>
+	<textarea id="message" ></textarea>
+	</label>
+	
+	<br>
+	<input type="submit" value="Send Message" id="send">
+</form>
