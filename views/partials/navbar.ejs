@@ -9,12 +9,16 @@ margin: -14px 0 0 -21px;	/* since it's contained in a bootstrap container, i mes
 float:left;					/* must float to the left of the anchor tag */
 }
 #special-link {
-    color: #FFF000;
-    text-shadow: #00ff00 0px 0px 8px;
+    /*color: #FFF000;
+    text-shadow: #00ff00 0px 0px 8px;*/
+	
+    background-color: #1ABC9C;
+	color: #fff;		/*new backgounf & color 11-21-15 */
 }
 #special-link:hover, #special-link:active, #special-link:focus { /*change color and blur larger shadow on hover */
-	color: #E9FD4F;
-	text-shadow: #00ff00 0px 0px 11px;
+	/*color: #E9FD4F;
+	text-shadow: #00ff00 0px 0px 11px; */
+	text-shadow: #000 0px 0px 5px; /*new balck shadow 11-21-15 */
 }
 
 /* Change Navbar font to Diavlo (font is locally installed) */
@@ -45,7 +49,8 @@ font-family: diavlo, sans-serif;
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
         <span class="sr-only">Toggle navigation</span>
       </button>
-      <a class="navbar-brand" href="/"> <img src="/images/logo-square.png" alt="" id="logo-link"> Books4Equality</a> <!-- 10/29/15 added image to link -->
+      <a class="navbar-brand" href="/"> <img src="/images/logo-square.png" alt="" id="logo-link">Books4Equality</a> <!-- 10/29/15 added image to link -->
+	  <!--<a class="navbar-brand" href="/"> <img src="/images/logo-square.png" alt="" id="logo-link">&nbsp;&nbsp; Books4Equality</a> added nbsp to move text away from image 11-21-15-->
     </div>
 	
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
