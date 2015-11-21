@@ -1,4 +1,8 @@
 /*  New css instead of less files */
+.title1 { /*first title on page */
+	margin-top: -30px;
+}
+
 .italic {
 	font-style: italic;
 }
@@ -13,4 +17,3 @@
     width: 40em;
     height: 10em;
 }
-
