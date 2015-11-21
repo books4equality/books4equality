@@ -10,9 +10,10 @@
 bower_components
 *~
 
-*.css
+# (this was in original .gitignore file, but I now want to include css)    *.css
 .settings
 .classpath
 .project
 .metadata
 npm-debug.log
+

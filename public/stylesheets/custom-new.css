@@ -1,0 +1,16 @@
+/*  New css instead of less files */
+.italic {
+	font-style: italic;
+}
+.underline {
+	text-decoration: underline;
+}
+
+#contact-form #email-label {
+	margin-left: 20px;
+}
+#contact-form  #message {
+    width: 40em;
+    height: 10em;
+}
+

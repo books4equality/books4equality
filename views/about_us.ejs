@@ -1,0 +1,197 @@
+<% layout('./layout') -%>
+
+<style type="text/css">
+.headline {
+  max-width: 80%;
+}
+
+.title1 {
+    /*margin-top: -30px;*/
+}
+.tile h4 {
+    font-size: .9em;
+    font-style: italic;
+    color: #470A73;
+}
+.tile-image{ /*override original height of 100px from some unknown .less file */
+height:200px;
+}
+
+/*MUST ADD BIO CLASS TO EACH BOOTSTRAP TILE */
+.bio{ /* this is spacing between tiles to override 15-left/15-right from somewhere else */
+	padding:0 5px 0 5px;
+}
+.tile {		/*height for bio tiles at largest screen size */
+	height: 800px;
+	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
+	padding: 0 14px 0 14px;/* override original tile class padding */
+}
+@media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
+	.tile {
+		height: 750px;
+	}
+}
+@media (max-width:768px) { /* at the smallest screen size "col-xs-12", reset height to auto, no pixels when it's only 1 per line */
+	.tile {
+		height: auto;
+	}
+}
+
+
+</style>
+
+<h1 class="title1">Meet The Team</h1>
+
+<section>
+	<h5>Founding Members</h5>
+	<p>Alex, Ben, and Javier met during their first weekend as students at the University of Vermont playing pick up soccer and quickly became friends. They became closer in their years in college through hiking, intramurals, traveling, and more. Three very different individuals with different backgrounds form a strong team with experience in business, entrepreneurship, website design, computer science, marketing, and interests that cover even more fields.
+	</p>
+
+	<!-- each ROW must have a "row" class for bootsrap and demo-tiles adds mystery margin/padding. 3 tiles per row, or re-do the bootstrap columns -->
+	<div class="row demo-tiles">
+	  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+		<div class="tile">
+		  <img src="/images/about-us/bio/2015-2016/ben-kaufman.jpg" class="img-circle tile-image" alt="Ben Kaufman">
+		  <h3 class="tile-title">Ben Kaufman</h3>
+		  <h4>Chief Executive Officer</h4>
+		  <p><a href="mailto:benkaufman@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">BenKaufman@books4equality.com</span></a></br>
+		  <span class="fa fa-linkedin-square"></span><br>
+		  Ben Kaufman, pursuing a Masters in Natural Resources at UVM, is one of the founders of Books4Equality and is acting CEO of the organization. Ben completed his undergraduate degree in Environmental Studies and Computer Science at the University of Vermont this past spring. Ben hopes that Books4Equality will spread to many other schools in the Northeast and across the United States. Scalability is an integral part of his vision for the future of B4E. In his free time, he is an avid landscape photographer and captains the UVM Men’s Rugby club.
+		</div>
+	  </div>
+
+	  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+		<div class="tile">
+		  <img src="/images/about-us/bio/2015-2016/alex-perkins.jpg" class="img-circle tile-image" alt="Alex Perkins">
+		  <h3 class="tile-title">Alex Perkins</h3>
+		  <h4>Co-Founder</h4>
+		  <p><a href="mailto:alex@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">Alex@books4equality.com</span></a><br>
+		  Alex Perkins studied mechanical engineering at the University of Vermont. He co-founded Books4Equality while at school, and continues to be involved in many areas, including strategic development and growth, inventory management, and grant writing. When he is not giving out free textbooks, Alex enjoys brewing beer or hiking. He envisions a bright future for the organization, and is excited to help B4E move forward.
+		  </p>
+		</div>
+	  </div>
+
+	  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+		<div class="tile">
+		  <img src="/images/about-us/bio/2015-2016/javier-gb.jpg" class="img-circle tile-image" alt="Javier GB">
+		  <h3 class="tile-title">Javier GB</h3>
+		  <h4>Co-Founder</h4>
+		  <p><a href="mailto:javier@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">Javier@books4equality.com</span></a><br>
+		  <a href="http://twitter.com/javiergb_com"><span class="fui-twitter"></span> @javiergb_com</a><br>
+		  Javier B, a UVM graduate with a M.Sc in Computer Science, was one of the original members of the B4E team. He met this awesome group of people in 2014, and spent many hours coding, filling up forms, reaching out to professors, students, and Burlington businesses. His role at Books4Equality is to collect and analyze data to move the organization further along. Currently a resident of Amsterdam, Javi gives support from the other side of the ocean. Among other plans for B4E, he would like to start an online community around open-source, modular, high-quality textbooks.
+		</div>
+	  </div>
+	</div>
+</section>
+
+
+<section>
+<h5>The Team</h5>
+<div class="row demo-tiles">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/kelly-molloy.jpg" class="img-circle tile-image" alt="Kelly Molloy">
+      <h3 class="tile-title">Kelly Molloy</h3>
+	  <h4>Director of Social Media</h4>
+      <p><a href="mailto:kellymolloy@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">KellyMolloy@books4equality.com</span></a><br>
+	  Kelly Molloy, currently pursuing a BA degree in Sociology at the University of Vermont, is the Director of Social Media for Books4Equality. She is responsible for the day-to-day postings on various social media outlets and marketing the organization to the University of Vermont community, Burlington community, and beyond. Kelly’s past experience includes being the northwest regional fellow at the Vermont Democratic party, and currently is responsible for all social media of Core Studio, located in Burlington, VT. Graduating in May, Kelly hopes to continue working for a non-profit that will improve the lives of others through public policy.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/ben-vaughan.jpg" class="img-circle tile-image" alt="Ben Vaughan">
+      <h3 class="tile-title">Ben Vaughan</h3>
+	  <h4>Director of Business Development</h4>
+      <p><a href="mailto:benvaughan@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">BenVaughan@books4equality.com</span></a><br>
+	  Ben Vaughan is the Director of Business Development and Data Analytics at Books4Equality. He works to inform decision makers by analyzing the data surrounding B4E’s inventory, market and user base. He also assists with the strategic development of the organization, developing the business plan, facilitating partnerships, and supporting the grant writing process. In the near future, Ben plans on acquiring his CPA license and working as an auditor, after which he hopes to work in consulting around environmental business practices, alternative energies or forestry.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/toby-howe.jpg" class="img-circle tile-image" alt="Toby Howe">
+      <h3 class="tile-title">Toby Howe</h3>
+	  <h4>Director of Development</h4>
+      <p><a href="mailto:tobyhowe@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">TobyHowe@books4equality.com</span></a><br>
+	  Toby Howe, a senior working towards a bachelor’s degree in Political Science and Environmental Studies, is the Director of Development at Books4Equality. Toby is responsible for developing strategies to grow and motivate B4E’s donor base, and establishing connections to local businesses in the Burlington community. Prior to Books4Equality, Toby has interned for BigBelly Solar, and worked as a fellow on a Massachusetts state treasurer campaign. Outside of B4E, Toby enjoys skiing and cooking in his free time.
+      </p>
+    </div>
+  </div>
+</div>
+<div class="row demo-tiles">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/brian-killackey.jpg" class="img-circle tile-image" alt="Brian Killackey">
+      <h3 class="tile-title">Brian Killackey</h3>
+	  <h4>Chief Financial Officer</h4>
+      <p><a href="mailto:briankillackey@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">BrianKillackey@books4equality.com</span></a><br>
+	  Brian Killackey, a senior in the Grossman School of Business, is the Chief Financial Officer at Books4Equality. Brian develops financial statements and budgets, as well as managing outreach to many UVM organizations and clubs. Prior to B4E, he serves as the Chief Financial Officer for the Alpha Rho chapter of Alpha Gamma Rho, a Third Channel Marketing Agent for Marmot and a Benefits and Compensation Specialist for the Howard Center. After graduation, Brian hopes to pursue a future in the financial markets, helping others make important financial decisions.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/zacadia-nevin.jpg" class="img-circle tile-image" alt="Zacadia Nevin">
+      <h3 class="tile-title">Zacadia Nevin</h3>
+	  <h4>Student Life Outreach Coordinator</h4>
+      <p><a href="mailto:zacadianevin@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">ZacadiaNevin@books4equality.com</span></a><br>
+	  Zacadia Nevin, a junior studying Nutrition in the College of Agriculture and Life Sciences, is the Student Life Outreach Coordinator at Books4Equality. She is responsible for presenting the B4E organization to various other clubs and groups on campus to foster partnerships in order to enhance the organization. Zacadia hopes to become an EMT, and eventually make her way to PA school, travel the world, and have a lot of dogs.
+      </p>
+    </div>
+  </div>
+
+  <!-- Uncomment when we have a bio/picture
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/benjamin-uinn.jpg" class="img-circle tile-image" alt="Benjamin Quinn">
+      <h3 class="tile-title">Benjamin Quinn</h3>
+	  <h4>Title</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque venenatis vestibulum arcu eu eleifend. Aliquam ullamcorper metus ac orci tincidunt ultrices. Pellentesque scelerisque neque id arcu vulputate pretium. Sed porta aliquet dui, ac auctor neque auctor a. Cras aliquet consequat facilisis. Nullam consectetur egestas orci, id congue libero suscipit vitae. Donec tincidunt elit ut orci rutrum imperdiet. Nunc mattis ante non aliquet vestibulum. Phasellus eleifend nibh vel quam semper, id maximus diam gravida. Sed fringilla justo tellus, id convallis purus tempor eget. Cras nec mauris ornare, dapibus felis sit amet, commodo ante. Integer a erat dolor. Cras convallis tellus ut.
+      </p>
+    </div>
+  </div>
+  -->
+</div> 
+</section>
+
+<section>
+<h5>Interns</h5>
+<p></p>
+<div class="row demo-tiles">
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/noah-patullo.png" class="img-circle tile-image" alt="Noah Patullo">
+      <h3 class="tile-title">Noah Patullo</h3>
+	  <h4>Web Design Intern</h4>
+      <p>Noah Patullo, a first-year Computer Science major at the University of Vermont, is our Website Design Intern. He is enthusiastic about his role in helping advance B4E as he is gaining real-world experience and loves any opportunity to learn more about the field of computer science. Through his front-end work of improving the website design, Noah is helping Books4Equality lessen the financial burden of textbooks for college students at the University of Vermont and, eventually, beyond. Noah also has been a member of Burlington Taiko (Japanese Festival Drumming) since 2004 and manages their website <a href="http://burlingtontaiko.org/">BurlingtonTaiko.org</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+      <img src="/images/about-us/bio/2015-2016/chris-sullivan.jpg" class="img-circle tile-image" alt="Chris Sullivan">
+      <h3 class="tile-title">Chris Sullivan</h3>
+	  <h4>Business Outreach Intern</h4>
+      <p>Chris Sullivan, an Economics major at the University of Vermont, is the Business Outreach Intern at Books4Equality. He is responsible for reaching out to local businesses in order to gather donations to help fundraise the organization. Aside from his work at B4E, Chris is the president of the Delta Upsilon Chapter of the UVM. In the future, he hopes to pursue a career in finance.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-4 bio">
+    <div class="tile">
+	  <!-- uncomment line below when we have  picture-->
+      <!-- <img src="/images/about-us/bio/2015-2016/connor-dermody.jpg" class="img-circle tile-image" alt="Connor Dermody"> -->
+	  <div style="width: 200px; height: 240px; "></div> <!--remove when we have picture -->
+      <h3 class="tile-title">Connor Dermody</h3>
+	  <h4>Student Outreach Intern</h4>
+      <p>Connor Dermody, a sophomore studying English Literature at the University of Vermont, is the student outreach intern at Books4Equality. He hopes to help his fellow students by informing them about the great opportunities that B4E has to offer. Connor is also a member of the UVM men’s rugby team, and works with fellow officers in the Student Government Association. He aspires to become an English professor after having the experience of teaching abroad through the Peace Corps.
+      </p>
+    </div>
+  </div>
+</div> 
+</section>
