@@ -1,8 +1,13 @@
 <% layout('./layout') -%>
 <style type="text/css">
 	.title1 {
-		margin-top: -30px;
+		/*margin-top: -30px;*/
 	}	
+
+	#contact-form{
+		margin-bottom: 30px;
+	}
+
 </style>
 
 <h1 class="title1">Contact</h1>
@@ -15,18 +20,19 @@
 
 <form id="contact-form" method="post"><!-- action attribute needed -->
 	<label for="name">Name*<br>
-	<input type="text" id="name" name="name" onfocus="this.select()" ><!-- need to add html5 "required" attribute -->
+	<input type="text" id="name" class="form-control input-lg" name="name" onfocus="this.select()" ><!-- need to add html5 "required" attribute -->
 	</label>
 	
 	<label for="email" id="email-label">Email Address*<br>
-	<input type="text" id="email" name="email" onfocus="this.select()" ><!--need to add html5:   type="email" required -->
+	<input type="text" id="email" class="form-control input-lg" name="email" onfocus="this.select()" ><!--need to add html5:   type="email" required -->
 	</label>
 	
 	<br>
 	<label for="message">Message*<br>
-	<textarea id="message" ></textarea><!-- need to add html5 "required" attribute -->
+	<textarea id="message" class="form-control input-lg"></textarea><!-- need to add html5 "required" attribute -->
 	</label>
 	
 	<br>
-	<input type="submit" value="Send Message" id="send">
+	<input type="submit" value="Send Message" id="send" class="btn btn-primary">
 </form>
+
