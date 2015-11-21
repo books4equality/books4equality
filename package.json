@@ -35,7 +35,8 @@
     "passport-local": "^1.0.0",
     "revalidator": "^0.3.1",
     "serve-favicon": "^2.2.0",
-    "waypoints" : "^4.0.0"
+    "waypoints" : "^4.0.0",
+    "pagination":"^0.4.4"
   },
   "keywords": [
     "books",
