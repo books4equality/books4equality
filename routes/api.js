@@ -112,7 +112,7 @@ router.post('/contact',function(req, res, next){
     
     mailOpts = {
         from: req.body.contact.cName + ' &lt;' + req.body.contact.email + '&gt;',
-        to: 'blquinn@uvm.edu',
+        to: 'contact@books4equality.com',
         subject: 'B4E Contact message',
         text: 'Name: ' + req.body.contact.cName + '\n' +
             'Email: ' + req.body.contact.email + '\n' +
