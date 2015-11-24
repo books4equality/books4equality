@@ -10,6 +10,7 @@
 #wrapper {
   /*padding-left: 150px;*/
   transition: all 0.4s ease 0s;
+  float: right;
 }
 
 #sidebar-wrapper {
@@ -18,7 +19,7 @@
   /*margin-top:-50px; */
   top:0; /* move up to top of screen, navbar covers it at the top of page */
   /* left: 150px; original */
-  margin-left:-150px;
+  /*margin-left:-150px;*/
   /*width: 140px; maybe??*/  /* width: 158px; wide enough to disable scroll bar if "overflow-y: auto;"*/
   width: 150px;
   /*position: relative;*/
@@ -28,7 +29,7 @@
   /*overflow-y: auto; not really necessary*/
   z-index: 1000;
   transition: all 0.4s ease 0s;
-  background: #edeff1;
+  /*background: #edeff1;*/
 }
 
 #page-content-wrapper {
@@ -48,7 +49,7 @@
 @media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
     #wrapper {
       padding-left: 0;
-	  /*display:none;  NOAH hide @ small screen size */
+	  display:none; 
     }
 
     #sidebar-wrapper {
@@ -65,6 +66,20 @@
       width: 150px;
       transition: all 0.4s ease 0s;
     }
+  
+    p{
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+
+    #mission-header{
+      margin-left: 1em;
+    }
+
+    .col-xs-5{
+      display: none;
+    }
+
 }
 
 /* add a border on the left when mouse hovers */
@@ -112,7 +127,8 @@
 -->
 
 <div class='jumbotron' id="mission">
-<p class="lead"> <h1>Mission Statement:</h1> Equal access to textbooks for everyone. For free.</p>
+<p class="lead"> <h1 id="mission-header">Mission Statement:</h1></p> 
+<p>Equal access to textbooks for everyone. For free.</p>
 </div>
 
 <div class='jumbotron' id="what-we-do">

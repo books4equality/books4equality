@@ -1,32 +1,67 @@
 <% layout('./layout') -%>
 <style type="text/css">
 	.title1 {
-		margin-top: -30px;
+		/*margin-top: -30px;*/
 	}	
+
+	#contact-form{
+		margin-bottom: 30px;
+	}
+
 </style>
 
 <h1 class="title1">Contact</h1>
-<p class='lead'>
-    Books 4 Equality was created September, 2014 by three students of the University of Vermont.
-</p>
+<!-- <p class='lead'>Books 4 Equality was created September, 2014 by three students of the University of Vermont.</p> -->
+
 
 <p>Send us an email: <a href="mailto:books4equality@gmail.com" class="underline">Books4Equality@gmail.com</a> 
 </p>
 
-<form id="contact-form" method="post"><!-- action attribute needed -->
+<% if(typeof type !== 'undefined'){ %>
+	<% if(type =='error'){ %>
+		<div class="alert fade in alert-warning">
+			<a href="#" clase="close" data-dismiss="alert">
+				<i class="front-icon-cross"></i>
+			</a>
+			There was an error sending message!
+		</div>
+	<% } if(type == 'empty'){ %>
+		<div class="alert fade in alert-warning">
+			<a href="#" class="close">
+				<i class="front-icon-cross"></i>
+			</a>
+			Please fill out All fields!
+		</div>
+	<% } if(type == 'success'){ %>
+		<div class="alert fade in alert-success">
+			<a href="#" class="close" data-dismiss="alert">
+				<i class="font-icon-cross"></i>
+			</a>
+				Message Sent
+		</div>
+	<% }
+} %>
+
+
+<form id="contact-form" method="post" action="/api/contact"><!-- action attribute needed -->
 	<label for="name">Name*<br>
-	<input type="text" id="name" name="name" onfocus="this.select()" ><!-- need to add html5 "required" attribute -->
+	<input type="text" id="cName" class="form-control input-lg" name="contact[cName]" onfocus="this.select()" required="required" size="40" value="<% if(typeof name !== 'undefined'){ %><%= name %><% } %>">
 	</label>
 	
 	<label for="email" id="email-label">Email Address*<br>
-	<input type="text" id="email" name="email" onfocus="this.select()" ><!--need to add html5:   type="email" required -->
+	<input type="text" id="email" class="form-control input-lg" name="contact[email]" onfocus="this.select()" required="required" value="<% if(typeof email !== 'undefined'){ %><%= email %><% } %>">
 	</label>
 	
 	<br>
 	<label for="message">Message*<br>
-	<textarea id="message" ></textarea><!-- need to add html5 "required" attribute -->
+	<textarea id="message" class="form-control input-lg" name="contact[message]" required="required" cols="40" rows="20">
+		<% if(typeof body !== 'undefined'){ %><%= body %><% } %>
+	</textarea>
 	</label>
 	
 	<br>
-	<input type="submit" value="Send Message" id="send">
+	<input type="submit" value="Send Message ->" id="send" class="btn btn-primary">
 </form>
+
+
+

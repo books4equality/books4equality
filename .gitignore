@@ -16,4 +16,5 @@ bower_components
 .project
 .metadata
 npm-debug.log
+.DS_Store
 
