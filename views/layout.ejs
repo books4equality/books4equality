@@ -23,6 +23,24 @@
 	<link rel='stylesheet' href='/stylesheets/style.css'>
 	<link rel='stylesheet' href='/stylesheets/custom-new.css'><!-- new stylesheet added by Noah -->
 </head>
+
+<!-- Required on all pages to fix mobile layout -->
+<style>
+    html,body{
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        overflow-x: hidden; 
+    }
+    @media(max-width: 1250px){
+        .jumbotron p{
+          margin-left: 1em;
+          margin-right: 1em;
+        }
+    }
+</style>
+<!-- end -->
+
 <body>
     <% include partials/navbar %>
 
