@@ -1,30 +1,73 @@
 <% layout('./layout') -%>
 <style type="text/css">
-	
+
+	#contact-form{
+		margin-bottom: 30px;
+	}
+
+	body > div.container-fluid > p:nth-child(3){
+		max-width: 40em;
+	}
+
+	@media (max-width:700px) { 
+    #contact-form #email-label{
+      margin-left: 0;
+    } 
+    #contact-form #message{
+    	width: 100%;
+    }
+	}	
+
 </style>
 
-<h1 class="title1">Contact</h1>
-<p class='lead'>
-    Books 4 Equality was created September, 2014 by three students of the University of Vermont.
+<h1>Contact</h1>
+<!-- <p class='lead'>Books 4 Equality was created September, 2014 by three students of the University of Vermont.</p> -->
+
+<p>Books4Equality is reimagining the way students interact with their textbooks and school supplies. Send us a message using the form below.</p>
+<p>Or, send us an email: <a href="mailto:books4equality@gmail.com" class="underline">Books4Equality@gmail.com</a> 
 </p>
 
-<p>Send us an email: <a href="mailto:books4equality@gmail.com" class="underline">Books4Equality@gmail.com</a> 
-</p>
+<% if(typeof type !== 'undefined'){ %>
+	<% if(type =='error'){ %>
+		<div class="alert fade in alert-warning">
+			<a href="#" clase="close" data-dismiss="alert">
+				<i class="front-icon-cross"></i>
+			</a>
+			There was an error sending message!
+		</div>
+	<% } if(type == 'empty'){ %>
+		<div class="alert fade in alert-warning">
+			<a href="#" class="close">
+				<i class="front-icon-cross"></i>
+			</a>
+			Please fill out All fields!
+		</div>
+	<% } if(type == 'success'){ %>
+		<div class="alert fade in alert-success">
+			<a href="#" class="close" data-dismiss="alert">
+				<i class="font-icon-cross"></i>
+			</a>
+				Message Sent
+		</div>
+	<% }
+} %>
 
-<form id="contact-form" method="post"><!-- action attribute needed -->
+
+<form id="contact-form" method="post" action="/api/contact"><!-- action attribute needed -->
 	<label for="name">Name*<br>
-	<input type="text" id="name" name="name" class="form-control input-lg" onfocus="this.select()" ><!-- need to add html5 "required" attribute -->
+	<input type="text" id="cName" class="form-control input-lg" name="contact[cName]" onfocus="this.select()" required="required" size="40" value="<% if(typeof name !== 'undefined'){ %><%= name %><% } %>">
 	</label>
 	
 	<label for="email" id="email-label">Email Address*<br>
-	<input type="text" id="email" name="email" class="form-control input-lg" onfocus="this.select()" ><!--need to add html5:   type="email" required -->
+	<input type="text" id="email" class="form-control input-lg" name="contact[email]" onfocus="this.select()" required="required" value="<% if(typeof email !== 'undefined'){ %><%= email %><% } %>">
 	</label>
-	
 	<br>
 	<label for="message">Message*<br>
-	<textarea id="message" name="message" class="form-control input-lg" ></textarea><!-- need to add html5 "required" attribute -->
+	<textarea id="message" class="form-control input-lg" name="contact[message]" required="required" cols="40" rows="20">
+		<% if(typeof body !== 'undefined'){ %><%= body %><% } %>
+	</textarea>
 	</label>
 	
 	<br>
-	<input type="submit" value="Send Message" id="send" name="send" class="btn btn-primary">
+	<input type="submit" value="Send Message ->" id="send" class="btn btn-primary">
 </form>

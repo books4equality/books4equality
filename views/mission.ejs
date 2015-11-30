@@ -9,17 +9,21 @@
 #wrapper {
   /*padding-left: 150px;*/
   transition: all 0.4s ease 0s;
+  float: right;
 }
 
 #sidebar-wrapper {
   top:0; /* move up to top of screen, navbar covers it at the top of page */
-  margin-left:-150px;
+  /* left: 150px; original */
+  /*margin-left:-150px;*/
+  /*width: 140px; maybe??*/  /* width: 158px; wide enough to disable scroll bar if "overflow-y: auto;"*/
   width: 150px;
   position:fixed;	/*IMPORTANT, this is what keeps it from scrolling */
   height: 100%;
   /*overflow-y: auto; hopefully not really necessary*/
   z-index: 1000;
   transition: all 0.4s ease 0s;
+
   /*background: #edeff1; */ /*removed this background so it's just white to match page*/
 }
 
@@ -34,12 +38,13 @@
   list-style: none;
   margin: 0 0 0 8px;
   padding: 0;
+  margin-top: 11em;
 }
 
 @media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
     #wrapper {
       padding-left: 0;
-	  /*display:none;  NOAH hide @ small screen size */
+	  display:none; 
     }
 
     #sidebar-wrapper {
@@ -56,6 +61,15 @@
       width: 150px;
       transition: all 0.4s ease 0s;
     }
+
+    #mission-header{
+      margin-left: 1em;
+    }
+
+    .col-xs-5{
+      display: none;
+    }
+
 }
 
 /* add a border on the left when mouse hovers */
@@ -75,15 +89,12 @@
 <div id="wrapper">
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-			<li>&nbsp;</li>	<!-- 3 blank list items to be hidden by navbar -->
-			<li>&nbsp;</li>
-			<li>&nbsp;</li>
-			<li><a id ="we" href="#mission">Mission</a></li>
-			<li><a href="#what-we-do">What We Do</a></li>
-			<li><a href="#philosophy">Philosophy</a></li>
-			<li><a href="#start">How did it start?</a></li>
-			<li><a href="#situation">The Situation</a></li>
-			<li><a href="#references">References</a></li>
+    			<li><a id ="we" href="#mission">Mission</a></li>
+    			<li><a href="#what-we-do">What We Do</a></li>
+    			<li><a href="#philosophy">Philosophy</a></li>
+    			<li><a href="#start">How did it start?</a></li>
+    			<li><a href="#situation">The Situation</a></li>
+    			<li><a href="#references">References</a></li>
         </ul>
     </div>
 </div>
@@ -101,9 +112,10 @@
 	</ul>
 </div>
 -->
-
+<h1>Our Mission</h1>
 <div class='jumbotron' id="mission">
-<p class="lead"> <h1>Mission Statement:</h1> Equal access to textbooks for everyone. For free.</p>
+<p class="lead"> <h1 id="mission-header">Mission Statement:</h1></p> 
+<p>Equal access to textbooks for everyone. For free.</p>
 </div>
 
 <div class='jumbotron' id="what-we-do">
