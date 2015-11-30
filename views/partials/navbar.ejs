@@ -10,12 +10,16 @@ float:left;					/* must float to the left of the anchor tag */
 padding-right: .75em;
 }
 #special-link {
-    color: #FFF000;
-    text-shadow: #00ff00 0px 0px 8px;
+    /*color: #FFF000;
+    text-shadow: #00ff00 0px 0px 8px;*/
+	
+    background-color: #1ABC9C;
+	color: #fff;		/*new backgounf & color 11-21-15 */
 }
 #special-link:hover, #special-link:active, #special-link:focus { /*change color and blur larger shadow on hover */
-	color: #E9FD4F;
-	text-shadow: #00ff00 0px 0px 11px;
+	/*color: #E9FD4F;
+	text-shadow: #00ff00 0px 0px 11px; */
+	text-shadow: #000 0px 0px 5px; /*new balck shadow 11-21-15 */
 }
 
 /* Change Navbar font to Diavlo (font is locally installed) */
@@ -46,10 +50,11 @@ nav a {
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
         <span class="sr-only">Toggle navigation</span>
-      </button>
+      </button> 
       <a class="navbar-brand" href="/"> <img src="/images/logo-small.png" alt="" id="logo-link"> Books4Equality</a> <!-- 10/29/15 added image to link -->
+
     </div>
-	
+
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
       <ul class="nav navbar-nav navbar-right">
     		<!-- <li><a href="/library" id="special-link">Library</a></li> -->

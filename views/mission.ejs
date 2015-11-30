@@ -1,5 +1,4 @@
 <% layout('./layout') -%>
-
 <style type="text/css">
 .headline {
   max-width: 80%;
@@ -14,22 +13,18 @@
 }
 
 #sidebar-wrapper {
-  /*margin-left: -150px;*/
-  /*margin-top:-30px; */ /*push it up to meet bottom of main nav */
-  /*margin-top:-50px; */
   top:0; /* move up to top of screen, navbar covers it at the top of page */
   /* left: 150px; original */
   /*margin-left:-150px;*/
   /*width: 140px; maybe??*/  /* width: 158px; wide enough to disable scroll bar if "overflow-y: auto;"*/
   width: 150px;
-  /*position: relative;*/
-  position:fixed;
+  position:fixed;	/*IMPORTANT, this is what keeps it from scrolling */
   height: 100%;
-  /*height: 300px;*/
-  /*overflow-y: auto; not really necessary*/
+  /*overflow-y: auto; hopefully not really necessary*/
   z-index: 1000;
   transition: all 0.4s ease 0s;
-  /*background: #edeff1;*/
+
+  /*background: #edeff1; */ /*removed this background so it's just white to match page*/
 }
 
 #page-content-wrapper {
