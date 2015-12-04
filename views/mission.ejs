@@ -1,95 +1,12 @@
 <% layout('./layout') -%>
-<style type="text/css">
-.headline {
-  max-width: 80%;
-}
 
-
-/* not sure if we need this */
-#wrapper {
-  /*padding-left: 150px;*/
-  transition: all 0.4s ease 0s;
-  float: right;
-}
-
-#sidebar-wrapper {
-  top:0; /* move up to top of screen, navbar covers it at the top of page */
-  /* left: 150px; original */
-  /*margin-left:-150px;*/
-  /*width: 140px; maybe??*/  /* width: 158px; wide enough to disable scroll bar if "overflow-y: auto;"*/
-  width: 150px;
-  position:fixed;	/*IMPORTANT, this is what keeps it from scrolling */
-  height: 100%;
-  /*overflow-y: auto; hopefully not really necessary*/
-  z-index: 1000;
-  transition: all 0.4s ease 0s;
-
-  /*background: #edeff1; */ /*removed this background so it's just white to match page*/
-}
-
-#page-content-wrapper {
-  width: 100%;
-}
-
-.sidebar-nav {
-  position: absolute;
-  top: 0;
-  width: 150px;
-  list-style: none;
-  margin: 0 0 0 8px;
-  padding: 0;
-  margin-top: 11em;
-}
-
-@media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
-    #wrapper {
-      padding-left: 0;
-	  display:none; 
-    }
-
-    #sidebar-wrapper {
-      left: 0;
-    }
-
-    #wrapper.active {
-      position: relative;
-      left: 150px;
-    }
-
-    #wrapper.active #sidebar-wrapper {
-      left: 150px;
-      width: 150px;
-      transition: all 0.4s ease 0s;
-    }
-
-    #mission-header{
-      margin-left: 1em;
-    }
-
-    .col-xs-5{
-      display: none;
-    }
-
-}
-
-/* add a border on the left when mouse hovers */
-#sidebar-wrapper a:hover, #sidebar-wrapper a:active, #sidebar-wrapper a:focus {
-	border-left: 4px solid black;
-	padding-left:1px;
-}
-
-#mission h1 {
-	font-size: 1.1em;
-}
-</style>
-
-<!-- <div class='container-fluid'> -->
+ <div class='container-fluid'> 
 
 <!-- copied from http://stackoverflow.com/questions/20557912/creating-a-fixed-sidebar-alongside-a-centered-bootstrap-3-grid -->
 <div id="wrapper">
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-    			<li><a id ="we" href="#mission">Mission</a></li>
+    			<li><a id="we" href="#mission">Mission</a></li><!-- not sure if we need id="we" -->
     			<li><a href="#what-we-do">What We Do</a></li>
     			<li><a href="#philosophy">Philosophy</a></li>
     			<li><a href="#start">How did it start?</a></li>
@@ -99,22 +16,9 @@
     </div>
 </div>
 
-
-<!--
-<div id="id-links">
-	<ul>
-		<li><a href="#mission">Mission</a></li>
-		<li><a href="#what-we-do">What We Do</a></li>
-		<li><a href="#philosophy">Philosophy</a></li>
-		<li><a href="#start">How did it start?</a></li>
-		<li><a href="#situation">The Situation</a></li>
-		<li><a href="#references">References</a></li>
-	</ul>
-</div>
--->
 <h1>Our Mission</h1>
 <div class='jumbotron' id="mission">
-<p class="lead"> <h1 id="mission-header">Mission Statement:</h1></p> 
+<h1 id="mission-header" class='bold'>Mission Statement:</h1>
 <p>Equal access to textbooks for everyone. For free.</p>
 </div>
 
@@ -130,20 +34,18 @@ Some books are older and not frequently used in colleges and universities. In an
 
 <div class='jumbotron' id="philosophy">
 <p class="lead"> <strong>Philosophy</strong><br></p>
-<p>
+  <p>Books4Equality strives to decrease the cost of college education. Our principles are:</p>
   <ul>
-  Books4Equality strives to decrease the cost of college education. Our principles are:
-  <li>
-  <strong>Affordability.</strong> The cost of textbooks have increased by 82% in the last decade. Today, students are spending an average of $1200 in books and supplies per year. With books4equality, your bills will be reduced.
-  </li>
-  <li>
-  <strong>Equality.</strong> 65% of students decide against buying a textbook because of the price. With books4equality, the cost of the classes will not stop you from taking that extra class.
-  </li>
-  <li>
-  <strong>Sustainability.</strong> Reducing the carbon footprint. The CO<sub>2</sub> resulting from the manufacture of all the textbooks used by students each year at UVM is equivalent to the CO<sub>2</sub> produced by a car travelling to the moon and back. 
-  </li>
+	  <li>
+	  <strong>Affordability.</strong> The cost of textbooks have increased by 82% in the last decade. Today, students are spending an average of $1200 in books and supplies per year. With books4equality, your bills will be reduced.
+	  </li>
+	  <li>
+	  <strong>Equality.</strong> 65% of students decide against buying a textbook because of the price. With books4equality, the cost of the classes will not stop you from taking that extra class.
+	  </li>
+	  <li>
+	  <strong>Sustainability.</strong> Reducing the carbon footprint. The CO<sub>2</sub> resulting from the manufacture of all the textbooks used by students each year at UVM is equivalent to the CO<sub>2</sub> produced by a car travelling to the moon and back. 
+	  </li>
   </ul>
-</p>
 </div>
 
 <div class='jumbotron' id="start">
@@ -183,4 +85,4 @@ As publishers continue to drive up the cost of new editions of text, students ar
 
   <p class='lead'><strong>Help keep the pages turning!</strong></p>
   
- <!--</div>-->
+ </div>

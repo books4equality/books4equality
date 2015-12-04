@@ -1,42 +1,5 @@
 <% layout('./layout') -%>
 
-<style type="text/css">
-.headline {
-  max-width: 80%;
-}
-
-.tile h4 {
-    font-size: .9em;
-    font-style: italic;
-    color: #470A73;
-}
-.tile-image{ /*override original height of 100px from some unknown .less file */
-height:200px;
-}
-
-/*MUST ADD BIO CLASS TO EACH BOOTSTRAP TILE */
-.bio{ /* this is spacing between tiles to override 15-left/15-right from somewhere else */
-	padding:0 5px 0 5px;
-}
-.tile {		/*height for bio tiles at largest screen size */
-	height: 800px;
-	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
-	padding: 0 14px 0 14px;/* override original tile class padding */
-}
-@media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
-	.tile {
-		height: 750px;
-	}
-}
-@media (max-width:768px) { /* at the smallest screen size "col-xs-12", reset height to auto, no pixels when it's only 1 per line */
-	.tile {
-		height: auto;
-	}
-}
-
-
-</style>
-
 <h1>About Us</h1>
 
 <section>
@@ -51,7 +14,7 @@ height:200px;
 		  <img src="/images/about-us/bio/2015-2016/ben-kaufman.jpg" class="img-circle tile-image" alt="Ben Kaufman">
 		  <h3 class="tile-title">Ben Kaufman</h3>
 		  <h4>Chief Executive Officer</h4>
-		  <p><a href="mailto:benkaufman@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">BenKaufman@books4equality.com</span></a></br>
+		  <p><a href="mailto:benkaufman@books4equality.com"><span class="glyphicon glyphicon-envelope"></span> <span class="italic">BenKaufman@books4equality.com</span></a><br>
 		  <span class="fa fa-linkedin-square"></span><br>
 		  Ben Kaufman, pursuing a Masters in Natural Resources at UVM, is one of the founders of Books4Equality and is acting CEO of the organization. Ben completed his undergraduate degree in Environmental Studies and Computer Science at the University of Vermont this past spring. Ben hopes that Books4Equality will spread to many other schools in the Northeast and across the United States. Scalability is an integral part of his vision for the future of B4E. In his free time, he is an avid landscape photographer and captains the UVM Men’s Rugby club.
 		</div>
@@ -141,17 +104,16 @@ height:200px;
     </div>
   </div>
 
-  <!-- Uncomment when we have a bio/picture
   <div class="col-xs-12 col-sm-6 col-md-4 bio">
     <div class="tile">
-      <img src="/images/about-us/bio/2015-2016/benjamin-uinn.jpg" class="img-circle tile-image" alt="Benjamin Quinn">
+      <img src="/images/about-us/bio/2015-2016/benjamin-quinn.jpg" class="img-circle tile-image" alt="Benjamin Quinn">
       <h3 class="tile-title">Benjamin Quinn</h3>
-	  <h4>Title</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque venenatis vestibulum arcu eu eleifend. Aliquam ullamcorper metus ac orci tincidunt ultrices. Pellentesque scelerisque neque id arcu vulputate pretium. Sed porta aliquet dui, ac auctor neque auctor a. Cras aliquet consequat facilisis. Nullam consectetur egestas orci, id congue libero suscipit vitae. Donec tincidunt elit ut orci rutrum imperdiet. Nunc mattis ante non aliquet vestibulum. Phasellus eleifend nibh vel quam semper, id maximus diam gravida. Sed fringilla justo tellus, id convallis purus tempor eget. Cras nec mauris ornare, dapibus felis sit amet, commodo ante. Integer a erat dolor. Cras convallis tellus ut.
+	  <h4>Application Software Developer</h4>
+      <p>Ben graduated from University of Vermont in 2015 with a degree in Computer Science and Information Systems. He has been developing for B4E since September of 2015. Ben created the B4E barcode scanning app for inventory management and also helps develop and maintain the website. He will be working as a software developer in the NYC area and hopes to continue working with B4E into the future, ensuring free textbooks for all!
       </p>
     </div>
   </div>
-  -->
+
 </div>
 </section>
 

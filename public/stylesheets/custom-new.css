@@ -1,5 +1,7 @@
-/*  New css instead of less files */
-.title1 { /*first title on page */
+/*  New css instead of less files, now obsolete? */
+/*first title on page */
+/*
+.title1 { 
 	margin-top: -30px;
 }
 
@@ -13,7 +15,9 @@
 #contact-form #email-label {
 	margin-left: 20px;
 }
+*/
+/*
 #contact-form  #message {
     width: 40em;
     height: 10em;
-}
+}*/

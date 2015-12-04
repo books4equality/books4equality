@@ -6,6 +6,256 @@
     max-width: 970px !important;
 }
 
+html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on all pages to fix mobile layout */
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow-x: hidden; 
+}
+@media(max-width: 1250px){
+	.jumbotron p{
+	  margin-left: 1em;
+	  margin-right: 1em;
+	}
+}
+
+.title1 { 
+	margin-top: -30px;
+}
+
+.italic {
+	font-style: italic;
+}
+.bold {
+	font-weight: bold;
+}
+.underline {
+	text-decoration: underline;
+}
+
+/* navbar */
+.navbar {
+    border-radius: 0;
+}
+#logo-link {
+height: 53px; 		/*  min-height of navbar is 53px, so image must match */
+margin: -14px 0 0 -21px;	/* since it's contained in a bootstrap container, i messed with the margins to get it to fit */
+float:left;					/* must float to the left of the anchor tag */
+padding-right: .75em;
+}
+
+/* Change Navbar font to Diavlo (font is locally installed) */
+@font-face {
+font-family: diavlo;
+src: url(fonts/Diavlo_BLACK_II_37.otf);
+}
+nav a {
+/*font-family: diavlo, sans-serif;*/
+}
+
+#nav-container {
+	z-index: 1500;
+}
+/*end navbar */
+
+/* footer */
+.footer-banner {
+    min-height: 0;
+}
+@media (max-width:768px) { 
+    .col-xs-5{
+      display: none; /* hides the green section on right on small screens */
+    } 
+    .col-xs-7{
+      margin-left: 2em;
+    }
+}
+.footer-container { /*removed inline style */
+	max-width: 970px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#git-container {
+	height:20px;
+	width:107px;
+	border: 0;
+	overflow: hidden; 
+}
+/* end footer */
+
+/* homepage */
+.headline { /*resizes the logo */
+  max-width: 80%;
+}
+
+.homepage-img img {
+	width:240px;
+    vertical-align: bottom;
+	padding: 0 0 10px 0;
+}
+
+	
+.sub-section {
+    padding: 10px 20px 5px;
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    border-radius: 10px;
+	margin-bottom: 10px;
+}
+/* end homepage */
+
+/* start mission ------------------------ */
+.headline {
+  max-width: 80%;
+}
+
+
+/* not sure if we need this */
+#wrapper {
+  transition: all 0.4s ease 0s;
+  float: right;
+}
+
+#sidebar-wrapper {
+  top:0; /* move up to top of screen, navbar covers it at the top of page */
+  width: 150px;
+  position:fixed;	/*IMPORTANT, this is what keeps it from scrolling */
+  height: 100%;
+  /*overflow-y: auto; hopefully not really necessary*/
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+  /*background: #edeff1; */ /*removed this background so it's just white to match page*/
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 150px;
+  list-style: none;
+  margin: 0 0 0 8px;
+  padding: 0;
+  margin-top: 11em;
+}
+
+@media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
+    #wrapper {
+      padding-left: 0;
+	  display:none; 
+    }
+
+    #sidebar-wrapper {
+      left: 0;
+    }
+
+    #wrapper.active {
+      position: relative;
+      left: 150px;
+    }
+
+    #wrapper.active #sidebar-wrapper {
+      left: 150px;
+      width: 150px;
+      transition: all 0.4s ease 0s;
+    }
+
+    #mission-header{
+      margin-left: 1em;
+    }
+
+    .col-xs-5{
+      display: none;
+    }
+
+}
+
+/* add a border on the left when mouse hovers */
+#sidebar-wrapper a:hover, #sidebar-wrapper a:active, #sidebar-wrapper a:focus {
+	border-left: 4px solid black;
+	padding-left:1px;
+}
+
+#mission h1 {
+	font-size: 1.1em;
+}
+/* end mission -------------------------------------*/
+
+
+/* start contact -------------------------------------*/
+#contact-form{
+	margin-bottom: 30px;
+}
+
+body > div.container-fluid > p:nth-child(3){
+	max-width: 40em;
+}
+
+@media (max-width:700px) { 
+	#contact-form #email-label{
+	  margin-left: 0;
+	} 
+	#contact-form #message{
+		width: 100%;
+	}
+}	
+
+/* end contact -----------------------*/
+
+
+/* start about us ----------------------*/
+.headline {
+  max-width: 80%;
+}
+
+.tile h4 {
+    font-size: .9em;
+    font-style: italic;
+    color: #470A73;
+}
+.tile-image{ /*override original height of 100px from some unknown .less file */
+height:200px;
+}
+
+/*MUST ADD BIO CLASS TO EACH BOOTSTRAP TILE */
+.bio{ /* this is spacing between tiles to override 15-left/15-right from somewhere else */
+	padding:0 5px 0 5px;
+}
+.tile {		/*height for bio tiles at largest screen size */
+	height: 800px;
+	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
+	padding: 0 14px 0 14px;/* override original tile class padding */
+}
+@media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
+	.tile {
+		height: 750px;
+	}
+}
+@media (max-width:768px) { /* at the smallest screen size "col-xs-12", reset height to auto, no pixels when it's only 1 per line */
+	.tile {
+		height: auto;
+	}
+}
+/* end about us -----------------------------------*/
+
+
+/* start library -------------------------------*/
+.form-inline {
+	margin-bottom: 1em;
+}
+/* end library -------------------------------*/
+
+
 #filler-space{
     height:200px;
+}
+
+#contact-form  #message {
+    width: 40em;
+    height: 10em;
+}
+#contact-form #email-label {
+	margin-left: 20px;
 }
