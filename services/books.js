@@ -3,7 +3,6 @@
 var memoize = require('memoizeasync'),
     db = require('./db'),
     logger = require('./logger'),
-    Console = require('console'),
     ObjectID = require('mongodb').ObjectID;
 
 function parseCategories(categories) {
@@ -64,9 +63,10 @@ function find(options, callback) {
         if (err) {
             return callback(err);
         }
-        
-        //Console.log(books);
+
         return callback(null, books);
+
+        
     });
 }
 
