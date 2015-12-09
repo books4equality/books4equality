@@ -3,6 +3,7 @@
 var memoize = require('memoizeasync'),
     db = require('./db'),
     logger = require('./logger'),
+    Console = require('console'),
     ObjectID = require('mongodb').ObjectID;
 
 function parseCategories(categories) {
@@ -39,6 +40,10 @@ function find(options, callback) {
         criteria.$query["_meta.barcode"] = options.barcode;
     }
 
+    if (options.donor_email){
+        criteria.$query["_meta.donor_email"] = options.donor_email;
+    }
+
     if (options.orderby) {
         criteria.$orderby = {};
         criteria.$orderby[options.orderby] = parseInt(options.dir) || 1;
@@ -59,6 +64,8 @@ function find(options, callback) {
         if (err) {
             return callback(err);
         }
+        
+        //Console.log(books);
         return callback(null, books);
     });
 }
