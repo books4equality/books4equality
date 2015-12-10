@@ -102,6 +102,21 @@ nav a {
     border-radius: 10px;
 	margin-bottom: 10px;
 }
+
+/* the galleria slideshow NEEDS A HEIGHT, or else it won't load. Width is auto (or 100% of it's container) */
+.galleria {		/*largest screen size */
+	height: 600px;
+}
+@media (max-width:600px) {	/*medium screen size */
+	.galleria {
+		height: 400px;
+	}
+}
+@media (max-width:500px) {  /*very small screen size */
+	.galleria {
+		height: 300px;
+	}
+}
 /* end homepage */
 
 /* start mission ------------------------ */
