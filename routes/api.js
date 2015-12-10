@@ -25,7 +25,7 @@ router.get('/books', function(req, res, next) {
 
     books.find(options, function(err, books) {
         if (err) {
-            return next(err);
+            return next(err); 
         }
 
         // TODO remove private information
@@ -41,7 +41,6 @@ router.get('/books/:id', function(req, res, next) {
         }
 
         // TODO remove private information
-
         return res.json(book);
     })
 });
