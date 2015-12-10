@@ -62,6 +62,7 @@ router.post('/api/books', basicAuth, function(req, res, next) {
         book._meta.isbn = req.body.isbn;
         book._meta.barcode = req.body.barcode;
         book._meta.ddc = req.body.ddc;
+        book.meta.donor_email = req.body.donor_email;
         book._meta.creationDate = new Date();
         book._meta.available = true;
 
