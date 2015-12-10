@@ -44,9 +44,10 @@
     <p class="text-muted" id="hint-text">Hint: Press search with no fields filled to see all books...</p>
 
     <script id="entry-template" type="text/x-handlebars-template">
-        {{#each books}}
-        <% include partials/book-template %>
+            {{#each books}}
+            <% include partials/book-template %>
             {{/each}}
+
     </script>
 
     <div id="results"></div>
@@ -70,12 +71,22 @@
 
                 $.getJSON('/api/books', criteria)
                     .done(function (books) {
-                        var html = template({
-                            books: books
-                        });
+                        if (typeof books !== 'undefined' && books.length > 0) {
+                            var html = template({
+                                books: books
+                            });
+                        }else{
+                            var html =  '<div class="alert fade in alert-warning">'
+                                            +'<a href="#" class="close">'
+                                                +'<i class="front-icon-cross"></i>'
+                                            +'</a>'
+                                            +'No matching books were found.'
+                                        +'</div>';
+                        } 
                         $("#results").html(html);
                         $("#hint-text").hide();
                         $("#filler-space").hide();
+
                     })
                     .fail(function (data, status, xhr) {
                         alert('something went wrong'); // TODO
