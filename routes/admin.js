@@ -50,7 +50,7 @@ router.get('/search/:isbn', basicAuth, function(req, res, next) {
 router.post('/api/books', basicAuth, function(req, res, next) {
     var start = Date.now();
 
-    if(req.body.isbn == "1"){
+    if(req.body.isbn == "999" || req.body.isbn == 999){
         var clicker = {};
             clicker.clicker = req.body.isbn;
             clicker.barcode = req.body.barcode;
