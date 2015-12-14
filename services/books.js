@@ -150,5 +150,6 @@ module.exports = {
     findOne: findOne,
     insert: insert,
     remove: remove,
+    insertClicker: insertClicker,
     stats: memoize(stats, {maxAge: 30000})
 };
