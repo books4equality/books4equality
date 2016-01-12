@@ -28,6 +28,7 @@
     "logops": "^0.2.0",
     "memoizeasync": "^0.8.0",
     "mongodb": "^1.4.31",
+    "mongoose": "^4.3.5",
     "multer": "^0.1.8",
     "node-isbn": "^1.2.0",
     "nodemailer": "^1.10.0",
