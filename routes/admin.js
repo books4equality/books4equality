@@ -49,38 +49,68 @@ router.get('/search/:isbn', basicAuth, function(req, res, next) {
 
 router.post('/api/books', basicAuth, function(req, res, next) {
     var start = Date.now();
-    isbn.resolve(req.body.isbn, function(err, book) {
-        if (err) {
-            logger.warn('Not able to resolve %s', req.body.isbn, err);
-            return next(err);
-        }
 
-        // TODO check whether the barcode (req.body.barcode) already exists
+    if(req.body.isbn == "999" || req.body.isbn == 999){
+        var clicker = {};
+            clicker.clicker = req.body.isbn;
+            clicker.barcode = req.body.barcode;
+            clicker.donor_email = req.body.donor_email;
+            clicker.creationDate = new Date();
+            clicker.available = true;
 
-        // complete book with custom fields
-        book._meta = {};
-        book._meta.isbn = req.body.isbn;
-        book._meta.barcode = req.body.barcode;
-        book._meta.ddc = req.body.ddc;
-        book._meta.creationDate = new Date();
-        book._meta.available = true;
+            var start = Date.now();
+            books.insertClicker(clicker, function(err, result){
+                var elapsed = Date.now() - start;
+                logger.info('iClicker insert %d, err:%s', elapsed, err);
+                
+                if(err){
+                    return next(err);
+                }
 
-        var start = Date.now();
-        books.insert(book, function(err, result) {
-            var elapsed = Date.now() - start;
-            logger.info('Book insert %d, err:%s', elapsed, err);
+                if(req.is('json')){
+                    return res.json(result);
+                }
 
+                return res.redirect('/admin');//redirect after post patern
+            });
+
+    }else{
+        isbn.resolve(req.body.isbn, function(err, book) {
             if (err) {
+                logger.warn('Not able to resolve %s', req.body.isbn, err);
                 return next(err);
             }
 
-            if (req.is('json')) {
-                return res.json(result);
-            }
+            // TODO check whether the barcode (req.body.barcode) already exists
 
-            return res.redirect('/admin'); // redirect after post pattern
+            // complete book with custom fields
+            book._meta = {};
+            book._meta.isbn = req.body.isbn;
+            book._meta.barcode = req.body.barcode;
+            book._meta.ddc = req.body.ddc;
+            book._meta.donor_email = req.body.donor_email;
+            book._meta.creationDate = new Date();
+            book._meta.available = true;
+
+            var start = Date.now();
+            books.insert(book, function(err, result) {
+                var elapsed = Date.now() - start;
+                logger.info('Book insert %d, err:%s', elapsed, err);
+
+                if (err) {
+                    return next(err);
+                }
+
+                if (req.is('json')) {
+                    return res.json(result);
+                }
+
+                return res.redirect('/admin'); // redirect after post pattern
+            });
         });
-    });
+
+
+    }
 });
 
 router.delete('/api/books/:id', basicAuth, function(req, res, next) {
