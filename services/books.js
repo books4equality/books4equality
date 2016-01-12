@@ -90,6 +90,15 @@ function insert(book, callback) {
     });
 }
 
+function insertClicker(clicker, callback){
+    db.get().collection('clickers').save(clicker, function(err, result){
+        if(err){
+            return callback(err);
+        }
+        return callback(null,result);
+    });
+}
+
 function remove(id, callback) {
     var oid = new ObjectID(id)
     var criteria = {
@@ -141,5 +150,6 @@ module.exports = {
     findOne: findOne,
     insert: insert,
     remove: remove,
+    insertClicker: insertClicker,
     stats: memoize(stats, {maxAge: 30000})
 };
