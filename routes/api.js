@@ -4,8 +4,8 @@ var express = require('express'),
     nodemailer = require('nodemailer'),
     bodyParser = require('body-parser'),
     organizations = require('../services/organizations'),
-    validator = require("email-validator"),
-    Console = console.Console;
+    validator = require("email-validator");
+    //Console = console.Console;
 
 var router = express.Router(); 
 

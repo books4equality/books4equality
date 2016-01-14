@@ -11,9 +11,11 @@ var express = require('express'),
     books = require('./services/books'),
     routes = require('./routes/index'),
     api = require('./routes/api'),
+    users = require('./routes/users'),
     config = require('./config'),
     admin = require('./routes/admin');
     organizations = require('./routes/organizations');
+
 
 function initializeApplication() {
     var app = express();
@@ -28,6 +30,7 @@ function initializeApplication() {
     app.use(less(path.join(__dirname, 'public')));
     app.use(express.static(path.join(__dirname, 'public')));
 
+    //TODO: Make secret env var
     app.use(session({
         store: new MongoStore({ db: db.get() }),
         saveUninitialized: false,
@@ -52,6 +55,7 @@ function initializeApplication() {
     app.use('/api', api);
     app.use('/', admin);
     app.use('/', organizations);
+    app.use('/users', users);
 
     app.use(function notFound(req, res, next) {
         var err = new Error('Resource not Found');

@@ -27,4 +27,10 @@ router.get('/about_us', function(req, res, next) {
     res.render('about_us');
 });
 
+router.get('/user_index',
+    function(req, res, next){
+        res.render('userViews/index');
+    }
+);
+
 module.exports = router;
