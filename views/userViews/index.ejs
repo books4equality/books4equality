@@ -1,5 +1,175 @@
 <% layout( '../layout') -%>
 
-<h1>Home</h1>
+<style>
+.login {
+  background: none;
+  padding: 8px 38px 0px;
+}
 
-<p class='lead'>Work in progress. Stay tuned.</p>
+.login-screen {
+  min-height: 273px;
+  padding: 40px 150px 33px 306px;
+}
+
+.login-icon {
+  top: 40px;
+}
+</style>
+
+
+<h1>Cool your jets...</h1>
+<h2>Gotta log in</h2>
+<div id="loginbox"  class="login" >
+
+    <div id="user-login-form" style="display:none" class="login-form">
+      <form method="post" action="/users/login">
+        <!-- Username/Email (field name must be 'username')-->
+        <div class="form-group">
+          <input type="text" class="form-control login-field" id="login-email" type="text" name="username" value="" placeholder="Email Address" />
+          <label class="login-field-icon fui-user" for="login-email"></label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input type="password" class="form-control login-field" id="login-password" name="password" placeholder="Password" />
+          <label class="login-field-icon fui-lock" for="login-pass"></label>
+        </div>
+
+        <div>
+          <a class="btn btn-lg btn-link" href="#" onClick="$('#user-login-form').hide(); $('#user-signup-form').show()">Sign Up</a>
+          <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
+          <!--
+          <a class="login-link" href="#">Lost your password?</a>
+          -->
+        </div>
+      </form>
+    </div>
+
+    <div id="user-signup-form"  class="login-form">
+      <form method="post" action="/users/register" enctype="multipart/form-data">
+
+        <!-- firstName -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-email" name="firstName" placeholder="First name">
+          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
+        </div>
+
+        <!-- lastName -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-email" name="lastName" placeholder="Last name">
+          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address">
+          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
+        </div>
+
+      	<!-- Username -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-name" type="text" name="username" placeholder="Username"/>
+          <label class="login-field-icon fui-user" for="signup-name"></label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input type="password" class="form-control signup-field" id="signup-password" name="password" value="" placeholder="Password" />
+          <label class="login-field-icon fui-lock" for="signup-pass"></label>
+        </div>
+
+        <!-- Password Confirm-->
+        <div class="form-group">
+          <input type="password" class="form-control signup-field" id="signup-password-confirm" name="password-confirm" value="" placeholder="Password (confirm)" />
+          <label class="login-field-icon fui-lock" for="signup-pass"></label>
+        </div>
+
+        <div>
+          <a class="btn btn-lg btn-link" href="#" onClick="$('#user-login-form').show(); $('#user-signup-form').hide()">Login</a>
+          <input id="btn-sign-up" class="btn btn-lg btn-info" type="submit" value="Sign Up"/></a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+<script>
+$(function() {
+	$('#btn-sign-up').click(function(event) {
+		var json = {};
+		error = [];
+
+		$('.signup-field').each(function(){
+			if($(this).val() == undefined || $(this).val() == ''){
+				error.push('\n' + $(this).attr('name') + ' is a required field');
+			} else {
+				json[$(this).attr('name')] = $(this).val();
+			}
+		});
+
+		if(json['password'] != json['password-confirm']){
+			error.push('\nPasswords must match.')
+		}
+
+		if(error.length !== 0){
+			//TODO: Show a pretty error message
+			alert(error.join());
+			console.log(error);
+		} else {
+			$.ajax({
+				url: '/users/register',
+				type: 'POST',
+				dataType: 'json',
+				data: json
+			})
+			.done(function() {
+				console.log("success");
+				alert('Account Created');
+
+			})
+			.fail(function() {
+				console.log("error");
+			});
+
+		}
+		return false;
+	});
+
+	$('btn-login').click(function(event){
+		var json = {};
+		error = [];
+
+		$('.login-field').each(function(){
+			if($(this).val() == undefined || $(this).val() == ''){
+				error.push('\n' + $(this).attr('name') + ' is a required field');
+			} else {
+				json[$(this).attr('name')] = $(this).val();
+			}
+		});
+
+		if(error.length !== 0){
+			//TODO: Show a pretty error message
+			alert(error.join());
+			console.log(error);
+		} else {
+			$.ajax({
+				url: '/users/login',
+				type: 'POST',
+				dataType: 'json',
+				data: json
+			})
+			.done(function() {
+				console.log("success");
+				alert('Signed in');
+
+			})
+			.fail(function() {
+				console.log("error");
+			});
+
+		}
+
+		return false;
+	});
+});
+</script>

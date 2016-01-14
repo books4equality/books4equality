@@ -3,6 +3,9 @@ var express = require('express'),
 
 var router = express.Router();
 
+var currentUser = String;
+
+
 router.get('/', function(req, res, next) {
     res.render('index');
 });
@@ -26,11 +29,5 @@ router.get('/schedule', function(req, res, next) {
 router.get('/about_us', function(req, res, next) {
     res.render('about_us');
 });
-
-router.get('/user_index',
-    function(req, res, next){
-        res.render('userViews/index');
-    }
-);
 
 module.exports = router;
