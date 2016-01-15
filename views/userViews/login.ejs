@@ -205,6 +205,7 @@ $(function() {
 		$('#incomplete-form').hide();
 		$('#account-creation-failure').hide();
 
+		//collect field values
 		$('.signup-field').each(function(){
 			if($(this).val() == undefined || $(this).val() == ''){
 				error.push($(this).attr('name') + ' is a required field');
@@ -213,8 +214,50 @@ $(function() {
 			}
 		});
 
+		var userJSON = {'username': json['username']};
+
+		//Validation
+			$.ajax({  //user exists check
+				url: '/users/doesUserExist',
+				type: 'GET',
+				dataType: 'json',
+				data: userJSON,
+				async: false,
+				statusCode: {
+			    200: function(data) {
+						console.log("Username DNE, continue...");
+
+			    },
+			    500:function(){
+						console.log("error");
+						error.push('Server error finding usernames');
+
+			    },
+			    290:function(){  //madeup status code
+			    	console.log('username exists');
+			    	error.push('Username already exists');
+			    	console.log(error);
+			    }
+			  }
+			});
+
 		if(json['password'] != json['password-confirm']){
 			error.push('Passwords must match.')
+		}
+
+
+		var $email = json['email'];
+		if(typeof $email !== 'undefined'){
+			var emailArr = $email.split('@');
+			var emailPostix = emailArr[1];
+
+			if(!validateEmail($email)){
+				error.push('Please use a valid email address');
+			}
+
+			if(emailPostix != 'uvm.edu'){
+				error.push('You must have/use your UVM email');
+			}
 		}
 
 		if(error.length !== 0){
@@ -250,6 +293,11 @@ $(function() {
 
 		}
 	});
+
+function validateEmail($email) {
+  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  return emailReg.test( $email );
+}
 
 });
 </script>

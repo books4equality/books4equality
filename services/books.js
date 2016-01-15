@@ -92,7 +92,7 @@ function findOneByBarcode(barcode, callback){
     });
 }
 
-function reserveBook(criteria, set, callback){
+function updateBook(criteria, set, callback){
     db.get().collection('books').update(criteria, set, function(err, result){
         if(err){
             return callback(err);
@@ -174,6 +174,7 @@ module.exports = {
     remove: remove,
     findOneByBarcode: findOneByBarcode,
     insertClicker: insertClicker,
-    reserveBook: reserveBook,
+    //reserveBook: reserveBook,
+    updateBook: updateBook,
     stats: memoize(stats, {maxAge: 30000})
 };

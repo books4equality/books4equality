@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../lib/user');
+var userServices = require('../services/users.js');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var request = require('request');
@@ -18,6 +19,7 @@ router.get('/',function(req, res){
 	return res.render('userViews/login');
 });
 
+//Loads page to confirm the book reservation
 router.get('/reserveBook',function(req,res){
 	var book = {};
 	if(req.session.user){//logged in
@@ -36,10 +38,15 @@ router.get('/reserveBook',function(req,res){
 router.post('/reserveBookConfirmed', function(req,res){	
 	if(req.session.user){
 
-	    var criteria = {'_meta.barcode': req.body.barcode,'_meta.available': true};
-	    var set = {$set:{'_meta.available':false,'_meta.reservedBy':req.session.user.username}};
+        var userInfo = {
+            username: req.session.user.username,
+            email: req.session.user.email
+        };
 
-		books.reserveBook(criteria, set, function(err, result){
+	    var criteria = {'_meta.barcode': req.body.barcode,'_meta.available': true};
+	    var set = {$set:{'_meta.available':false,'_meta.reservedBy': userInfo}};
+
+		books.updateBook(criteria, set, function(err, result){
 			if(err){
 				return res.status(500).send();
 			}
@@ -49,6 +56,17 @@ router.post('/reserveBookConfirmed', function(req,res){
 	} else {
 		return res.status(401).send();
 	}
+});
+
+router.get('/doesUserExist', function(req, res){
+    var criteria = {'username': req.query.username};
+
+    userServices.findOne(criteria, function(err, result){
+        if(err){ return res.status(500).send(); }
+        if(result == null){ return res.status(200).send(); }
+        
+        return res.status(290).send();  //user exists status
+    });
 });
 
 // Logout screen
