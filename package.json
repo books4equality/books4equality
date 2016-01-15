@@ -15,6 +15,7 @@
     "start": "node server"
   },
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "body-parser": "^1.14.1",
     "connect-ensure-login": "^0.1.1",
     "connect-mongo": "^0.8.0",
@@ -23,11 +24,12 @@
     "ejs-locals": "^1.0.2",
     "email-validator": "^1.0.3",
     "express": "^4.11.1",
-    "express-session": "^1.10.4",
+    "express-session": "^1.13.0",
     "less-middleware": "^1.0.4",
     "logops": "^0.2.0",
     "memoizeasync": "^0.8.0",
     "mongodb": "^1.4.31",
+    "mongoose": "^4.3.5",
     "multer": "^0.1.8",
     "node-isbn": "^1.2.0",
     "nodemailer": "^1.10.0",
@@ -35,6 +37,7 @@
     "passport": "^0.2.1",
     "passport-http": "^0.2.2",
     "passport-local": "^1.0.0",
+    "request": "^2.67.0",
     "revalidator": "^0.3.1",
     "serve-favicon": "^2.2.0",
     "waypoints": "^4.0.0"

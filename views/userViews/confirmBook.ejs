@@ -1,0 +1,75 @@
+<% layout( '../layout') -%>
+
+<style>
+	#reservation-success, #reservation-failure{
+		display: none;
+	}
+
+	#sure-message{
+		margin-bottom: 4em;
+	}
+
+	#buttons{
+		margin-bottom: 5em;
+	}
+</style>
+
+<div id="reservation-success" class="alert fade in alert-success">
+	Book Reserved!
+</div>
+
+<div id="reservation-failure" class="alert fade in alert-warning">
+	Book reservation failure, report on contact page.
+</div>
+
+
+<div id="sure-message">
+	<div id="are-you-sure">
+		<h1>Confirm reservation</h1>
+		<h4>Are you sure you want to reserve <%- book.title %> ? </h4>
+	</div>
+	<div id="buttons">
+		<a id="btn-yes" class="btn btn-primary btn-lg">Yes<a>
+		<a id="btn-no" class="btn btn-primary btn-lg">No<a>
+	</div>
+</div>
+
+<div id="barcode" style="display:none"><%- book._meta.barcode %></div>
+
+<script>
+$(function(){
+	var barcode = $('#barcode').text().trim();
+	var json = {'barcode': barcode};
+	$('#btn-yes').click(function(){
+		$.ajax({
+			url: '/users/reserveBookConfirmed',
+			type: 'POST',
+			dataType: 'json',
+			data: json,
+			statusCode: {
+		      	200: function() {
+			        console.log("success");
+					$('#sure-message').hide();
+					$('#reservation-success').show();
+					//redirect after delay
+					$(this).delay(2000).queue(function(){
+						window.location.replace('/library');
+						$(this).dequeue();
+					});
+		       	},
+		       	500:function(){
+		       		console.log("server error");
+					$('#sure-message').hide();
+					$('#reservation-failure').show();
+		       	}
+		    }
+		});
+	});
+
+	$('#btn-no').click(function(){
+		window.location.replace('/library');
+	});
+
+});
+</script>
+

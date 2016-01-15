@@ -6058,7 +6058,7 @@ Galleria.getLoadedThemes = function() {
 };
 
 /**
-    A method for checking what version of Galleria the user has installed and throws a readable error if the user needs to upgrade.
+    A method for checking what version of Galleria the user_views has installed and throws a readable error if the user_views needs to upgrade.
     Useful when building plugins that requires a certain version to function.
 
     @param {number} version The minimum version required
@@ -6756,7 +6756,7 @@ Galleria.Finger = (function() {
                 );
             }
 
-            // if user is not trying to scroll vertically
+            // if user_views is not trying to scroll vertically
             if (!this.isScrolling) {
 
                 // prevent native scrolling

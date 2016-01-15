@@ -1,0 +1,303 @@
+<% layout( '../layout') -%>
+
+<style>
+.login {
+  background: none;
+  padding: 8px 38px 0px;
+}
+
+.login-screen {
+  min-height: 273px;
+  padding: 40px 150px 33px 306px;
+}
+
+.login-icon {
+  top: 40px;
+}
+
+.login-header{
+	color: rgb(52,73,94);
+    margin-top: -5px;
+    margin-left: 15px;
+}
+
+#login-success, 
+#login-failure, 
+#account-creation-success, 
+#account-creation-failure, 
+#incomplete-form,
+#bad-login{
+	display: none;
+}
+</style>
+
+<div id="login-success" class="alert fade in alert-success">
+		Login successful!
+</div>
+
+<div id="account-creation-success" class="alert fade in alert-success">
+		Account created!
+</div>
+
+<div id="login-failure" class="alert fade in alert-warning">
+	Failed to login.
+</div>
+
+<div id="account-creation-failure" class="alert fade in alert-warning">
+	Failed to create an account.
+</div>
+
+<div id="incomplete-form" class="alert fade in alert-warning">
+</div>
+
+<div id="bad-login" class="alert fade in alert-warning">
+	Incorrect username or password
+</div>
+
+
+
+<div id="main-login">
+	<h2>Let's getcha logged in</h2>
+
+<div id="loginbox"  class="login" >
+
+    <div id="user-login-form" style="display:none" class="login-form">
+      <!-- <form id="signin-form" method="post" action="#" enctype="multipart/form-data"> -->
+      	<h4 class="login-header">Log In</h4>
+        <!-- Username/Email (field name must be 'username')-->
+        <div class="form-group">
+          <input type="text" class="form-control login-field" id="login-email" type="text" name="username" value="" placeholder="Username" />
+          <label class="login-field-icon fui-user" for="login-email"></label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input type="password" class="form-control login-field" id="login-password" name="password" placeholder="Password" />
+          <label class="login-field-icon fui-lock" for="login-pass"></label>
+        </div>
+
+        <div>
+          <a class="btn btn-lg btn-link" onClick="$('#user-login-form').hide(); $('#user-signup-form').show()">Sign Up</a>
+          <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
+          <!--
+          <a class="login-link" href="#">Lost your password?</a>
+          -->
+        </div>
+      <!-- </form> -->
+    </div>
+
+    <div id="user-signup-form"  class="login-form">
+      <!-- <form id=method="post" action="#" enctype="multipart/form-data"> -->
+      	<h4 class="login-header">Create an account</h4>
+        <!-- firstName -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-email" name="firstName" placeholder="First name">
+          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
+        </div>
+
+        <!-- lastName -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-email" name="lastName" placeholder="Last name">
+          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address">
+          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
+        </div>
+
+      	<!-- Username -->
+        <div class="form-group">
+          <input type="text" class="form-control signup-field" id="signup-name" type="text" name="username" placeholder="Username"/>
+          <label class="login-field-icon fui-user" for="signup-name"></label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input type="password" class="form-control signup-field" id="signup-password" name="password" value="" placeholder="Password" />
+          <label class="login-field-icon fui-lock" for="signup-pass"></label>
+        </div>
+
+        <!-- Password Confirm-->
+        <div class="form-group">
+          <input type="password" class="form-control signup-field" id="signup-password-confirm" name="password-confirm" value="" placeholder="Password (confirm)" />
+          <label class="login-field-icon fui-lock" for="signup-pass"></label>
+        </div>
+
+        <div>
+          <a class="btn btn-lg btn-link"  onClick="$('#user-login-form').show(); $('#user-signup-form').hide()">Login</a>
+          <input id="btn-sign-up" class="btn btn-lg btn-info" type="submit" value="Sign Up"/></a>
+        </div>
+      <!-- </form> -->
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(function() {
+
+	$('#btn-login').click(function(event){
+		var json = {};
+		error = [];
+
+		//Initialize errors to be hidden for multiple attempts
+		$('#bad-login').hide();
+		$('#login-failure').hide();
+		$('#incomplete-form').hide();
+		$('#incomplete-form').empty();
+
+
+		$('.login-field').each(function(){
+			if($(this).val() == undefined || $(this).val() == ''){
+				error.push('\n' + $(this).attr('name') + ' is a required field');
+			} else {
+				json[$(this).attr('name')] = $(this).val();
+			}
+		});
+
+		if(error.length !== 0){
+			error.forEach(function (item) {
+				$('#incomplete-form').append('<div>' + item + '</div>')
+			});
+			$('#incomplete-form').show();
+			console.log(error);
+		} else {
+			$.ajax({
+				url: '/users/login',
+				type: 'POST',
+				dataType: 'json',
+				data: json,
+				statusCode: {
+			      	200: function() {
+				        console.log("success");
+						$('#main-login').hide();
+						$('#login-success').show();
+						//redirect after delay
+						$(this).delay(2000).queue(function(){
+							window.location.replace('/library');
+							$(this).dequeue();
+						});
+			       	},
+			      	401:function(){ //incorrect username or password
+			        	console.log("incorrect login");
+						//$('#main-login').hide();
+						$('#bad-login').show();
+			       	},
+			       	500:function(){
+			       		console.log("server error");
+						$('#main-login').hide();
+						$('#login-failure').show();
+			       	}
+			    }
+			});
+		}
+	});
+
+
+	$('#btn-sign-up').click(function(event) {
+		event.preventDefault();
+		var json = {};
+		error = [];
+
+		$('#incomplete-form').empty();
+		$('#incomplete-form').hide();
+		$('#account-creation-failure').hide();
+
+		//collect field values
+		$('.signup-field').each(function(){
+			if($(this).val() == undefined || $(this).val() == ''){
+				error.push($(this).attr('name') + ' is a required field');
+			} else {
+				json[$(this).attr('name')] = $(this).val();
+			}
+		});
+
+		var userJSON = {'username': json['username']};
+
+		//Validation
+			$.ajax({  //user exists check
+				url: '/users/doesUserExist',
+				type: 'GET',
+				dataType: 'json',
+				data: userJSON,
+				async: false,
+				statusCode: {
+			    200: function(data) {
+						console.log("Username DNE, continue...");
+
+			    },
+			    500:function(){
+						console.log("error");
+						error.push('Server error finding usernames');
+
+			    },
+			    290:function(){  //madeup status code
+			    	console.log('username exists');
+			    	error.push('Username already exists');
+			    	console.log(error);
+			    }
+			  }
+			});
+
+		if(json['password'] != json['password-confirm']){
+			error.push('Passwords must match.')
+		}
+
+
+		var $email = json['email'];
+		if(typeof $email !== 'undefined'){
+			var emailArr = $email.split('@');
+			var emailPostix = emailArr[1];
+
+			if(!validateEmail($email)){
+				error.push('Please use a valid email address');
+			}
+
+			if(emailPostix != 'uvm.edu'){
+				error.push('You must have/use your UVM email');
+			}
+		}
+
+		if(error.length !== 0){
+			error.forEach(function (item) {
+				$('#incomplete-form').append('<div>' + item + '</div>')
+			});
+			$('#incomplete-form').show();
+			console.log(error);
+		} else {
+			$.ajax({
+				url: '/users/register',
+				type: 'POST',
+				dataType: 'json',
+				data: json,
+				statusCode: {
+			      	200: function() {
+						console.log("success");
+						$('#main-login').hide();
+						$('#account-creation-success').show();
+						//redirect after delay
+						$(this).delay(2000).queue(function(){
+							window.location.replace('/library');
+							$(this).dequeue();
+						});
+			       	},
+			       	500:function(){
+						console.log("error");
+						$('#main-login').hide();
+						$('#account-creation-failure').show();
+			       	}
+			    }
+			});
+
+		}
+	});
+
+function validateEmail($email) {
+  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  return emailReg.test( $email );
+}
+
+});
+</script>
