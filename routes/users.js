@@ -4,16 +4,59 @@ var User = require('../lib/user');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var request = require('request');
+var books = require('../services/books.js');
 
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json({ limit: '10kb' }));
 
+router.get('/goodbye', function(req,res){
+	return res.render('userViews/goodbye');
+});
 
 /*Get the login page*/
 router.get('/',function(req, res){
-    if(!req.session.user){ //not logged in
-    	res.render('userViews/index');
-    } else { // logged in
-    	//TODO: confirm sign out dialog
-    }
+	return res.render('userViews/login');
+});
+
+router.get('/reserveBook',function(req,res){
+	var book = {};
+	if(req.session.user){//logged in
+		books.findOneByBarcode(req.query.barcode, function(err, book){
+			if(err){
+				return next(err);
+			}
+			return res.render('userViews/confirmBook', {book:book});
+		});
+	} else{
+		return res.render('userViews/login');
+	}
+});
+
+//Update books after confirm dialog
+router.post('/reserveBookConfirmed', function(req,res){	
+	if(req.session.user){
+
+	    var criteria = {'_meta.barcode': req.body.barcode,'_meta.available': true};
+	    var set = {$set:{'_meta.available':false,'_meta.reservedBy':req.session.user.username}};
+
+		books.reserveBook(criteria, set, function(err, result){
+			if(err){
+				return res.status(500).send();
+			}
+
+			return res.status(200).send();
+		});
+	} else {
+		return res.status(401).send();
+	}
+});
+
+// Logout screen
+router.get('/logout',function(req, res){
+	//console.log(req.session.user);
+	res.locals.user = req.session.user;
+	res.render('userViews/logout'
+	);
 });
 
 //Checks to see if user is logged in with session
@@ -22,16 +65,14 @@ router.get('/dashboard', function(req, res){
         return res.status(500).send();
     }
 
-    return res.status(200).send("User logged in");
+    return res.status(200).send();
 });
 
-router.get('/logout', function(req, res){
+router.post('/logout', function(req, res){
     req.session.destroy();
-    return res.status(200).send('Logged out');
+    var message = {'success':true}
+    return res.status(200).send(message);
 });
-
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json({ limit: '10kb' }));
 
 //TODO: Handle not found better
 //users/login
@@ -51,7 +92,7 @@ router.post('/login', function(req,res){
         user.comparePassword(password, function(err,isMatch){
         	if(isMatch && isMatch == true){
         		req.session.user = user;
-     			return res.status(200).send();
+     			return res.status(200).send(isMatch);
         	} else {
  				return res.status(401).send();
         	}
@@ -80,6 +121,7 @@ router.post('/register', function(req, res){
             console.log(err);
             return res.status(500).send();
         }
+        	req.session.user = newUser;
         return res.status(200).send(result);
     })
 

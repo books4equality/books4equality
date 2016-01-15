@@ -14,15 +14,56 @@
 .login-icon {
   top: 40px;
 }
+
+.login-header{
+	color: rgb(52,73,94);
+    margin-top: -5px;
+    margin-left: 15px;
+}
+
+#login-success, 
+#login-failure, 
+#account-creation-success, 
+#account-creation-failure, 
+#incomplete-form,
+#bad-login{
+	display: none;
+}
 </style>
 
+<div id="login-success" class="alert fade in alert-success">
+		Login successful!
+</div>
 
-<h1>Cool your jets...</h1>
-<h2>Gotta log in</h2>
+<div id="account-creation-success" class="alert fade in alert-success">
+		Account created!
+</div>
+
+<div id="login-failure" class="alert fade in alert-warning">
+	Failed to login.
+</div>
+
+<div id="account-creation-failure" class="alert fade in alert-warning">
+	Failed to create an account.
+</div>
+
+<div id="incomplete-form" class="alert fade in alert-warning">
+</div>
+
+<div id="bad-login" class="alert fade in alert-warning">
+	Incorrect username or password
+</div>
+
+
+
+<div id="main-login">
+	<h2>Let's getcha logged in</h2>
+
 <div id="loginbox"  class="login" >
 
     <div id="user-login-form" style="display:none" class="login-form">
-      <form method="post" action="/users/login">
+      <!-- <form id="signin-form" method="post" action="#" enctype="multipart/form-data"> -->
+      	<h4 class="login-header">Log In</h4>
         <!-- Username/Email (field name must be 'username')-->
         <div class="form-group">
           <input type="text" class="form-control login-field" id="login-email" type="text" name="username" value="" placeholder="Email Address" />
@@ -36,18 +77,18 @@
         </div>
 
         <div>
-          <a class="btn btn-lg btn-link" href="#" onClick="$('#user-login-form').hide(); $('#user-signup-form').show()">Sign Up</a>
+          <a class="btn btn-lg btn-link" onClick="$('#user-login-form').hide(); $('#user-signup-form').show()">Sign Up</a>
           <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
           <!--
           <a class="login-link" href="#">Lost your password?</a>
           -->
         </div>
-      </form>
+      <!-- </form> -->
     </div>
 
     <div id="user-signup-form"  class="login-form">
-      <form method="post" action="/users/register" enctype="multipart/form-data">
-
+      <!-- <form id=method="post" action="#" enctype="multipart/form-data"> -->
+      	<h4 class="login-header">Create an account</h4>
         <!-- firstName -->
         <div class="form-group">
           <input type="text" class="form-control signup-field" id="signup-email" name="firstName" placeholder="First name">
@@ -85,59 +126,28 @@
         </div>
 
         <div>
-          <a class="btn btn-lg btn-link" href="#" onClick="$('#user-login-form').show(); $('#user-signup-form').hide()">Login</a>
+          <a class="btn btn-lg btn-link"  onClick="$('#user-login-form').show(); $('#user-signup-form').hide()">Login</a>
           <input id="btn-sign-up" class="btn btn-lg btn-info" type="submit" value="Sign Up"/></a>
         </div>
-      </form>
+      <!-- </form> -->
     </div>
   </div>
+</div>
 
 
 <script>
 $(function() {
-	$('#btn-sign-up').click(function(event) {
+
+	$('#btn-login').click(function(event){
 		var json = {};
 		error = [];
 
-		$('.signup-field').each(function(){
-			if($(this).val() == undefined || $(this).val() == ''){
-				error.push('\n' + $(this).attr('name') + ' is a required field');
-			} else {
-				json[$(this).attr('name')] = $(this).val();
-			}
-		});
+		//Initialize errors to be hidden for multiple attempts
+		$('#bad-login').hide();
+		$('#login-failure').hide();
+		$('#incomplete-form').hide();
+		$('#incomplete-form').empty();
 
-		if(json['password'] != json['password-confirm']){
-			error.push('\nPasswords must match.')
-		}
-
-		if(error.length !== 0){
-			//TODO: Show a pretty error message
-			alert(error.join());
-			console.log(error);
-		} else {
-			$.ajax({
-				url: '/users/register',
-				type: 'POST',
-				dataType: 'json',
-				data: json
-			})
-			.done(function() {
-				console.log("success");
-				alert('Account Created');
-
-			})
-			.fail(function() {
-				console.log("error");
-			});
-
-		}
-		return false;
-	});
-
-	$('btn-login').click(function(event){
-		var json = {};
-		error = [];
 
 		$('.login-field').each(function(){
 			if($(this).val() == undefined || $(this).val() == ''){
@@ -148,28 +158,98 @@ $(function() {
 		});
 
 		if(error.length !== 0){
-			//TODO: Show a pretty error message
-			alert(error.join());
+			error.forEach(function (item) {
+				$('#incomplete-form').append('<div>' + item + '</div>')
+			});
+			$('#incomplete-form').show();
 			console.log(error);
 		} else {
 			$.ajax({
 				url: '/users/login',
 				type: 'POST',
 				dataType: 'json',
-				data: json
-			})
-			.done(function() {
-				console.log("success");
-				alert('Signed in');
+				data: json,
+				statusCode: {
+			      	200: function() {
+				        console.log("success");
+						$('#main-login').hide();
+						$('#login-success').show();
+						//redirect after delay
+						$(this).delay(2000).queue(function(){
+							window.location.replace('/library');
+							$(this).dequeue();
+						});
+			       	},
+			      	401:function(){ //incorrect username or password
+			        	console.log("incorrect login");
+						//$('#main-login').hide();
+						$('#bad-login').show();
+			       	},
+			       	500:function(){
+			       		console.log("server error");
+						$('#main-login').hide();
+						$('#login-failure').show();
+			       	}
+			    }
+			});
+		}
+	});
 
-			})
-			.fail(function() {
-				console.log("error");
+
+	$('#btn-sign-up').click(function(event) {
+		event.preventDefault();
+		var json = {};
+		error = [];
+
+		$('#incomplete-form').empty();
+		$('#incomplete-form').hide();
+		$('#account-creation-failure').hide();
+
+		$('.signup-field').each(function(){
+			if($(this).val() == undefined || $(this).val() == ''){
+				error.push($(this).attr('name') + ' is a required field');
+			} else {
+				json[$(this).attr('name')] = $(this).val();
+			}
+		});
+
+		if(json['password'] != json['password-confirm']){
+			error.push('Passwords must match.')
+		}
+
+		if(error.length !== 0){
+			error.forEach(function (item) {
+				$('#incomplete-form').append('<div>' + item + '</div>')
+			});
+			$('#incomplete-form').show();
+			console.log(error);
+		} else {
+			$.ajax({
+				url: '/users/register',
+				type: 'POST',
+				dataType: 'json',
+				data: json,
+				statusCode: {
+			      	200: function() {
+						console.log("success");
+						$('#main-login').hide();
+						$('#account-creation-success').show();
+						//redirect after delay
+						$(this).delay(2000).queue(function(){
+							window.location.replace('/library');
+							$(this).dequeue();
+						});
+			       	},
+			       	500:function(){
+						console.log("error");
+						$('#main-login').hide();
+						$('#account-creation-failure').show();
+			       	}
+			    }
 			});
 
 		}
-
-		return false;
 	});
+
 });
 </script>

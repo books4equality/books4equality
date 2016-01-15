@@ -81,6 +81,28 @@ function findOne(id, callback) {
     });
 }
 
+function findOneByBarcode(barcode, callback){
+    var criteria = {'_meta.barcode': barcode,'_meta.available': true};
+
+    db.get().collection('books').findOne(criteria, function(err, book){
+        if(err){
+            return callback(err);
+        }
+        return callback(null, book);
+    });
+}
+
+function reserveBook(criteria, set, callback){
+    db.get().collection('books').update(criteria, set, function(err, result){
+        if(err){
+            return callback(err);
+        }
+
+        return callback(null, result); //returns a WriteResult
+    });
+}
+
+
 function insert(book, callback) {
     db.get().collection('books').save(book, function(err, result) {
         if (err) {
@@ -150,6 +172,8 @@ module.exports = {
     findOne: findOne,
     insert: insert,
     remove: remove,
+    findOneByBarcode: findOneByBarcode,
     insertClicker: insertClicker,
+    reserveBook: reserveBook,
     stats: memoize(stats, {maxAge: 30000})
 };

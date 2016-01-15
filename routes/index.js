@@ -8,6 +8,8 @@ var currentUser = String;
 
 router.get('/', function(req, res, next) {
     res.render('index');
+
+    //console.log(res.locals.logged_in);
 });
 
 router.get('/contact', function(req, res, next) {
@@ -28,6 +30,10 @@ router.get('/schedule', function(req, res, next) {
 
 router.get('/about_us', function(req, res, next) {
     res.render('about_us');
+});
+
+router.get('/users', function(req, res, next) {
+	res.render('userViews/login');
 });
 
 module.exports = router;

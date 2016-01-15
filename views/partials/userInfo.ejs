@@ -1,3 +1,12 @@
+<style>
+	#user-info{
+		float: right;
+    	margin-right: 1em;
+	}
+</style>
 <div id="user-info">
-	<!-- <span><% JSON.stringify(currentUser) %></span> -->
+	<% if(typeof loggedIn != 'undefined') { %>
+		<span>Logged in as: <%- loggedIn %></span>
+		</br><a href="/users/logout"> Log out </a>
+	<% } %>
 </div>
