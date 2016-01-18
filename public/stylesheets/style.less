@@ -62,11 +62,11 @@ nav a {
 .footer-banner {
     min-height: 0;
 }
-@media (max-width:768px) { 
-    .col-xs-5{
+@media (max-width:790px) { 
+    footer .col-xs-5{
       display: none; /* hides the green section on right on small screens */
     } 
-    .col-xs-7{
+    footer .col-xs-7{
       margin-left: 2em;
     }
 }
@@ -185,8 +185,8 @@ nav a {
       margin-left: 1em;
     }
 
-    .col-xs-5{
-      display: none;
+    .col-xs-5{ /* don't know where this came from */
+      /*display: none; */
     }
 
 }
@@ -278,3 +278,12 @@ height:200px;
 #contact-form #email-label {
 	margin-left: 20px;
 }
+
+/* Style User's page styles ------------------------------------------------------------ */
+#login-page label {
+	display: inline; /* make it span the entire screen */
+}
+#login-page label.larger-label {
+	color: color: #34495E;
+}
+/* End user's page styles ------------------------------------------------------------ */
