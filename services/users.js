@@ -13,6 +13,22 @@ function findOne(criteria, callback) {
 	});
 }
 
+function findBooks(criteria, callback){
+	db.get().collection('books').find(criteria).toArray(function(err, books){
+		if(err){return callback(err);}
+
+		return callback(null, books);
+
+	});
+}
+
+function unreserveBook(criteria, callback){
+	db.get().collection('books').update(criteria, $unset:{ 'reservedBy': ''});
+
+}
+
 module.exports = {
-	findOne: findOne
+	findOne: findOne,
+	findBooks: findBooks,
+	unreserveBook: unreserveBook
 };
