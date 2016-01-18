@@ -89,9 +89,13 @@ router.get('/userHome', function(req,res){
 });
 
 router.post('/unreserveBook', function(req,res){
-    var criteria = {'_meta.barcode': req.query.barcode};
+    var criteria = {'_meta.barcode': String(req.body.barcode)};
 
-    
+    userServices.unreserveBook(criteria, function(err, result){
+        if(err){ return res.status(500).send(); }
+
+        return res.status(200).send();
+    });
 });
 
 // Logout screen

@@ -23,6 +23,7 @@
 
     <script>
         $(function () {
+
             var source = $("#entry-template").html();
             var template = Handlebars.compile(source);
 
@@ -49,6 +50,29 @@
                     alert('something went wrong'); // TODO
                 });
 
-            //$("#search").click();
+            $(document).on('click', '.unreserve-button', function(){
+                var barcode = $(this).attr('data-barcode');
+
+                    $.ajax({
+                        url: '/users/unreserveBook',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'barcode':barcode},
+                        statusCode: {
+                            200: function() {
+                                console.log("successfully removed reservation");
+                                alert('Successfully removed reservation');
+                                location.reload();
+
+                            },
+                            500:function(){
+                                console.log("server error");
+                                alert('Server failure');
+
+                            }
+                        }
+                    });
+            });
+
         });
     </script>

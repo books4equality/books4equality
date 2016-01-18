@@ -23,8 +23,13 @@ function findBooks(criteria, callback){
 }
 
 function unreserveBook(criteria, callback){
-	db.get().collection('books').update(criteria, $unset:{ 'reservedBy': ''});
+	var updateQuery = {$unset:{ '_meta.reservedBy': ''},$set:{'_meta.available':true}};
 
+	db.get().collection('books').update(criteria, updateQuery, function(err, result){
+		if(err){ return callback(err);}
+
+		return callback(null, result);
+	});
 }
 
 module.exports = {

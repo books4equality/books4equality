@@ -11,7 +11,7 @@
         margin-bottom: 5px;
     }
 
-    .reserve-book{
+    .unreserve-button{
         padding: 5px;
         border-radius: 4px;
     }
@@ -46,5 +46,5 @@
 
     </table>
 
-    <a href="users/unreserveBook?barcode={{_meta.barcode}}"><span class="reserve-book btn-primary">Take off reserve</span></a>
+    <a class="unreserve-button btn btn-primary" data-barcode="{{_meta.barcode}}">Take off reserve</a>
 </div>
