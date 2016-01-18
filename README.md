@@ -24,7 +24,14 @@ Prerequisites:
 > npm start
 ```
 
-The web server will be up and running at [localhost:3200](http://localhost:3200).
+(if you get erros, try installing these)
+```
+>npm install less
+>npm install nodemon
+>npm install nodemailer
+```
+
+The web server should be up and running at [localhost:3200](http://localhost:3200). However, since some recent additions required for account creation, it may be more complicated to install the site in Windows. The above instructions may not be complete.
 
 ### Advanced configuration
 
