@@ -69,6 +69,10 @@ router.get('/doesUserExist', function(req, res){
     });
 });
 
+router.get('/getUsersBooks', function(req, res){
+    var criteria = req.body.criteria;
+});
+
 // Logout screen
 router.get('/logout',function(req, res){
 	//console.log(req.session.user);

@@ -1,0 +1,89 @@
+<% layout('./layout') -%>
+
+
+    <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+
+    <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/bower_components/handlebars/handlebars.min.js"></script>
+
+    <h1>Library</h1>
+    <h3>Search for a book in our database:</h3>
+
+    <form class="form-inline">
+
+        <div class="form-group">
+            <input class="form-control input-lg" placeholder="Title..." type="text" id="title">
+        </div>
+
+        <div class="form-group">
+            <input class="form-control input-lg" placeholder="ISBN..." type="text" id="isbn">
+        </div>
+
+        <div class="form-group">
+            <input class="form-control input-lg" placeholder="Category..." type="text" id="categories">
+        </div>
+
+
+
+
+
+        <a id="search" class='btn btn-primary'>Search</a>
+        <a id="advanced_search" class='btn btn-link'>Advanced search</a>
+
+        <br>
+        <div id="advanced_search_options" class="hide">
+            <div class="form-group">
+                <select class="form-control input-lg" id="orderby">
+                    <option value="">Order by</option>
+                    <option value="title">Title</option>
+                    <option value="publishedDate">Published Date</option>
+                </select>
+            </div>
+        </div>
+    </form>
+    <p class="text-muted" id="hint-text">Hint: Press search with no fields filled to see all books...</p>
+
+    <script id="entry-template" type="text/x-handlebars-template">
+            {{#each books}}
+            <% include partials/book-template %>
+            {{/each}}
+
+    </script>
+
+    <div id="results"></div>
+
+    <div id="filler-space"></div>
+
+
+
+    <script>
+        $(function () {
+            var source = $("#entry-template").html();
+            var template = Handlebars.compile(source);
+
+            $.getJSON('/users/getUsersBooks', criteria)
+                .done(function (books) {
+                    if (typeof books !== 'undefined' && books.length > 0) {
+                        var html = template({
+                            books: books
+                        });
+                    }else{
+                        var html =  '<div class="alert fade in alert-warning">'
+                                        +'<a href="#" class="close">'
+                                            +'<i class="front-icon-cross"></i>'
+                                        +'</a>'
+                                        +'No matching books were found.'
+                                    +'</div>';
+                    } 
+                    $("#results").html(html);
+                    $("#hint-text").hide();
+                    $("#filler-space").hide();
+
+                })
+                .fail(function (data, status, xhr) {
+                    alert('something went wrong'); // TODO
+                });
+
+            //$("#search").click();
+        });
+    </script>
