@@ -30,7 +30,8 @@
 	display: none;
 }
 </style>
-< span id="login-page"> <!-- page specfic id for css classes -->
+
+<span id="login-page"> <!-- page specfic id for css classes -->
 
 <div id="login-success" class="alert fade in alert-success">
 		Login successful!
@@ -66,20 +67,16 @@
       <!-- <form id="signin-form" method="post" action="#" enctype="multipart/form-data"> -->
       	<h4 class="login-header">Log In</h4>
         <!-- Username/Email (field name must be 'username')-->
-		<label class="larger-label">Username:
 			<div class="form-group">
 			  <input type="text" class="form-control login-field" id="login-email" type="text" name="username" value="" placeholder="Username" />
 			  <label class="login-field-icon fui-user" for="login-email"></label>
 			</div>
-		</label>
 
         <!-- Password -->
-		<label class="larger-label">Password:
 			<div class="form-group">
 			  <input type="password" class="form-control login-field" id="login-password" name="password" placeholder="Password" />
 			  <label class="login-field-icon fui-lock" for="login-pass"></label>
 			</div>
-		</label>
 
         <div>
           <a class="btn btn-lg btn-link" onClick="$('#user-login-form').hide(); $('#user-signup-form').show()">Sign Up</a>
@@ -95,53 +92,40 @@
       <!-- <form id=method="post" action="#" enctype="multipart/form-data"> -->
       	<h4 class="login-header">Create an account</h4>
         <!-- firstName -->
-        <label class="larger-label">First Name:
 			<div class="form-group">
 			  <input type="text" class="form-control signup-field" id="signup-email" name="firstName" placeholder="First name">
 			  <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
 			</div>
-		</label>
 
         <!-- lastName -->
-		<label class="larger-label">Last Name:
 			<div class="form-group">
-			  <label for="signup-email>Email (must be a UVM address):
 			  <input type="text" class="form-control signup-field" id="signup-email" name="lastName" placeholder="Last name">
 			  <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
 			</div>
-		</label>
 
         <!-- Email -->
-		<label class="larger-label">Email (must be UVM address):
 			<div class="form-group">
-			  <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address">
+			  <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address (UVM email only)">
 			  <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
 			</div>
-		</label>
 
       	<!-- Username -->
-		<label class="larger-label">Username
 			<div class="form-group">
 			  <input type="text" class="form-control signup-field" id="signup-name" type="text" name="username" placeholder="Username"/>
 			  <label class="login-field-icon fui-user" for="signup-name"></label>
 			</div>
-		</label>
 
         <!-- Password -->
-		<label class="larger-label">Password:
 			<div class="form-group">
 			  <input type="password" class="form-control signup-field" id="signup-password" name="password" value="" placeholder="Password" />
 			  <label class="login-field-icon fui-lock" for="signup-pass"></label>
 			</div>
-		</label>
 
         <!-- Password Confirm-->
-		<label class="larger-label">Password (confirm):
 			<div class="form-group">
 			  <input type="password" class="form-control signup-field" id="signup-password-confirm" name="password-confirm" value="" placeholder="Password (confirm)" />
 			  <label class="login-field-icon fui-lock" for="signup-pass"></label>
 			</div>
-		</label>
 
         <div>
           <a class="btn btn-lg btn-link"  onClick="$('#user-login-form').show(); $('#user-signup-form').hide()">Login</a>
