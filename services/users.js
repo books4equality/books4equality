@@ -13,6 +13,27 @@ function findOne(criteria, callback) {
 	});
 }
 
+function findBooks(criteria, callback){
+	db.get().collection('books').find(criteria).toArray(function(err, books){
+		if(err){return callback(err);}
+
+		return callback(null, books);
+
+	});
+}
+
+function unreserveBook(criteria, callback){
+	var updateQuery = {$unset:{ '_meta.reservedBy': ''},$set:{'_meta.available':true}};
+
+	db.get().collection('books').update(criteria, updateQuery, function(err, result){
+		if(err){ return callback(err);}
+
+		return callback(null, result);
+	});
+}
+
 module.exports = {
-	findOne: findOne
+	findOne: findOne,
+	findBooks: findBooks,
+	unreserveBook: unreserveBook
 };

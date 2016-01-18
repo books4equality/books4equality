@@ -63,9 +63,38 @@ router.get('/doesUserExist', function(req, res){
 
     userServices.findOne(criteria, function(err, result){
         if(err){ return res.status(500).send(); }
-        if(result == null){ return res.status(200).send(); }
+        if(result == null){ return res.status(200).send(); } //No error, but user DNE
         
         return res.status(290).send();  //user exists status
+    });
+});
+
+router.get('/getUsersBooks', function(req, res){
+    var criteria = {'_meta.reservedBy.username': req.session.user.username};
+
+    userServices.findBooks(criteria, function(err, books){
+        if(err){ return res.status(500).send();}
+        if(books == null || books == {}){ return res.status(200).send(); }
+        return res.status(290).send(books);
+    });
+
+});
+
+router.get('/userHome', function(req,res){
+    if(!req.session.user){
+        return res.status(401).send();
+    }
+
+    return res.render('userViews/userHome');
+});
+
+router.post('/unreserveBook', function(req,res){
+    var criteria = {'_meta.barcode': String(req.body.barcode)};
+
+    userServices.unreserveBook(criteria, function(err, result){
+        if(err){ return res.status(500).send(); }
+
+        return res.status(200).send();
     });
 });
 

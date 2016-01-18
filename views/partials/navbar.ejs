@@ -15,8 +15,14 @@
         <!-- <li><a href="/organizations">Organizations</a></li> -->
         <li><a href="/contact">Contact</a></li>
         <li><a href="/about_us">About Us</a></li>
-        <li><a href="/users">Sign Up / Log In</a></li>
-        <li><a href="/library" class="btn btn-lg btn-primary">Library</a></li>
+        <!-- If logged in, show userHome link -->
+        <% if(typeof loggedIn != 'undefined') { %>
+          <li><a href="/users/userHome"> User Page </a></li>
+        <% } else { %>
+          <li><a href="/users">Sign Up</a></li>
+        <% } %>
+
+        <li><a href="/library">Library</a></li>
       </ul>
     </div>
   </nav>
