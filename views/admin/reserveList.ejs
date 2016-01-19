@@ -41,7 +41,7 @@
         <a id="search" class='btn btn-primary'>Search</a>
 
     </form>
-    <p class="text-muted" id="hint-text">Hint: Press search with no fields filled to see all books...</p>
+    <p class="text-muted" id="hint-text">Press search with no fields filled to see all books...</p>
 
     <script id="entry-template" type="text/x-handlebars-template">
             {{#each books}}
@@ -115,6 +115,30 @@
                 },
                 minLength: 3,
                 delay: 300
+            });
+
+            $(document).on('click', '.unreserve-button', function(){
+                var barcode = $(this).attr('data-barcode');
+
+                    $.ajax({
+                        url: '/users/unreserveBook',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'barcode':barcode},
+                        statusCode: {
+                            200: function() {
+                                console.log("successfully removed reservation");
+                                alert('Successfully removed reservation');
+                                location.reload();
+
+                            },
+                            500:function(){
+                                console.log("server error");
+                                alert('Server failure');
+
+                            }
+                        }
+                    });
             });
 
         });
