@@ -22,7 +22,15 @@ function findBooks(criteria, callback){
 	});
 }
 
-function unreserveBook(criteria, callback){
+function findOneBook(criteria, callback){
+	db.get().collection('books').findOne(criteria, function(err, book){
+		if(err){ return callback(err); }
+
+		return callback(null, book);
+	});
+}
+
+function unreserveBook(criteria, user, callback){
 	var updateQuery = {$unset:{ '_meta.reservedBy': ''},$set:{'_meta.available':true}};
 
 	db.get().collection('books').update(criteria, updateQuery, function(err, result){
@@ -35,5 +43,6 @@ function unreserveBook(criteria, callback){
 module.exports = {
 	findOne: findOne,
 	findBooks: findBooks,
+	findOneBook: findOneBook,
 	unreserveBook: unreserveBook
 };

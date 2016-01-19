@@ -92,6 +92,39 @@ function findOneByBarcode(barcode, callback){
     });
 }
 
+function findReservedBooks(options, callback){
+
+    var criteria = {
+            '_meta.available':false
+    };
+
+    if (options.title) {
+        criteria.title = { $regex: options.title, $options: 'i' };
+    }
+
+    if (options.username) {
+        criteria["_meta.reservedBy.username"] = options.username;
+    }
+
+    if(options.email){
+        criteria["_meta.reservedBy.email"] = options.email;
+    }
+
+    if(options.isbn){
+        criteria["_meta.isbn"] = options.isbn;
+    }
+
+    if(options.barcode){
+        criteria["_meta.barcode"] = options.barcode;
+    }
+
+    db.get().collection('books').find(criteria).toArray(function(err, books){
+        if(err){ return callback(err); }
+
+        return callback(null, books);
+    });
+}
+
 function updateBook(criteria, set, callback){
     db.get().collection('books').update(criteria, set, function(err, result){
         if(err){
@@ -174,7 +207,7 @@ module.exports = {
     remove: remove,
     findOneByBarcode: findOneByBarcode,
     insertClicker: insertClicker,
-    //reserveBook: reserveBook,
+    findReservedBooks: findReservedBooks,
     updateBook: updateBook,
     stats: memoize(stats, {maxAge: 30000})
 };

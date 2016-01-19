@@ -36,4 +36,5 @@ router.get('/users', function(req, res, next) {
 	res.render('userViews/login');
 });
 
+
 module.exports = router;

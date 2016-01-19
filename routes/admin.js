@@ -37,6 +37,29 @@ router.get('/admin', basicAuth, function(req, res) {
     return res.render('admin/index');
 });
 
+router.get('/admin/reserveList', function(req,res){//require admin account
+    var notAuthorizedMessage = 'Tsk tsk... Unauthorized. Please sign into an administrative account.';
+
+    if(typeof req.session.user == 'undefined'){ 
+        return res.status(401).send(notAuthorizedMessage);
+    }
+    if(typeof req.session.user.admin == 'undefined' || req.session.user.admin == false){
+        return res.status(401).send(notAuthorizedMessage);
+    }
+
+    return res.render('admin/reserveList'); 
+});
+
+router.get('/admin/reservedBooks', function(req,res){
+    var options = req.query;
+
+    books.findReservedBooks(options, function(err, books){
+        if(err){ return res.status(500).send(); }
+
+        return res.status(200).send(books);
+    });
+});
+
 router.get('/search/:isbn', basicAuth, function(req, res, next) {
     isbn.resolve(req.params.isbn, function(err, book) {
         if (err) {
