@@ -1,0 +1,61 @@
+<style>
+    .entry {
+        background-color: #eee;
+        border-radius: 8px;
+        margin: .5em;
+        padding: .5em;
+    }
+    
+    .entry img {
+        width: 75%;
+        margin-bottom: 5px;
+    }
+
+    .unreserve-button{
+        padding: 5px;
+        border-radius: 4px;
+    }
+    .user-info{
+        margin-left: 1em;
+        background: white;
+        padding: 5px;
+        border-radius: 4px;
+    }
+</style>
+
+<!-- XXX use div & css layout-->
+<div class="entry">
+    <table>
+        <tr>
+            <td width="150">
+                {{#if imageLinks}} {{#if imageLinks.smallThumbnail}}
+                <img src="{{imageLinks.smallThumbnail}}" /> {{else}}
+                <img src="http://dummyimage.com/128x168/eeeeee/000000.png&text=No+preview" /> {{/if}} {{else}}
+                <img src="http://dummyimage.com/128x168/eeeeee/000000.png&text=No+preview" /> {{/if}} &nbsp;&nbsp;
+            </td>
+            <td>
+                <span><strong>{{title}}</strong>, {{publisher}} ({{publishedDate}})</span>
+                <br> {{#each authors}}
+                <em>{{this}}</em> · {{/each}}
+                <br> {{#if _meta.isbn}}
+                <span class="text-muted">ISBN:  {{_meta.isbn}}</span> {{/if}}
+                {{#if _meta.ddc}}
+                · <span class="text-muted">DDC:  {{_meta.ddc}}</span> {{/if}}
+                <br>
+                {{#if _meta.barcode}}
+                · <span class="text-muted">Barcode:  {{_meta.barcode}}</span> {{/if}}
+                <br>
+                <span>Tags: </span> {{#each categories}}
+                <span class="label label-primary">{{this}}</span> {{/each}}
+                <span class="label label-primary">lang:{{language}}</span>
+            </td>
+                            
+
+        </tr>
+
+    </table>
+
+    <a class="unreserve-button btn btn-primary" data-barcode="{{_meta.barcode}}">Take off reserve (Use Caution)</a>
+    <span class="user-info">Username: {{_meta.reservedBy.username}}</span>
+    <span class="user-info">Email: {{_meta.reservedBy.email}}</span>
+</div>

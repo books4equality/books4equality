@@ -89,12 +89,21 @@ router.get('/userHome', function(req,res){
 });
 
 router.post('/unreserveBook', function(req,res){
-    var criteria = {'_meta.barcode': String(req.body.barcode)};
+    var criteria = {'_meta.barcode': String(req.body.barcode)}; 
+    var book = {};
+    
+    userServices.findOneBook(criteria, function(err, book){
+        if(err){return res.status(500).send(); }
 
-    userServices.unreserveBook(criteria, function(err, result){
-        if(err){ return res.status(500).send(); }
+        if(req.session.user.username != book._meta.reservedBy.username && req.session.user.admin == false){
+            return res.status(401).send();
+        }
 
-        return res.status(200).send();
+        userServices.unreserveBook(criteria, req.session.user, function(err, result){
+            if(err){ return res.status(500).send(); }
+
+            return res.status(200).send();
+        });
     });
 });
 

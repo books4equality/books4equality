@@ -44,6 +44,9 @@ function initializeApplication() {
         
         if(req.session.user){
             res.locals.loggedIn = req.session.user.username;
+            if(typeof req.session.user.admin != 'undefined'){
+                res.locals.admin = req.session.user.admin;
+            }
         }
 
         books.stats(function(err, stats) {
