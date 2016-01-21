@@ -36,9 +36,21 @@
             <input type="text" class="form-control input-lg" placeholder="Barcode..." id="barcode">
         </div>
 
+        <div class="form-group">
+            <select class="form-control input-lg" id="orderby">
+                <option value="">Order by</option>
+                <option value="_meta.ddc">DDC</option>
+                <option value="title">Title</option>
+            </select>
+        </div>
+
+
 
         </br>
         <a id="search" class='btn btn-primary'>Search</a>
+
+        <!-- <br> -->
+
 
     </form>
     <p class="text-muted" id="hint-text">Press search with no fields filled to see all books...</p>
@@ -63,7 +75,7 @@
 
             $("#search").click(function () {
                 var criteria = {};
-        ["title", "username", "email", "isbn", "barcode"].forEach(function (field) {
+        ["title", "username", "email", "isbn", "barcode","orderby"].forEach(function (field) {
                     if ($("#" + field).val()) {
                         criteria[field] = $("#" + field).val()
                     }
