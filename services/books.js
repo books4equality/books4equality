@@ -39,6 +39,7 @@ function find(options, callback) {
         criteria.$query["_meta.barcode"] = options.barcode;
     }
 
+
     if (options.orderby) {
         criteria.$orderby = {};
         criteria.$orderby[options.orderby] = parseInt(options.dir) || 1;
@@ -55,6 +56,7 @@ function find(options, callback) {
     logger.info('search criteria %j', criteria);
     logger.info('search hints %j', hints);
 
+    console.log(criteria);
     db.get().collection('books').find(criteria, hints).toArray(function(err, books) {
         if (err) {
             return callback(err);
@@ -94,29 +96,41 @@ function findOneByBarcode(barcode, callback){
 
 function findReservedBooks(options, callback){
 
-    var criteria = {
-            '_meta.available':false
-    };
+    var criteria = {};
+    criteria.$query = {};
+
+    criteria.$query['_meta.available'] = false;
 
     if (options.title) {
-        criteria.title = { $regex: options.title, $options: 'i' };
+        criteria.$query.title = { $regex: options.title, $options: 'i' };
     }
 
     if (options.username) {
-        criteria["_meta.reservedBy.username"] = options.username;
+        criteria.$query["_meta.reservedBy.username"] = options.username;
     }
 
     if(options.email){
-        criteria["_meta.reservedBy.email"] = options.email;
+        criteria.$query["_meta.reservedBy.email"] = options.email;
     }
 
     if(options.isbn){
-        criteria["_meta.isbn"] = options.isbn;
+        criteria.$query["_meta.isbn"] = options.isbn;
     }
 
     if(options.barcode){
-        criteria["_meta.barcode"] = options.barcode;
+        criteria.$query["_meta.barcode"] = options.barcode;
     }
+
+    if (options.orderby) {
+        //var order = options.orderby;
+        criteria.$orderby = {};
+        criteria.$orderby[options.orderby] = parseInt(options.dir) || 1;
+        
+        //$orderby[options.orderby] = 
+
+    } 
+
+    console.log(criteria);
 
     db.get().collection('books').find(criteria).toArray(function(err, books){
         if(err){ return callback(err); }
