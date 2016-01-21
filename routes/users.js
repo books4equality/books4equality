@@ -40,7 +40,8 @@ router.post('/reserveBookConfirmed', function(req,res){
 
         var userInfo = {
             username: req.session.user.username,
-            email: req.session.user.email
+            email: req.session.user.email,
+            reservedDate: new Date()
         };
 
 	    var criteria = {'_meta.barcode': req.body.barcode,'_meta.available': true};

@@ -16,10 +16,15 @@
         border-radius: 4px;
     }
     .user-info{
+        margin-top: 1em;
         margin-left: 1em;
         background: white;
         padding: 5px;
         border-radius: 4px;
+    }
+
+    .lower-divs{
+        margin-top: 1em;
     }
 </style>
 
@@ -54,8 +59,12 @@
         </tr>
 
     </table>
-
-    <a class="unreserve-button btn btn-primary" data-barcode="{{_meta.barcode}}">Take off reserve (Use Caution)</a>
-    <span class="user-info">Username: {{_meta.reservedBy.username}}</span>
-    <span class="user-info">Email: {{_meta.reservedBy.email}}</span>
+    
+    <div class="lower-divs">
+        <a class="unreserve-button btn btn-primary" data-barcode="{{_meta.barcode}}">Take off reserve (Use Caution)</a>
+        <span class="user-info">Username: {{_meta.reservedBy.username}}</span>
+        <span class="user-info">Email: {{_meta.reservedBy.email}}</span>
+    </div>
+    <div class="lower-divs"><span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></div>
 </div>
+
