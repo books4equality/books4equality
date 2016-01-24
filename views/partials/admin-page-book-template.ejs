@@ -11,10 +11,11 @@
         margin-bottom: 5px;
     }
 
-    .unreserve-button{
+    .unreserve-button,.sign-out-button{
         padding: 5px;
         border-radius: 4px;
     }
+
     .user-info{
         margin-top: 1em;
         margin-left: 1em;
@@ -23,8 +24,16 @@
         border-radius: 4px;
     }
 
-    .lower-divs{
+    .lower-book-divs{
         margin-top: 1em;
+    }
+
+    .take-off-reserve-div{
+
+    }
+
+    .book-status{
+        color:red;
     }
 </style>
 
@@ -59,12 +68,40 @@
         </tr>
 
     </table>
-    
-    <div class="lower-divs">
-        <a class="unreserve-button btn btn-primary" data-barcode="{{_meta.barcode}}">Take off reserve (Use Caution)</a>
-        <span class="user-info">Username: {{_meta.reservedBy.username}}</span>
-        <span class="user-info">Email: {{_meta.reservedBy.email}}</span>
-    </div>
-    <div class="lower-divs"><span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></div>
-</div>
 
+    <!-- Book is signed out -->
+    {{#if _meta.signOutInfo}}
+        <p class="book-status">Book Status: Signed Out</p>
+  
+    
+    <div class="lower-book-divs">
+        <p>User Information:</p>
+        <span class="user-info">Email: {{_meta.reservedBy.email}}</span></br>
+        <span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></br>
+        <span class="user-info">Signout Date: {{_meta.signOutInfo.signOutDate}}</span></br>
+
+    </div>
+
+    <div class="lower-book-divs">
+        <a class="sign-in-button btn btn-primary" data-barcode="{{_meta.barcode}}">Sign Back In</a>
+    </div>
+
+    {{else}}
+    
+    <p class="book-status">Book Status: Reserved</p>
+
+    <div class="lower-book-divs">
+        <p>User Information:</p>
+        <span class="user-info">Email: {{_meta.reservedBy.email}}</span></br>
+        <span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></br>
+    </div>
+
+    <div class="lower-book-divs">
+        <a class="sign-out-button btn btn-primary" data-barcode="{{_meta.barcode}}">Sign Out Book</a>
+    </div>
+    <div class="lower-book-divs take-off-reserve-div">
+        <a class="unreserve-button btn btn-primary" data-barcode="{{_meta.barcode}}">Take off reserve (Use Caution)</a>
+    </div>
+    
+    {{/if}}
+</div>

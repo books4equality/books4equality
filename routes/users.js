@@ -39,7 +39,7 @@ router.post('/reserveBookConfirmed', function(req,res){
 	if(req.session.user){
 
         var userInfo = {
-            username: req.session.user.username,
+            // username: req.session.user.username,
             email: req.session.user.email,
             reservedDate: new Date()
         };
@@ -60,9 +60,7 @@ router.post('/reserveBookConfirmed', function(req,res){
 });
 
 router.get('/doesUserExist', function(req, res){
-    var criteria = {'username': req.query.username};
-
-    userServices.findOne(criteria, function(err, result){
+    userServices.findOne(req.query.email, function(err, result){
         if(err){ return res.status(500).send(); }
         if(result == null){ return res.status(200).send(); } //No error, but user DNE
         
@@ -71,9 +69,9 @@ router.get('/doesUserExist', function(req, res){
 });
 
 router.get('/getUsersBooks', function(req, res){
-    var criteria = {'_meta.reservedBy.username': req.session.user.username};
+    var criteria = {'_meta.reservedBy.email': req.session.user.email};
 
-    userServices.findBooks(criteria, function(err, books){
+    books.findUsersBooks(criteria, function(err, books){
         if(err){ return res.status(500).send();}
         if(books == null || books == {}){ return res.status(200).send(); }
         return res.status(290).send(books);
@@ -86,22 +84,58 @@ router.get('/userHome', function(req,res){
         return res.status(401).send();
     }
 
-    return res.render('userViews/userHome');
+    return res.render('userViews/userHome',
+        {'page_name':'user_home'}
+    );
 });
 
 router.post('/unreserveBook', function(req,res){
-    var criteria = {'_meta.barcode': String(req.body.barcode)}; 
     var book = {};
     
-    userServices.findOneBook(criteria, function(err, book){
+    books.findReservedBookByBarcode(req.body.barcode, function(err, book){
         if(err){return res.status(500).send(); }
 
-        if(req.session.user.username != book._meta.reservedBy.username && req.session.user.admin == false){
+        books.unreserveBook(req.body.barcode, req.session.user, book, function(err, auth, result){
+            if(err){ return res.status(500).send(); }
+
+            if(!auth){ return res.status(401).send();  }
+
+            return res.status(200).send();
+        });
+    });
+});
+
+router.post('/signOutBook', function(req,res){
+    var book = {};
+
+    books.findReservedBookByBarcode(req.body.barcode, function(err, book){
+        if(err){return res.status(500).send();  }
+
+        if(req.session.user.admin == false){
             return res.status(401).send();
         }
 
-        userServices.unreserveBook(criteria, req.session.user, function(err, result){
+        books.signOutBook(req.body.barcode, req.session.user, function(err, auth, result){
             if(err){ return res.status(500).send(); }
+
+            if(!auth){ return res.status(401).send(); }
+
+            return res.status(200).send();
+        });
+
+    });
+});
+
+router.post('/signInExistingBook', function(req,res){
+    var book = {};
+    
+    books.findReservedBookByBarcode(req.body.barcode, function(err, book){
+        if(err){return res.status(500).send(); }
+
+        books.signInExistingBook(req.body.barcode, req.session.user, book, function(err, auth, result){
+            if(err){ return res.status(500).send(); }
+
+            if(!auth){ return res.status(401).send();  }
 
             return res.status(200).send();
         });
@@ -134,10 +168,11 @@ router.post('/logout', function(req, res){
 //TODO: Handle not found better
 //users/login
 router.post('/login', function(req,res){
-    var username = req.body.username;
+    //var username = req.body.username;
+    var email = req.body.email;
     var password = req.body.password;
 
-    User.findOne({username: username}, function(err, user){
+    User.findOne({email: email}, function(err, user){
         if(err){
             console.log(err);
             return res.status(500).send();
@@ -159,14 +194,14 @@ router.post('/login', function(req,res){
 
 //users/register
 router.post('/register', function(req, res){
-    var username = req.body.username;
+    //var username = req.body.username;
     var password = req.body.password;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var email = req.body.email;
 
     var newUser = new User();
-    newUser.username = username;
+    //newUser.username = username;
     newUser.password = password;
     newUser.firstName = firstName;
     newUser.lastName = lastName;
@@ -185,10 +220,11 @@ router.post('/register', function(req, res){
 });
 
 router.delete('/deleteAccount', function(req,res){
-    var username = req.body.username;
+    //var username = req.body.username;
+    var email = req.body.email;
     var password = req.body.password;
 
-    User.findOne({username: username}, function(err, user){
+    User.findOne({email: email}, function(err, user){
         if(err){
             console.log(err);
             return res.status(500).send();
@@ -199,7 +235,7 @@ router.delete('/deleteAccount', function(req,res){
 
         user.comparePassword(password, function(err,isMatch){
         	if(isMatch && isMatch == true){
-        		User.findOne({ username: username }).remove().exec();
+        		User.findOne({ email: email }).remove().exec();
      			return res.status(200).send();
         	} else {
  				return res.status(401).send();

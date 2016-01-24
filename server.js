@@ -41,9 +41,10 @@ function initializeApplication() {
     app.use(function populateLocals(req, res, next) {
         res.locals.user = req.user;
         res.locals.config = config;
+        res.locals.page_name = 'undefined';
         
         if(req.session.user){
-            res.locals.loggedIn = req.session.user.username;
+            res.locals.loggedIn = req.session.user.email;
             if(typeof req.session.user.admin != 'undefined'){
                 res.locals.admin = req.session.user.admin;
             }

@@ -4,7 +4,9 @@ var db = require('./db'),
     logger = require('./logger');
 
 
-function findOne(criteria, callback) {
+function findOne(email, callback) {
+	var criteria = {'email': email};
+	
 	db.get().collection('users').findOne(criteria, function(err, result) {
 	    if (err) {
 	        return callback(err);
@@ -13,6 +15,8 @@ function findOne(criteria, callback) {
 	});
 }
 
+
+/*
 function findBooks(criteria, callback){
 	db.get().collection('books').find(criteria).toArray(function(err, books){
 		if(err){return callback(err);}
@@ -30,8 +34,11 @@ function findOneBook(criteria, callback){
 	});
 }
 
-function unreserveBook(criteria, user, callback){
-	var updateQuery = {$unset:{ '_meta.reservedBy': ''},$set:{'_meta.available':true}};
+function unreserveBook(criteria, callback){
+	var updateQuery = {
+		$unset:{ '_meta.reservedBy': ''},
+		$set:{'_meta.available':true}
+	};
 
 	db.get().collection('books').update(criteria, updateQuery, function(err, result){
 		if(err){ return callback(err);}
@@ -40,9 +47,45 @@ function unreserveBook(criteria, user, callback){
 	});
 }
 
+function signOutBook(criteria, callback){
+	var timeStamp = new Date();
+	var signOutInfo = { 'signOutDate': timeStamp };
+
+	var updateQuery = {
+		$set: {'_meta.signOutInfo': signOutInfo}
+	};
+
+	db.get().collection('books').update(criteria, updateQuery, function(err, result){
+		if(err){ return callback(err); }
+
+		return callback(null, result);
+
+	});
+}
+
+function signInExistingBook(criteria, callback){
+		var updateQuery = {
+		$unset:{ 
+			'_meta.reservedBy': '',
+			'_meta.signOutInfo': ''					
+		},
+		$set:{'_meta.available':true}
+	};
+
+	db.get().collection('books').update(criteria, updateQuery, function(err, result){
+		if(err){ return callback(err); }
+
+		return callback(null, result);
+	});
+}
+
+*/
+
 module.exports = {
 	findOne: findOne,
-	findBooks: findBooks,
-	findOneBook: findOneBook,
-	unreserveBook: unreserveBook
+	//signOutBook: signOutBook,
+	//signInExistingBook: signInExistingBook,
+	//findBooks: findBooks,
+	//findOneBook: findOneBook,
+	//unreserveBook: unreserveBook
 };

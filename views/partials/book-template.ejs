@@ -15,6 +15,10 @@
         padding: 5px;
         border-radius: 4px;
     }
+
+    .book-status{
+        color: red;
+    }
 </style>
 
 <!-- XXX use div & css layout-->
@@ -46,6 +50,15 @@
 
     </table>
 
-    <a href="users/reserveBook?barcode={{_meta.barcode}}" class="reserve-book btn btn-primary">Request</a>
+    {{#if _meta.reservedBy}}    
+        {{#if _meta.signOutInfo}}
+            <p class="book-status">Book Status: Signed Out</p>
+        {{else}}
+            <p class="book-status">Book Status: Reserved</p>
+        {{/if}}
+    {{else}}
+        <a href="users/reserveBook?barcode={{_meta.barcode}}" class="reserve-book btn btn-primary">Request Book</a>
+    {{/if}}
+
 </div>
 
