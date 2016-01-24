@@ -1,3 +1,12 @@
+<style>
+  .active_page{
+    background: cadetblue;
+    -moz-box-shadow: inset 0 0 10px #000000;
+    -webkit-box-shadow: inset 0 0 10px #000000;
+    box-shadow: inset 0 0 10px #000000;
+  }
+</style>
+
 <div>
   <nav class="navbar navbar-inverse navbar-embossed" id="nav-container">
 	
@@ -11,19 +20,25 @@
 
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/mission">Mission</a></li>
-        <!-- <li><a href="/organizations">Organizations</a></li> -->
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/about_us">About Us</a></li>
-        <li><a href="/organizations">Organizations</a></li>
+        <li <% if (page_name === 'mission') { %> class="active_page" <% } %> ><a href="/mission">Mission</a></li>
+
+        <li <% if (page_name === 'contact') { %> class="active_page" <% } %> ><a href="/contact">Contact</a></li>
+
+        <li <% if (page_name === 'about_us') { %> class="active_page" <% } %> ><a href="/about_us">About Us</a></li>
+
+        <li <% if (page_name === 'organizations') { %> class="active_page" <% } %> ><a href="/organizations">Organizations</a></li>
+
         <!-- If logged in, show userHome link -->
         <% if(typeof loggedIn != 'undefined') { %>
-          <li><a href="/users/userHome"> User Page </a></li>
+          <!-- <li><a href="/users/userHome"> User Page </a></li> -->
+          <li <% if (page_name === 'user_home') { %> class="active_page" <% } %> ><a href="/users/userHome">User Page</a></li>
         <% } else { %>
-          <li><a href="/users">Sign Up / Log In</a></li>
+          <!-- <li><a href="/users">Sign Up / Log In</a></li> -->
+          <li <% if (page_name === 'sign_up') { %> class="active_page" <% } %> ><a href="/users">Sign Up / Log In</a></li>
         <% } %>
 
-        <li><a href="/library">Library</a></li>
+        <li <% if (page_name === 'library') { %> class="active_page" <% } %> ><a href="/library">Library</a></li>
+        <!-- <li><a href="/library">Library</a></li> -->
       </ul>
     </div>
   </nav>

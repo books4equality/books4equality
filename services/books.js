@@ -16,7 +16,7 @@ function parseCategories(categories) {
 function find(options, callback) {
     var criteria = {
         $query: {
-            "_meta.available": true
+            //"_meta.available": true
         }
     };
 
@@ -94,6 +94,26 @@ function findOneByBarcode(barcode, callback){
     });
 }
 
+function findReservedBookByBarcode(barcode, callback){
+    var criteria = {'_meta.barcode': String(barcode)};
+
+    db.get().collection('books').findOne(criteria, function(err, result) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, result);
+    });
+}
+
+function findUsersBooks(criteria, callback){
+    db.get().collection('books').find(criteria).toArray(function(err, books){
+        if(err){return callback(err);}
+
+        return callback(null, books);
+
+    });
+}
+
 function findReservedBooks(options, callback){
 
     var criteria = {};
@@ -103,10 +123,6 @@ function findReservedBooks(options, callback){
 
     if (options.title) {
         criteria.$query.title = { $regex: options.title, $options: 'i' };
-    }
-
-    if (options.username) {
-        criteria.$query["_meta.reservedBy.username"] = options.username;
     }
 
     if(options.email){
@@ -130,12 +146,83 @@ function findReservedBooks(options, callback){
 
     } 
 
-    console.log(criteria);
+    //console.log(criteria);
 
     db.get().collection('books').find(criteria).toArray(function(err, books){
         if(err){ return callback(err); }
 
         return callback(null, books);
+    });
+}
+
+function unreserveBook(barcode, user, book, callback){
+    var criteria = {
+        '_meta.barcode': barcode
+    };
+
+    var updateQuery = {
+        $unset:{ '_meta.reservedBy': ''},
+        $set:{'_meta.available':true}
+    };
+
+
+    if(user.email != book._meta.reservedBy.email && user.admin == false){
+        return callback(null, false);  //Not Authed
+    }
+
+    db.get().collection('books').update(criteria, updateQuery, function(err, result){
+        if(err){ return callback(err);}
+
+        return callback(null, true, result);
+    });
+}
+
+function signOutBook(barcode, user, callback){
+    var criteria = {
+        '_meta.barcode': barcode
+    };
+
+    var timeStamp = new Date();
+    var signOutInfo = { 'signOutDate': timeStamp };
+
+    var updateQuery = {
+        $set: {'_meta.signOutInfo': signOutInfo}
+    };
+
+    if(user.admin != true){
+        return callback(null, false);
+    }
+
+    db.get().collection('books').update(criteria, updateQuery, function(err, result){
+        if(err){ return callback(err); }
+
+        return callback(null, result);
+
+    });
+}
+
+function signInExistingBook(barcode, user, book, callback){
+    var criteria = {
+        '_meta.barcode': barcode
+    };
+
+    var updateQuery = {
+        $unset:{ 
+            '_meta.reservedBy': '',
+            '_meta.signOutInfo': ''
+        },
+        $set:{'_meta.available':true}
+    };
+
+
+    if(user.email != book._meta.reservedBy.email && user.admin == false){
+        return callback(null, false);  //Not Authed
+    }
+
+    db.get().collection('books').update(criteria, updateQuery, function(err, result){
+        if(err){ return callback(err);}
+
+        return callback(null, true, result);
     });
 }
 
@@ -215,6 +302,15 @@ function stats(callback) {
 
 
 module.exports = {
+    //Moved from users
+    signOutBook: signOutBook,
+    signInExistingBook: signInExistingBook,
+    findUsersBooks: findUsersBooks,
+    //findBooks: findBooks,
+    //findOneBook: findOneBook,
+    unreserveBook: unreserveBook,
+    findReservedBookByBarcode: findReservedBookByBarcode,
+
     find: find,
     findOne: findOne,
     insert: insert,

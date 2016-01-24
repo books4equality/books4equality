@@ -14,12 +14,19 @@
 .login-icon {
   top: 40px;
 }
+
+.form-p-label{
+  color: #34495e
+}
 </style>
 
+
+  <h1>Organization Login Page</h1>
+
 <div id="loginbox"  class="login" >
-    
 
     <div id="login-form" style="display:none" class="login-form">
+
       <form method="post" action="/organizations/login">
         <!-- Email (field name must be 'username')-->
         <div class="form-group">
@@ -44,6 +51,7 @@
     </div>
 
     <div id="signup-form"  class="login-form">
+
       <form method="post" action="/organizations/signup" enctype="multipart/form-data">
         <!-- Email -->
         <div class="form-group">
@@ -65,14 +73,22 @@
 
         <!-- Box Location -->
         <div class="form-group">
-          <input type="text" class="form-control signup-field" id="signup-location" name="location" placeholder="Donation Location">
+          <input type="text" class="form-control signup-field" id="signup-location" name="location" placeholder="Address of your orgs. book dropoff location (As you want it to appear)">
           <label class="login-field-icon fui-home" for="signup-location"></label>
         </div>
 
         <!-- Logo  -->
         <div class="form-group">
+          <p id="form-p-label">Upload your organizations logo (Use a square photo): </p>
           <input type="file" class="form-control signup-field" id="signup-logo" name="logo" placeholder="Organization logo">
           <label class="login-field-icon fui-upload" for="signup-logo"></label>
+        </div>
+
+        <!-- Organization Target Goal -->
+        <div class="form-group">
+          <p class="form-p-label">What is your organizations target goal?</p>
+          <input type="text" class="form-control signup-field" id="signup-target-goal" name="target-goal" placeholder="Target Goal">
+          <label class="login-field-icon fui-home" for="signup-location"></label>
         </div>
 
         <div>

@@ -154,5 +154,53 @@
                     });
             });
 
+            $(document).on('click', '.sign-out-button', function(){
+                var barcode = $(this).attr('data-barcode');
+
+                    $.ajax({
+                        url: '/users/signOutBook',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'barcode':barcode},
+                        statusCode: {
+                            200: function() {
+                                console.log("successfully signed out book");
+                                alert('Successfully signed out book');
+                                location.reload();
+
+                            },
+                            500:function(){
+                                console.log("server error");
+                                alert('Server failure');
+
+                            }
+                        }
+                    });
+            });
+
+            $(document).on('click', '.sign-in-button', function(){
+                var barcode = $(this).attr('data-barcode');
+
+                    $.ajax({
+                        url: '/users/signInExistingBook',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'barcode':barcode},
+                        statusCode: {
+                            200: function() {
+                                console.log("successfully signed in book");
+                                alert('Successfully signed in book');
+                                location.reload();
+
+                            },
+                            500:function(){
+                                console.log("server error");
+                                alert('Server failure');
+
+                            }
+                        }
+                    });
+            });
+
         });
     </script>

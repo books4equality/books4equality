@@ -6,7 +6,7 @@
 </style>
 <div id="user-info">
 	<% if(typeof loggedIn != 'undefined') { %>
-		<span>Logged in as: <%- loggedIn %></span>
+		<span><%- loggedIn %></span>
 			<% if(typeof admin != 'undefined'){  %>
 			</br><a href="/admin/reserveList">Admin Page</a>
 			<% } %>

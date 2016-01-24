@@ -66,9 +66,9 @@
     <div id="user-login-form" style="display:none" class="login-form">
       <!-- <form id="signin-form" method="post" action="#" enctype="multipart/form-data"> -->
       	<h4 class="login-header">Log In</h4>
-        <!-- Username/Email (field name must be 'username')-->
+        <!-- Email (field name must be 'username')-->
 			<div class="form-group">
-			  <input type="text" class="form-control login-field" id="login-username" type="text" name="username" value="" placeholder="Username" />
+			  <input type="text" class="form-control login-field" id="login-username" type="text" name="email" value="" placeholder="Email Address" />
 			  <label class="login-field-icon fui-user" for="login-email"></label>
 			</div>
 
@@ -109,11 +109,11 @@
 			  <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
 			</div>
 
-      	<!-- Username -->
-			<div class="form-group">
-			  <input type="text" class="form-control signup-field" id="signup-username" type="text" name="username" placeholder="Username"/>
-			  <label class="login-field-icon fui-user" for="signup-name"></label>
-			</div>
+  	<!-- Username -->
+			<!-- <div class="form-group"> -->
+			  <!-- <input type="text" class="form-control signup-field" id="signup-username" type="text" name="username" placeholder="Username"/> -->
+			  <!-- <label class="login-field-icon fui-user" for="signup-name"></label> -->
+			<!-- </div>  -->
 
         <!-- Password -->
 			<div class="form-group">
@@ -140,7 +140,21 @@
 <script>
 $(function() {
 
-	$('#btn-login').click(function(event){
+	//TODO: allow login on enter press (e.which == 13)
+	$('.input').keypress(function (e) {
+	  if (e.which == 13 && !event.shiftKey) {
+	    submitLogin(e);
+	    // alert("key");
+	    return false; 
+	  }
+	});
+
+	$('#btn-login').click(function(e){
+		submitLogin(e);
+		return false;
+	});
+
+	function submitLogin(event){
 		var json = {};
 		error = [];
 
@@ -195,7 +209,9 @@ $(function() {
 			    }
 			});
 		}
-	});
+
+	}
+	//});
 
 
 	$('#btn-sign-up').click(function(event) {
@@ -216,7 +232,7 @@ $(function() {
 			}
 		});
 
-		var userJSON = {'username': json['username']};
+		var userJSON = {'email': json['email']};
 
 		//Validation
 			$.ajax({  //user exists check
@@ -247,17 +263,16 @@ $(function() {
 			error.push('Passwords must match.')
 		}
 
-
 		var $email = json['email'];
 		if(typeof $email !== 'undefined'){
 			var emailArr = $email.split('@');
-			var emailPostix = emailArr[1];
+			var emailPostfix = emailArr[1];
 
 			if(!validateEmail($email)){
 				error.push('Please use a valid email address');
 			}
 
-			if(emailPostix != 'uvm.edu'){
+			if(emailPostfix != 'uvm.edu'){
 				error.push('You must have/use your UVM email');
 			}
 		}

@@ -59,7 +59,9 @@ router.use(multer(fileUploadOptions));
 
 router.get('/organizations',
     function(req, res, next) {
-        res.render('organizations/index');
+        res.render('organizations/index', 
+            { 'page_name' : 'organizations' }
+        );
     }
 );
 
