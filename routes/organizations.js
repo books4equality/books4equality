@@ -71,6 +71,12 @@ router.get('/organizations/login',
     }
 );
 
+router.get('/organizations/randomstuff34lk12123euyv12ib1eb',
+    function(req, res, next) {
+        res.render('organizations/sign_up');
+    }
+);
+
 router.get('/organizations/home',
     login.ensureLoggedIn('/organizations/login'),
     function(req, res, next) {
