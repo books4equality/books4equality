@@ -1,7 +1,7 @@
 <% layout( '../layout') -%>
 
 <style>
-.login {
+.login { 
   background: none;
   padding: 8px 38px 0px;
 }
@@ -21,11 +21,11 @@
 </style>
 
 
-  <h1>Organization Login Page</h1>
+<h1>Organization Login Page</h1>
 
 <div id="loginbox"  class="login" >
 
-    <div id="login-form" style="display:none" class="login-form">
+    <div id="login-form" class="login-form">
 
       <form method="post" action="/organizations/login">
         <!-- Email (field name must be 'username')-->
@@ -41,7 +41,6 @@
         </div>
 
         <div>
-          <a class="btn btn-lg btn-link" href="#" onClick="$('#login-form').hide(); $('#signup-form').show()">Sign Up</a>
           <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
           <!--
           <a class="login-link" href="#">Lost your password?</a>
@@ -49,52 +48,3 @@
         </div>
       </form>
     </div>
-
-    <div id="signup-form"  class="login-form">
-
-      <form method="post" action="/organizations/signup" enctype="multipart/form-data">
-        <!-- Email -->
-        <div class="form-group">
-          <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address">
-          <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
-        </div>
-
-        <!-- Password -->
-        <div class="form-group">
-          <input type="password" class="form-control signup-field" id="signup-password" name="password" value="" placeholder="Password" />
-          <label class="login-field-icon fui-lock" for="signup-pass"></label>
-        </div>
-
-        <!-- Name -->
-        <div class="form-group">
-          <input type="text" class="form-control signup-field" id="signup-name" type="text" name="name" placeholder="Organization Name"/>
-          <label class="login-field-icon fui-user" for="signup-name"></label>
-        </div>
-
-        <!-- Box Location -->
-        <div class="form-group">
-          <input type="text" class="form-control signup-field" id="signup-location" name="location" placeholder="Address of your orgs. book dropoff location (As you want it to appear)">
-          <label class="login-field-icon fui-home" for="signup-location"></label>
-        </div>
-
-        <!-- Logo  -->
-        <div class="form-group">
-          <p id="form-p-label">Upload your organizations logo (Use a square photo): </p>
-          <input type="file" class="form-control signup-field" id="signup-logo" name="logo" placeholder="Organization logo">
-          <label class="login-field-icon fui-upload" for="signup-logo"></label>
-        </div>
-
-        <!-- Organization Target Goal -->
-        <div class="form-group">
-          <p class="form-p-label">What is your organizations target goal?</p>
-          <input type="text" class="form-control signup-field" id="signup-target-goal" name="target-goal" placeholder="Target Goal">
-          <label class="login-field-icon fui-home" for="signup-location"></label>
-        </div>
-
-        <div>
-          <a class="btn btn-lg btn-link" href="#" onClick="$('#login-form').show(); $('#signup-form').hide()">Login</a>
-          <input id="btn-login" class="btn btn-lg btn-info" type="submit" value="Sign Up"/></a><
-        </div>
-      </form>
-    </div>
-  </div>
