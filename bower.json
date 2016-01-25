@@ -8,6 +8,7 @@
     "respond": "~1.4.2",
     "jquery-ui": "~1.11.3",
     "flat-ui": "~2.2.2",
-    "handlebars": "~3.0.0"
+    "handlebars": "~3.0.0",
+    "jquery-confirm": "~2.5.2"
   }
 }
