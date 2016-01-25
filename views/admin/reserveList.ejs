@@ -3,6 +3,9 @@
     .form-control{
         margin-bottom: 1em;
     }
+    .modal-dialog{
+        margin-top: 5em;
+    }
 </style>
 
     <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
@@ -130,77 +133,131 @@
                 delay: 300
             });
 
+
+
             $(document).on('click', '.unreserve-button', function(){
                 var barcode = $(this).attr('data-barcode');
+            
+                $(".confirm").confirm({//Confirm dialog
+                    text: "Are you sure you want to take that book off reserve?",
+                    title: "Confirmation required",
+                    confirm: function(button) {
 
-                    $.ajax({
-                        url: '/users/unreserveBook',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {'barcode':barcode},
-                        statusCode: {
-                            200: function() {
-                                console.log("successfully removed reservation");
-                                alert('Successfully removed reservation');
-                                location.reload();
+                        $.ajax({
+                            url: '/users/unreserveBook',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {'barcode':barcode},
+                            statusCode: {
+                                200: function() {
+                                    console.log("successfully removed reservation");
+                                    location.reload();
 
-                            },
-                            500:function(){
-                                console.log("server error");
-                                alert('Server failure');
+                                },
+                                500:function(){
+                                    console.log("server error");
+                                    alert('Server failure');
 
+                                }
                             }
-                        }
-                    });
+                        });
+                        
+                    },
+                    cancel: function(button) {
+                        // nothing to do
+                    },
+                    confirmButton: "Yes I am",
+                    cancelButton: "No",
+                    post: true,
+                    confirmButtonClass: "btn-danger",
+                    cancelButtonClass: "btn-default",
+                    dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+                });
             });
+
+
 
             $(document).on('click', '.sign-out-button', function(){
                 var barcode = $(this).attr('data-barcode');
 
-                    $.ajax({
-                        url: '/users/signOutBook',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {'barcode':barcode},
-                        statusCode: {
-                            200: function() {
-                                console.log("successfully signed out book");
-                                alert('Successfully signed out book');
-                                location.reload();
+                $(".confirm").confirm({//Confirm dialog
+                    text: "Are you sure you want to sign that book out?",
+                    title: "Confirmation required",
+                    confirm: function(button) {
 
-                            },
-                            500:function(){
-                                console.log("server error");
-                                alert('Server failure');
+                        $.ajax({
+                            url: '/users/signOutBook',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {'barcode':barcode},
+                            statusCode: {
+                                200: function() {
+                                    console.log("successfully signed out book");
+                                    location.reload();
 
+                                },
+                                500:function(){
+                                    console.log("server error");
+                                    alert('Server failure');
+
+                                }
                             }
-                        }
-                    });
+                        });
+                        
+                    },
+                    cancel: function(button) {
+                        // nothing to do
+                    },
+                    confirmButton: "Yes I am",
+                    cancelButton: "No",
+                    post: true,
+                    confirmButtonClass: "btn-danger",
+                    cancelButtonClass: "btn-default",
+                    dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+                });
             });
 
             $(document).on('click', '.sign-in-button', function(){
                 var barcode = $(this).attr('data-barcode');
 
-                    $.ajax({
-                        url: '/users/signInExistingBook',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {'barcode':barcode},
-                        statusCode: {
-                            200: function() {
-                                console.log("successfully signed in book");
-                                alert('Successfully signed in book');
-                                location.reload();
+                $(".confirm").confirm({//Confirm dialog
+                    text: "Are you sure you want to sign that book back in?",
+                    title: "Confirmation required",
+                    confirm: function(button) {
+                        $.ajax({
+                            url: '/users/signInExistingBook',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {'barcode':barcode},
+                            statusCode: {
+                                200: function() {
+                                    console.log("successfully signed in book");
+                                    location.reload();
 
-                            },
-                            500:function(){
-                                console.log("server error");
-                                alert('Server failure');
+                                },
+                                500:function(){
+                                    console.log("server error");
+                                    alert('Server failure');
 
+                                }
                             }
-                        }
-                    });
+                        });
+
+                    },
+                    cancel: function(button) {
+                        // nothing to do
+                    },
+                    confirmButton: "Yes I am",
+                    cancelButton: "No",
+                    post: true,
+                    confirmButtonClass: "btn-danger",
+                    cancelButtonClass: "btn-default",
+                    dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+                });
+
             });
+
+
 
         });
     </script>
