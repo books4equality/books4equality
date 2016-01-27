@@ -108,35 +108,47 @@ router.post('/contact',function(req, res, next){
     });
 
     //Only for if we are using the custom transporter, ie. gmail etc not direct
-    
-    mailOpts = {
-        from: req.body.contact.cName + ' &lt;' + req.body.contact.email + '&gt;',
-        to: 'contact@books4equality.com',
-        subject: 'B4E Contact message',
-        text: 'Name: ' + req.body.contact.cName + '\n' +
-            'Email: ' + req.body.contact.email + '\n' +
-            'Message: ' +req.body.contact.message + '\n'
-    };  
-    
 
-    smtpTrans.sendMail(mailOpts, function(error, info){
-        //Email not sent
-        if(error){
-            res.render('contact', {
-                title: 'Contact',
-                page: 'Contact',
-                type: 'error',
-                description: 'Email not successfully sent.'
-            });
-        }else{
-            res.render('contact',{
-                title: 'contact',
-                page: 'contact',
-                type: 'success',
-                description: 'Email successfully sent'
-            });
-        }
+    var mailList = ['contact@books4equality.com','tobehowe@books4equality.com'];
+
+    var errors = [];
+    
+    mailList.forEach(function(targetEmail){
+        mailOpts = {
+            from: req.body.contact.cName + ' &lt;' + req.body.contact.email + '&gt;',
+            to: targetEmail,
+            subject: 'B4E Contact message',
+            text: 'Name: ' + req.body.contact.cName + '\n' +
+                'Email: ' + req.body.contact.email + '\n' +
+                'Message: ' + req.body.contact.message + '\n'
+        };  
+        
+
+        smtpTrans.sendMail(mailOpts, function(error, info){
+            errors.push(error);
+            console.log(info);
+        });
     });
+
+
+    if(errors.length != 0){
+        console.log(errors);
+        res.render('contact', {
+            title: 'Contact',
+            page: 'Contact',
+            type: 'error',
+            description: 'Email not successfully sent.'
+        });
+    }else{
+        res.render('contact',{
+            title: 'contact',
+            page: 'contact',
+            type: 'success',
+            description: 'Email successfully sent'
+        });
+    }
+
+
 });
 
 module.exports = router;
