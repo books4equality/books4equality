@@ -1,5 +1,6 @@
 var express = require('express'),
     session = require('express-session'),
+    subdomain = require('express-subdomain'),
     MongoStore = require('connect-mongo')(session),
     http = require('http'),
     path = require('path'),
@@ -14,7 +15,9 @@ var express = require('express'),
     users = require('./routes/users'),
     config = require('./config'),
     admin = require('./routes/admin'),
-    organizations = require('./routes/organizations');
+    organizations = require('./routes/organizations'),
+    schoolRoutes = require('./routes/schools')
+    schools = require('./services/schools');
 
 
 function initializeApplication() {
@@ -42,7 +45,7 @@ function initializeApplication() {
         res.locals.user = req.user;
         res.locals.config = config;
         res.locals.page_name = 'undefined';
-        
+
         if(req.session.user){
             res.locals.loggedIn = req.session.user.email;
             if(typeof req.session.user.admin != 'undefined'){
@@ -59,6 +62,25 @@ function initializeApplication() {
         });
     });
 
+    schools.createSubdomains(function(err, schools) {
+      if (err) {
+        return next(err);
+      }
+
+      for (var i = 0; i < schools.length; i++) {
+        var schoolID = schools[i].shortName;
+        var schoolRouter;
+
+        schoolRoutes.createSchool(schoolID, function(err, router) {
+            if (err) {
+                return err;
+            }
+            schoolRouter = router;
+        });
+        app.use(subdomain(schoolID, schoolRouter));
+      }
+    });
+    app.use(subdomain('uvm', schoolRoutes.router));
     app.use('/', routes);
     app.use('/api', api);
     app.use('/', admin);

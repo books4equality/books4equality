@@ -25,6 +25,7 @@
     "email-validator": "^1.0.3",
     "express": "^4.11.1",
     "express-session": "^1.13.0",
+    "express-subdomain": "^1.0.5",
     "less-middleware": "^1.0.4",
     "logops": "^0.2.0",
     "memoizeasync": "^0.8.0",
