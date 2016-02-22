@@ -13,15 +13,6 @@ function findSchools(callback) {
   });
 }
 
-function createSubdomains(callback) {
-  findSchools(function(err, schools) {
-    if (err) {
-        return callback(err);
-    }
-    return callback(null, schools)
-  });
-}
-
 module.exports = {
-  createSubdomains: createSubdomains
+  findSchools: findSchools
 }

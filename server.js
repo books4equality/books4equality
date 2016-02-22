@@ -62,7 +62,7 @@ function initializeApplication() {
         });
     });
 
-    schools.createSubdomains(function(err, schools) {
+    schools.findSchools(function(err, schools) {
       if (err) {
         return next(err);
       }
