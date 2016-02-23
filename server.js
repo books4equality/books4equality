@@ -17,7 +17,8 @@ var express = require('express'),
     admin = require('./routes/admin'),
     organizations = require('./routes/organizations'),
     schoolRoutes = require('./routes/schools')
-    schools = require('./services/schools');
+    schools = require('./services/schools'),
+    async = require('async');
 
 
 function initializeApplication() {
@@ -62,67 +63,81 @@ function initializeApplication() {
         });
     });
 
-    schools.findSchools(function(err, schools) {
-      if (err) {
-        return next(err);
-      }
+    /*
+      In order to have the app.use() calls in server.js, I need to make a call
+      to schools.findSchools and loop through the results. Unfortunately by the
+      time that finishes, the server has already started, but without our
+      subdomains. So I'm using async to run these last two chunks of code in
+      series.
+    */
+    async.series([
+      function(callback) { // create school subdomains
+        schools.findSchools(function(err, schools) {
+          if (err) {
+            return callback(err);
+          }
+          for (var i = 0; i < schools.length; i++) {
+            var schoolID = schools[i].shortName;
+            var pageText = schools[i].pageText;
+            schoolRoutes.createSchool(pageText, function(err, route) {
+              if (err) {
+                next(err);
+              }
 
-      for (var i = 0; i < schools.length; i++) {
-        var schoolID = schools[i].shortName;
-        var schoolRouter;
+              app.use(subdomain(schoolID, route));
+            });
+          }
 
-        schoolRoutes.createSchool(schoolID, function(err, router) {
-            if (err) {
-                return err;
+          return callback(null);
+        });
+      },
+      function(callback) { // do everything else
+        app.use('/', routes);
+        app.use('/api', api);
+        app.use('/', admin);
+        app.use('/', organizations);
+        app.use('/users', users);
+
+        app.use(function notFound(req, res, next) {
+            var err = new Error('Resource not Found');
+            err.status = 404;
+            return callback(err);
+        });
+
+        app.use(function(err, req, res, next) {
+            logger.warn(err);
+
+            res.status(err.status || 500);
+
+            if (req.is('json')) {
+                res.json({'error': err.message});
+            } else {
+                res.render('error', {
+                    message: err.message
+                });
             }
-            schoolRouter = router;
         });
-        app.use(subdomain(schoolID, schoolRouter));
+
+        var server = http.createServer(app);
+        var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3200;
+        var host = process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0";
+
+        server.listen(port, host, function() {
+            logger.info('b4e listening on', server.address());
+        });
+
+        process.on('SIGTERM', function() {
+            logger.info('SIGTERM received, try ordered shutdown');
+            server.close(function() {
+                db.disconnect(function() {
+                    process.exit(0);
+                });
+            });
+        });
+
+        return callback(null);
       }
-    });
-    app.use(subdomain('uvm', schoolRoutes.router));
-    app.use('/', routes);
-    app.use('/api', api);
-    app.use('/', admin);
-    app.use('/', organizations);
-    app.use('/users', users);
-
-    app.use(function notFound(req, res, next) {
-        var err = new Error('Resource not Found');
-        err.status = 404;
-        next(err);
-    });
-
-    app.use(function(err, req, res, next) {
-        logger.warn(err);
-
-        res.status(err.status || 500);
-
-        if (req.is('json')) {
-            res.json({'error': err.message});
-        } else {
-            res.render('error', {
-                message: err.message
-            });
-        }
-    });
-
-    var server = http.createServer(app);
-    var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3200;
-    var host = process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0";
-
-    server.listen(port, host, function() {
-        logger.info('b4e listening on', server.address());
-    });
-
-    process.on('SIGTERM', function() {
-        logger.info('SIGTERM received, try ordered shutdown');
-        server.close(function() {
-            db.disconnect(function() {
-                process.exit(0);
-            });
-        });
-    });
+    ]); // end of async.series
 }
 
 db.connect(function(err) {
