@@ -81,7 +81,7 @@ function initializeApplication() {
             var pageText = schools[i].pageText;
             schoolRoutes.createSchool(pageText, function(err, route) {
               if (err) {
-                next(err);
+                return callback(err);
               }
 
               app.use(subdomain(schoolID, route));
