@@ -15,37 +15,37 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/contact', function(req, res, next) {
-    res.render('contact', 
+    res.render('contact',
     	{ 'page_name' : 'contact' }
     );
 });
 
 router.get('/library', function(req, res, next) {
-    res.render('library', 
+    res.render('library',
     	{ 'page_name' : 'library' }
     );
 });
 
 router.get('/mission', function(req, res, next) {
-    res.render('mission', 
+    res.render('mission',
     	{ 'page_name' : 'mission' }
     );
 });
 
 router.get('/schedule', function(req, res, next) {
-    res.render('schedule', 
+    res.render('schedule',
     	{ 'page_name' : 'schedule' }
     );
 });
 
 router.get('/about_us', function(req, res, next) {
-    res.render('about_us', 
+    res.render('about_us',
     	{ 'page_name' : 'about_us' }
     );
 });
 
 router.get('/users', function(req, res, next) {
-	res.render('userViews/login', 
+	res.render('userViews/login',
     	{ 'page_name' : 'sign_up' }
     );
 });
