@@ -2,7 +2,7 @@ var express = require('express'),
     books = require('../services/books');
 
 var router = express.Router();
-
+var schoolServices = require('../services/schools');
 var currentUser = String;
 
 
@@ -45,9 +45,15 @@ router.get('/about_us', function(req, res, next) {
 });
 
 router.get('/users', function(req, res, next) {
-	res.render('userViews/login',
-    	{ 'page_name' : 'sign_up' }
-    );
+    schoolServices.findSchools(function(err, result){
+        if(err){ return res.status(500).send(); }
+        if(result == null){ res.render('userViews/login', { 'page_name' : 'sign_up' })};
+
+        res.render('userViews/login',
+        	{ 'page_name' : 'sign_up', schools : result }
+        );
+    });
+
 });
 
 

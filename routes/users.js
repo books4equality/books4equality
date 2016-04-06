@@ -35,7 +35,7 @@ router.get('/reserveBook',function(req,res){
 });
 
 //Update books after confirm dialog
-router.post('/reserveBookConfirmed', function(req,res){	
+router.post('/reserveBookConfirmed', function(req,res){
 	if(req.session.user){
 
         var userInfo = {
@@ -63,7 +63,7 @@ router.get('/doesUserExist', function(req, res){
     userServices.findOne(req.query.email, function(err, result){
         if(err){ return res.status(500).send(); }
         if(result == null){ return res.status(200).send(); } //No error, but user DNE
-        
+
         return res.status(290).send();  //user exists status
     });
 });
@@ -91,7 +91,7 @@ router.get('/userHome', function(req,res){
 
 router.post('/unreserveBook', function(req,res){
     var book = {};
-    
+
     books.findReservedBookByBarcode(req.body.barcode, function(err, book){
         if(err){return res.status(500).send(); }
 
@@ -128,7 +128,7 @@ router.post('/signOutBook', function(req,res){
 
 router.post('/signInExistingBook', function(req,res){
     var book = {};
-    
+
     books.findReservedBookByBarcode(req.body.barcode, function(err, book){
         if(err){return res.status(500).send(); }
 
@@ -199,6 +199,7 @@ router.post('/register', function(req, res){
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var email = req.body.email;
+	var school = req.body.school;
 
     var newUser = new User();
     //newUser.username = username;
@@ -206,6 +207,7 @@ router.post('/register', function(req, res){
     newUser.firstName = firstName;
     newUser.lastName = lastName;
     newUser.email = email;
+	newUser.school = school;
 
     //TODO: Have warnings come up if failure or success
     newUser.save(newUser, function(err, result){
@@ -245,4 +247,3 @@ router.delete('/deleteAccount', function(req,res){
 });
 
 module.exports = router;
-

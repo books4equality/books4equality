@@ -21,10 +21,10 @@
     margin-left: 15px;
 }
 
-#login-success, 
-#login-failure, 
-#account-creation-success, 
-#account-creation-failure, 
+#login-success,
+#login-failure,
+#account-creation-success,
+#account-creation-failure,
 #incomplete-form,
 #bad-login{
 	display: none;
@@ -103,9 +103,18 @@
 			  <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
 			</div>
 
+        <!-- School -->
+            <div class="form-group">
+                <select class="form-control signup-field" id="signup-school" name="school">
+                    <% for(var i=0; i<schools.length; i++) {%>
+                        <option value="<%= schools[i].shortName %>"><%= schools[i].longName %></option>
+                    <% } %>
+                </select>
+                <label class="login-field-icon fui-triangle-right-large" for="signup-school"></label>
+            </div>
         <!-- Email -->
 			<div class="form-group">
-			  <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address (UVM email only)">
+			  <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address">
 			  <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
 			</div>
 
@@ -139,13 +148,12 @@
 
 <script>
 $(function() {
-
 	//TODO: allow login on enter press (e.which == 13)
 	$('.input').keypress(function (e) {
 	  if (e.which == 13 && !event.shiftKey) {
 	    submitLogin(e);
 	    // alert("key");
-	    return false; 
+	    return false;
 	  }
 	});
 
@@ -272,9 +280,9 @@ $(function() {
 				error.push('Please use a valid email address');
 			}
 
-			if(emailPostfix != 'uvm.edu'){
-				error.push('You must have/use your UVM email');
-			}
+			// if(emailPostfix != 'uvm.edu'){
+			// 	error.push('You must have/use your UVM email');
+			// }
 		}
 
 		if(error.length !== 0){
