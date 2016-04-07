@@ -19,6 +19,10 @@ function find(options, callback) {
             //"_meta.available": true
         }
     };
+    
+    if (options.school) {
+        criteria.$query["school"] = options.school;
+    }
 
     if (options.title) {
         criteria.$query.title = { $regex: options.title, $options: 'i' };
@@ -64,7 +68,7 @@ function find(options, callback) {
 
         return callback(null, books);
 
-        
+
     });
 }
 
@@ -141,10 +145,10 @@ function findReservedBooks(options, callback){
         //var order = options.orderby;
         criteria.$orderby = {};
         criteria.$orderby[options.orderby] = parseInt(options.dir) || 1;
-        
-        //$orderby[options.orderby] = 
 
-    } 
+        //$orderby[options.orderby] =
+
+    }
 
     //console.log(criteria);
 
@@ -207,7 +211,7 @@ function signInExistingBook(barcode, user, book, callback){
     };
 
     var updateQuery = {
-        $unset:{ 
+        $unset:{
             '_meta.reservedBy': '',
             '_meta.signOutInfo': ''
         },

@@ -5,9 +5,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     organizations = require('../services/organizations'),
     validator = require("email-validator");
+
     //Console = console.Console;
 
-var router = express.Router(); 
+var router = express.Router();
 
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -22,10 +23,11 @@ router.get('/', function(req, res, next) {
 // i.e. /books?title=anatomy&categories=lang:en,anatomy
 router.get('/books', function(req, res, next) {
     var options = req.query;
-
+    options.school = req.session.user.school
+    console.log(options.school);
     books.find(options, function(err, books) {
         if (err) {
-            return next(err); 
+            return next(err);
         }
 
         // TODO remove private information
@@ -93,12 +95,12 @@ router.post('/contact',function(req, res, next){
 
     //Setup mailer
     var mailOpts, smtpTrans;
-   
+
     var EMAIL_USER = process.env.GMAIL_SMTP_USER,
         EMAIL_PASS = process.env.GMAIL_SMTP_PASS;
 
 
-    //Setup nodemailer transport    
+    //Setup nodemailer transport
     smtpTrans = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -112,7 +114,7 @@ router.post('/contact',function(req, res, next){
     var mailList = ['contact@books4equality.com','tobehowe@books4equality.com'];
 
     var errors = [];
-    
+
     mailList.forEach(function(targetEmail){
         mailOpts = {
             from: req.body.contact.cName + ' &lt;' + req.body.contact.email + '&gt;',
@@ -121,8 +123,8 @@ router.post('/contact',function(req, res, next){
             text: 'Name: ' + req.body.contact.cName + '\n' +
                 'Email: ' + req.body.contact.email + '\n' +
                 'Message: ' + req.body.contact.message + '\n'
-        };  
-        
+        };
+
 
         smtpTrans.sendMail(mailOpts, function(error, info){
             errors.push(error);

@@ -6,7 +6,7 @@
     <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="/bower_components/handlebars/handlebars.min.js"></script>
 
-    <h1>Library</h1>    
+    <h1>Library</h1>
     <h3>Search for a book in our database:</h3>
 
     <form class="form-inline">
@@ -63,7 +63,7 @@
 
             $("#search").click(function () {
                 var criteria = {};
-        ["title", "categories", "isbn", "orderby"].forEach(function (field) {
+        ["title", "categories", "isbn", "orderby", "school"].forEach(function (field) {
                     if ($("#" + field).val()) {
                         criteria[field] = $("#" + field).val()
                     }
@@ -82,7 +82,7 @@
                                             +'</a>'
                                             +'No matching books were found.'
                                         +'</div>';
-                        } 
+                        }
                         $("#results").html(html);
                         $("#hint-text").hide();
                         $("#filler-space").hide();
