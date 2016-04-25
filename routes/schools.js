@@ -1,18 +1,29 @@
 'use strict'
 
-var express = require('express');
+var express = require('express'),
+	schools = require('../services/schools'),
+	router = express.Router();
 
-function createSchool(pageText, callback) {
-  var router = express.Router();
-  router.get('/', function(req, res, next) {
-    res.render('school', {
-      text: pageText
-    });
-  });
+router.get('/', function(req, res, next) {
 
-  return callback(null, router);
-}
+	schools.findSchools(function(err, schools){
+		if(err) { 
+			console.log(err);
+			return res.status(500).send(); 
+		}
 
-module.exports = {
-  createSchool: createSchool
-};
+		var schoolList = "";
+
+		schools.forEach(function(school){
+			schoolList += school.pageText;
+		});
+
+		res.render('school', {
+    	text: schoolList
+  	});
+
+	});
+
+});
+
+module.exports = router;

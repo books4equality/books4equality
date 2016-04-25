@@ -1,35 +1,53 @@
 {
-  "name": "nodejs-Custom-Version-Sample",
-  "version": "1.0.1",
-  "description": "OpenShift Node.js Custom Version Sample Application",
-  "keywords": [
-    "OpenShift",
-    "Node.js",
-    "application",
-    "openshift"
-  ],
+  "name": "books4equality",
+  "description": "Books For Equality web site",
+  "version": "1.1.0",
+  "private": true,
   "author": {
-    "name": "ramr",
-    "email": "ramr@example.org",
-    "url":  "http://www.openshift.com/"
+    "name": "Guido García",
+    "email": "guido.garcia.bernardo@gmail.com"
   },
-  "homepage": "http://www.openshift.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ramr/nodejs-custom-version-openshift"
+    "url": "git@github.com:palmerabollo/books4equality.git"
   },
-
-  "engines": {
-    "node": ">= 0.6.0",
-    "npm": ">= 1.0.0"
+  "scripts": {
+    "start": "node server"
   },
-
   "dependencies": {
-    "express": "*"
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.14.1",
+    "connect-ensure-login": "^0.1.1",
+    "connect-mongo": "^0.8.0",
+    "cors": "^2.5.3",
+    "ejs": "^2.2.3",
+    "ejs-locals": "^1.0.2",
+    "email-validator": "^1.0.3",
+    "express": "^4.11.1",
+    "express-session": "^1.13.0",
+    "express-subdomain": "^1.0.5",
+    "jquery-confirm": "^1.5.1",
+    "less-middleware": "^1.0.4",
+    "logops": "^0.2.0",
+    "memoizeasync": "^0.8.0",
+    "mongodb": "^1.4.31",
+    "mongoose": "^4.3.5",
+    "multer": "^0.1.8",
+    "node-gyp": "",
+    "node-isbn": "^1.2.0",
+    "nodemailer": "^1.10.0",
+    "pagination": "^0.4.4",
+    "passport": "^0.2.1",
+    "passport-http": "^0.2.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.67.0",
+    "revalidator": "^0.3.1",
+    "serve-favicon": "^2.2.0",
+    "waypoints": "^4.0.0"
   },
-  "devDependencies": {},
-  "bundleDependencies": [],
-
-  "private": true,
-  "main": "server.js"
+  "keywords": [
+    "books",
+    "equality",
+    "education"
+  ]
 }

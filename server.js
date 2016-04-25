@@ -1,179 +1,116 @@
-#!/bin/env node
-//  OpenShift sample Node application
-var express = require('express');
-var fs      = require('fs');
+var express = require('express'),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
+    http = require('http'),
+    path = require('path'),
+    less = require('less-middleware'),
+    engine = require('ejs-locals'),
+    favicon = require('serve-favicon'),
+    logger = require('./services/logger'),
+    db = require('./services/db'),
+    books = require('./services/books'),
+    routes = require('./routes/index'),
+    contact = require('./routes/contact'),
+    api = require('./routes/api'),
+    schools = require('./routes/schools.js'),
+    users = require('./routes/users'),
+    config = require('./config'),
+    admin = require('./routes/admin'),
+    organizations = require('./routes/organizations');
 
 
-/**
- *  Define the sample application.
- */
-var SampleApp = function() {
+function initializeApplication() {
+    var app = express();
 
-    //  Scope.
-    var self = this;
+    app.disable('x-powered-by');
 
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'ejs');
+    app.engine('ejs', engine);
 
-    /*  ================================================================  */
-    /*  Helper functions.                                                 */
-    /*  ================================================================  */
+    app.use(favicon(__dirname + '/public/favicon.ico'));
+    app.use(less(path.join(__dirname, 'public')));
+    app.use(express.static(path.join(__dirname, 'public')));
 
-    /**
-     *  Set up server IP address and port # using env variables/defaults.
-     */
-    self.setupVariables = function() {
-        //  Set the environment variables we need.
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP ||
-                         process.env.OPENSHIFT_INTERNAL_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT   ||
-                         process.env.OPENSHIFT_INTERNAL_PORT || 8080;
+    //TODO: Make secret env var
+    app.use(session({
+        store: new MongoStore({ db: db.get() }),
+        saveUninitialized: false,
+        resave: false,
+        secret: 'b4e-secret'
+    }));
 
-        if (typeof self.ipaddress === "undefined") {
-            //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-            //  allows us to run/test the app locally.
-            console.warn('No OPENSHIFT_*_IP var, using 127.0.0.1');
-            self.ipaddress = "127.0.0.1";
-        };
-    };
-
-
-    /**
-     *  Populate the cache.
-     */
-    self.populateCache = function() {
-        if (typeof self.zcache === "undefined") {
-            self.zcache = { 'index.html': '' };
-        }
-
-        //  Local cache for static content.
-        self.zcache['index.html'] = fs.readFileSync('./index.html');
-    };
-
-
-    /**
-     *  Retrieve entry (content) from cache.
-     *  @param {string} key  Key identifying content to retrieve from cache.
-     */
-    self.cache_get = function(key) { return self.zcache[key]; };
-
-
-    /**
-     *  terminator === the termination handler
-     *  Terminate server on receipt of the specified signal.
-     *  @param {string} sig  Signal to terminate on.
-     */
-    self.terminator = function(sig){
-        if (typeof sig === "string") {
-           console.log('%s: Received %s - terminating sample app ...',
-                       Date(Date.now()), sig);
-           process.exit(1);
-        }
-        console.log('%s: Node server stopped.', Date(Date.now()) );
-    };
-
-
-    /**
-     *  Setup termination handlers (for exit and a list of signals).
-     */
-    self.setupTerminationHandlers = function(){
-        //  Process on exit and signals.
-        process.on('exit', function() { self.terminator(); });
-
-        // Removed 'SIGPIPE' from the list - bugz 852598.
-        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
-         'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-        ].forEach(function(element, index, array) {
-            process.on(element, function() { self.terminator(element); });
-        });
-    };
-
-
-    /*  ================================================================  */
-    /*  App server functions (main app logic here).                       */
-    /*  ================================================================  */
-
-    /**
-     *  Create the routing table entries + handlers for the application.
-     */
-    self.createRoutes = function() {
-        self.routes = { };
-
-        // Routes for /health, /asciimo, /env and /
-        self.routes['/health'] = function(req, res) {
-            res.send('1');
-        };
-
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
-
-        self.routes['/env'] = function(req, res) {
-            var content = 'Version: ' + process.version + '\n<br/>\n' +
-                          'Env: {<br/>\n<pre>';
-            //  Add env entries.
-            for (var k in process.env) {
-               content += '   ' + k + ': ' + process.env[k] + '\n';
+    app.use(function populateLocals(req, res, next) {
+        res.locals.user = req.user;
+        res.locals.config = config;
+        res.locals.page_name = 'undefined';
+        
+        if(req.session.user){
+            res.locals.loggedIn = req.session.user.email;
+            if(typeof req.session.user.admin != 'undefined'){
+                res.locals.admin = req.session.user.admin;
             }
-            content += '}\n</pre><br/>\n'
-            res.send('<html>\n' +
-                     '  <head><title>Node.js Process Env</title></head>\n' +
-                     '  <body>\n<br/>\n' + content + '</body>\n</html>');
-        };
-
-        self.routes['/'] = function(req, res) {
-            res.set('Content-Type', 'text/html');
-            res.send(self.cache_get('index.html') );
-        };
-    };
-
-
-    /**
-     *  Initialize the server (express) and create the routes and register
-     *  the handlers.
-     */
-    self.initializeServer = function() {
-        self.createRoutes();
-        self.app = express();
-
-        //  Add handlers for the app (from the routes).
-        for (var r in self.routes) {
-            self.app.get(r, self.routes[r]);
         }
-    };
 
-
-    /**
-     *  Initializes the sample application.
-     */
-    self.initialize = function() {
-        self.setupVariables();
-        self.populateCache();
-        self.setupTerminationHandlers();
-
-        // Create the express server and routes.
-        self.initializeServer();
-    };
-
-
-    /**
-     *  Start the server (starts up the sample application).
-     */
-    self.start = function() {
-        //  Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipaddress, function() {
-            console.log('%s: Node server started on %s:%d ...',
-                        Date(Date.now() ), self.ipaddress, self.port);
+        books.stats(function(err, stats) {
+            if (err) {
+                return next(err);
+            }
+            res.locals.stats = stats;
+            return next();
         });
-    };
+    });
 
-};   /*  Sample Application.  */
+    app.use('/', routes);
+    app.use('/api', api);
+    app.use('/', admin);
+    app.use('/', organizations);
+    app.use('/users', users);
+    app.use('/schools', schools);
+    app.use('/contact', contact);
 
+    app.use(function notFound(req, res, next) {
+        var err = new Error('Resource not Found');
+        err.status = 404;
+        next(err);
+    });
 
+    app.use(function(err, req, res, next) {
+        logger.warn(err);
 
-/**
- *  main():  Main code.
- */
-var zapp = new SampleApp();
-zapp.initialize();
-zapp.start();
+        res.status(err.status || 500);
 
+        if (req.is('json')) {
+            res.json({'error': err.message});
+        } else {
+            res.render('error', {
+                message: err.message
+            });
+        }
+    });
+
+    var server = http.createServer(app);
+    var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3200;
+    var host = process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0";
+
+    server.listen(port, host, function() {
+        logger.info('b4e listening on', server.address());
+    });
+
+    process.on('SIGTERM', function() {
+        logger.info('SIGTERM received, try ordered shutdown');
+        server.close(function() {
+            db.disconnect(function() {
+                process.exit(0);
+            });
+        });
+    });
+}
+
+db.connect(function(err) {
+    if (err) {
+        process.exit(1);
+    }
+
+    initializeApplication();
+});

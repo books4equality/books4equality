@@ -33,7 +33,7 @@
 } %>
 
 
-<form id="contact-form" method="post" action="/api/contact">
+<form id="contact-form" method="post" action="contact/sendMail">
 	<label for="cName">Name*<br>
 	<input type="text" id="cName" class="form-control input-lg" name="contact[cName]" onfocus="this.select()" required="required" size="40" value="<% if(typeof name !== 'undefined'){ %><%= name %><% } %>">
 	</label>
