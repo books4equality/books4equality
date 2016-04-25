@@ -1,50 +1,79 @@
-# books4equality
+Running a custom/latest Node[.js] version on Red Hat's OpenShift PaaS
+====================================================================
+This git repository is a sample Node application along with the
+"orchestration" bits to help you run the latest or a custom version
+of Node on Red Hat's OpenShift PaaS.
 
-[Books 4 Equality](http://www.books4equality.com) was created in 2014 by three students of the University of Vermont.
 
-We accept books in fair condition and use them to **reduce the education gap around the globe**.
-Most books that we receive are donated to [Books For Africa](http://www.booksforafrica.org/), and
-a number of others are sold to generate funding for shipping them.
+Selecting a Node version to install/use
+---------------------------------------
 
-## Install your own site
+To select the version of Node.js that you want to run, just edit or add
+a version to the .openshift/markers/NODEJS_VERSION file.
 
-You can deploy your own Books For Equality clone for free. Take a look at [how to get it up and running into the cloud](/docs/DEPLOY.md). If you need some help, let us know.
+    Example: To install Node.js version 4.2.3, you can run:
+       $ echo 4.2.3 >> .openshift/markers/NODEJS_VERSION
 
-## Install (only for developers)
+    Or alternatively, edit the ```.openshift/markers/NODEJS_VERSION``` file
+    in your favorite editor aka vi ;^)
 
-Prerequisites:
-- Tools: **nodejs**, **git** and **bower** (npm install -g bower).
-- A **mongodb** instance running on localhost:27017. A database "b4e" with automatically be created if needed.
 
-```
-> git clone git@github.com:books4equality/books4equality.git
-> cd books4equality
-> bower install
-> npm install
-> npm start
-```
+The action_hooks in this application will use that NODEJS_VERSION marker
+file to download and extract that Node version if it is available on
+nodejs.org and will automatically set the paths up to use the node/npm
+binaries from that install directory.
 
-(if you get erros, try installing these)
-```
->npm install less
->npm install nodemon
->npm install nodemailer
-```
+     See: .openshift/action_hooks/ for more details.
 
-The web server should be up and running at [localhost:3200](http://localhost:3200). However, since some recent additions required for account creation, it may be more complicated to install the site in Windows. The above instructions may not be complete.
+    Note: The last non-blank line in the .openshift/markers/NODEJS_VERSION
+          file.determines the version it will install.
 
-### Advanced configuration
 
-The following environment variables are available:
+Okay, now onto how can you get a custom Node.js version running
+on OpenShift.
 
-* **PORT**: Web server port (default 3200).
-* **MONGO_URL**: Connection string to the mongodb database (default mongodb://localhost:27017/b4e).
-* **ADMIN_PASS**: Administrative password (default random password). The administration zone is
-password protected at [localhost:3200/admin](http://localhost:3200/admin).
 
-## [Public API](/docs/API.md)
+Steps to get a custom Node.js version running on OpenShift
+----------------------------------------------------------
 
-## License
+Create an account at http://openshift.redhat.com/
 
-**AGPL v3.0 LICENSE**
-http://www.gnu.org/licenses/agpl-3.0.html
+Create a namespace, if you haven't already do so
+
+    rhc domain create <yournamespace>
+
+Create a nodejs application (you can name it anything via -a)
+
+    rhc app create -a palinode  -t nodejs-0.10
+
+Add this `github nodejs-custom-version-openshift` repository
+
+    cd palinode
+    git remote add upstream -m master git://github.com/ramr/nodejs-custom-version-openshift.git
+    git pull -s recursive -X theirs upstream master
+
+Optionally, specify the custom version of Node.js you want to run with
+(Default is v4.2.3).
+If you want to more later version of Node (example v4.2.42), you can change
+to that by just writing it to the end of the NODEJS_VERSION file and
+committing that change.
+
+    echo 4.2.42 >> .openshift/markers/NODEJS_VERSION
+    #
+    # Or alternatively, edit the .openshift/markers/NODEJS_VERSION file
+    # in your favorite editor aka vi ;^)
+    #
+    # Note: 4.2.42 doesn't exist (as yet) and is a fictitious version
+    #       mentioned here solely for demonstrative purposes.
+    #
+    git commit . -m 'use Node version 4.2.42'
+
+Then push the repo to OpenShift
+
+    git push
+
+That's it, you can now checkout your application at:
+
+    http://palinode-$yournamespace.rhcloud.com
+    ( See env @ http://palinode-$yournamespace.rhcloud.com/env )
+
