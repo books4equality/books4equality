@@ -14,3 +14,16 @@ source "$OPENSHIFT_REPO_DIR/.openshift/lib/utils"
 #  installed.
 ensure_node_is_installed
 
+
+
+#Install bower and bower install
+if [ ! -d $OPENSHIFT_NODEJS_DIR/node_modules/bower ]
+then
+    cd $OPENSHIFT_NODEJS_DIR
+    npm install bower
+fi
+
+cd $OPENSHIFT_HOMEDIR/app-root/repo
+HOME=$OPENSHIFT_REPO_DIR bower install
+cd $OPENSHIFT_HOMEDIR
+
