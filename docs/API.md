@@ -121,27 +121,3 @@ GET /books/54e882333ea21f357a2f9a64
     "status": 1
 }
 ```
-
-# Private API
-
-There is a private API for administration. Requests to this API must use basic
-authentication (username and password).
-
-## POST /api/books
-
-**Request body:**
-
-```json
-{
-    "isbn": "1780073378153",
-    "barcode": "12345" // books4equality internal barcode
-}
-```
-
-# DELETE /api/books/:id
-
-Removes a book from the database. The `:id` is the internal identifier of the book in the database (not the ISBN).
-
-# GET /search/:isbn
-
-Search a book by `:isbn` in different third-party services, and returns the book information.

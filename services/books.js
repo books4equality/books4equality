@@ -16,9 +16,17 @@ function parseCategories(categories) {
 function find(options, callback) {
     var criteria = {
         $query: {
-            //"_meta.available": true
+            schoolID: null
         }
     };
+
+    /*
+    if(options.schoolID == null){
+        return callback(null, {});
+    } else {
+        criteria.$query["_meta.school" ] = options.schoolID;
+    }
+    */
 
     if (options.title) {
         criteria.$query.title = { $regex: options.title, $options: 'i' };
@@ -302,15 +310,11 @@ function stats(callback) {
 
 
 module.exports = {
-    //Moved from users
     signOutBook: signOutBook,
     signInExistingBook: signInExistingBook,
     findUsersBooks: findUsersBooks,
-    //findBooks: findBooks,
-    //findOneBook: findOneBook,
     unreserveBook: unreserveBook,
     findReservedBookByBarcode: findReservedBookByBarcode,
-
     find: find,
     findOne: findOne,
     insert: insert,
