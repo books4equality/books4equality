@@ -11,11 +11,11 @@ var express = require('express'),
     books = require('./services/books'),
     routes = require('./routes/index'),
     contact = require('./routes/contact'),
-    api = require('./routes/api'),
+    api = require('./routes/api/api'),
     schools = require('./routes/schools.js'),
     users = require('./routes/users'),
     config = require('./config'),
-    admin = require('./routes/admin'),
+    admin = require('./routes/api/admin'),
     organizations = require('./routes/organizations');
 
 
@@ -63,7 +63,7 @@ function initializeApplication() {
 
     app.use('/', routes);
     app.use('/api', api);
-    app.use('/', admin);
+    app.use('/admin', admin);
     app.use('/', organizations);
     app.use('/users', users);
     app.use('/schools', schools);

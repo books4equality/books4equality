@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../lib/user');
+var User = require('../lib/models/user');
 var userServices = require('../services/users.js');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -35,11 +35,11 @@ router.get('/reserveBook',function(req,res){
 });
 
 //Update books after confirm dialog
+//This route actually reserves the book after the user confirms
 router.post('/reserveBookConfirmed', function(req,res){	
 	if(req.session.user){
 
         var userInfo = {
-            // username: req.session.user.username,
             email: req.session.user.email,
             reservedDate: new Date()
         };
