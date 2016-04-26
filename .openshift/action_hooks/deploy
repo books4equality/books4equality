@@ -14,3 +14,9 @@ source "$OPENSHIFT_REPO_DIR/.openshift/lib/utils"
 #  installed.
 ensure_node_is_installed
 
+#Install bower components
+HOME=$HOME/app-root/runtime
+cd ~/repo
+npm install bower
+./node_modules/.bin/bower install
+
