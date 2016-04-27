@@ -71,13 +71,47 @@ router.get('/reservedBooks', function(req,res){
     });
 });
 
-router.get('/search/:isbn', basicAuth, function(req, res, next) {
-    isbn.resolve(req.params.isbn, function(err, book) {
-        if (err) {
-            return next(err);
+router.post('/getBookByISBN', function(req, res, next) {
+
+    //Required parameters
+    var required = ['schoolID', 'isbn','password'];
+    required.forEach(function(param){
+        if(!req.body[param]){
+            return res.status(400).send();
+        }
+    });
+
+    var criteria = {schoolID: req.body.schoolID};
+    var password = req.body.password
+
+    School.findOne(criteria, function(err, school){
+        if(err){                
+            return res.status(500).send();
         }
 
-        return res.json(book);
+        if(!school){
+            console.log('School ' + req.body.schoolID + ' DNE');
+            return res.status(401).send();
+        }
+
+        school.comparePassword(password, function(err, isMatch){
+            if(isMatch && isMatch == true){
+                //Correct password resolve book by isbn
+                isbn.resolve(req.body.isbn, function(err, book) {
+                    if (err) {
+                        return res.status(500).send();
+                    }
+                    if(book.title){
+                        //console.log(JSON.stringify(book.title));
+                        return res.status(200).send(JSON.stringify(book.title)); //Return book title if successful (200)
+                    }
+                    return res.status(489).send();
+                });
+            } else { //Incorrect Password
+                console.log('Incorrect password');
+                return res.status(401).send();
+            }   
+        });
     });
 });
 
