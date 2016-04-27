@@ -2,7 +2,11 @@
 
 var express = require('express'),
     School = require('../lib/models/school'),
+    bodyParser = require('body-parser'),
 	router = express.Router();
+
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json({ limit: '10kb' }));
 
 router.get('/', function(req, res){
     School.find({},'schoolID pageText longName', function(err, schools){
@@ -22,6 +26,13 @@ router.get('/', function(req, res){
 
 //register a new school
 router.post('/register', function(req, res){
+    //Required parameters
+    var required = ['schoolID','password','schoolName'];
+    required.forEach(function(param){
+        if(!req.body[param]){
+            return res.status(400).send();
+        }
+    });
 
     School.findOne({schoolID:req.body.schoolID}, function(err, school){
         if(err){ return res.status(500).send(); }
