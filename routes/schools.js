@@ -65,7 +65,25 @@ router.get('/info/:schoolID', function(req,res){
     });
 });
 
+
+/***
+ Req: 
+    schoolID: String (required)
+    password: String (required)
+res:
+    500 (db error)
+    401 (bad user/pass combo)
+    204 (awww yeaaahhhh)
+*/
 router.post('/login', function(req,res){
+    //Required parameters
+    var required = ['schoolID','password'];
+    required.forEach(function(param){
+        if(!req.body[param]){
+            return res.status(400).send();
+        }
+    });
+
     School.findOne({schoolID: req.body.schoolID}, function(err, school){
         if(err){return res.status(500).send(); }
         if(!school){ return res.status(401).send(); }
