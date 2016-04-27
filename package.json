@@ -33,7 +33,6 @@
     "mongodb": "^1.4.31",
     "mongoose": "^4.3.5",
     "multer": "^0.1.8",
-    "node-gyp": "",
     "node-isbn": "^1.2.0",
     "nodemailer": "^1.10.0",
     "pagination": "^0.4.4",
