@@ -24,6 +24,7 @@ Prerequisites:
 > npm start
 ```
 
+On Windows, make sure you run **cmd as admin** before `npm install` Command Prompt on windows has been known to fail when run in it's default mode
 
 The web server should be up and running at [localhost:3200](http://localhost:3200). However, since some recent additions required for account creation, it may be more complicated to install the site in Windows. The above instructions may not be complete.
 
