@@ -1,5 +1,5 @@
 * {
-    /*text-align: justify;*/
+    text-align: left; 	/* this rule messes with the about_us page if it doesn't exist */
 }
 
 .container-fluid {
@@ -31,6 +31,9 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 }
 .underline {
 	text-decoration: underline;
+}
+.cent{
+	text-align: center;
 }
 
 /*---------------------------- navbar ----------------------------*/
@@ -97,7 +100,7 @@ src: url(fonts/Diavlo_BLACK_II_37.otf);
     background-color: #FFFFFF;
     border: 1px solid black;
     border-radius: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 2em;
 }
 
 /* the galleria slideshow NEEDS A HEIGHT, or else it won't load. Width is auto (or 100% of it's container) */
