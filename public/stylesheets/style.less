@@ -229,24 +229,31 @@ body > div.container-fluid > p:nth-child(3){
   max-width: 80%;
 }
 
-.tile h4 {
-    font-size: .9em;
-    font-style: italic;
-    color: #470A73;
+.tile {
+	/*height for bio tiles at largest screen size */
+	height: 800px;
+	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
+	padding: 0 14px 0 14px;/* override original tile class padding */
+
+	h4 {
+		font-size: .9em;
+		font-style: italic;
+		color: #470A73;
+	}
+	img{
+		margin: 1em auto;
+	}
 }
+
 .tile-image{ /*override original height of 100px from some unknown .less file */
 height:200px;
 }
 
 /*MUST ADD BIO CLASS TO EACH BOOTSTRAP TILE */
 .bio{ /* this is spacing between tiles to override 15-left/15-right from somewhere else */
-	padding:0 5px 0 5px;
+	padding:0 4px;
 }
-.tile {		/*height for bio tiles at largest screen size */
-	height: 800px;
-	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
-	padding: 0 14px 0 14px;/* override original tile class padding */
-}
+
 @media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
 	.tile {
 		height: 750px;
