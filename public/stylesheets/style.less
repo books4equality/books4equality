@@ -23,6 +23,7 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 	margin-top: -30px;
 }
 
+/* less classes to be used with &:extend */
 .italic {
 	font-style: italic;
 }
@@ -34,6 +35,9 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 }
 .cent{
 	text-align: center;
+}
+.thin-border-bottom{
+	border-bottom: 1px solid black;
 }
 
 /*---------------------------- navbar ----------------------------*/
@@ -158,6 +162,12 @@ src: url(fonts/Diavlo_BLACK_II_37.otf);
   margin: 0 0 0 8px;
   padding: 0;
   margin-top: 11em;
+}
+
+.section-links{	/*1st liste item in sidebar nav */
+	//.cent;
+	&:extend(.cent, .bold, .thin-border-bottom);
+	//&:extend(.bold);
 }
 
 @media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
