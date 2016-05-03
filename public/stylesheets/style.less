@@ -1,5 +1,5 @@
 * {
-    /*text-align: justify;*/
+    text-align: left; 	/* this rule messes with the about_us page if it doesn't exist */
 }
 
 .container-fluid {
@@ -23,6 +23,7 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 	margin-top: -30px;
 }
 
+/* less classes to be used with &:extend */
 .italic {
 	font-style: italic;
 }
@@ -32,8 +33,14 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 .underline {
 	text-decoration: underline;
 }
+.cent{
+	text-align: center;
+}
+.thin-border-bottom{
+	border-bottom: 1px solid black;
+}
 
-/* navbar */
+/*---------------------------- navbar ----------------------------*/
 .navbar {
     border-radius: 0;
 }
@@ -49,16 +56,13 @@ padding-right: .75em;
 font-family: diavlo;
 src: url(fonts/Diavlo_BLACK_II_37.otf);
 }
-nav a {
-/*font-family: diavlo, sans-serif;*/
-}
 
 #nav-container {
 	z-index: 1500;
 }
-/*end navbar */
+/*----------------------------end navbar ----------------------------*/
 
-/* footer */
+/*---------------------------- footer ----------------------------*/
 .footer-banner {
     min-height: 0;
 }
@@ -81,9 +85,9 @@ nav a {
 	border: 0;
 	overflow: hidden; 
 }
-/* end footer */
+/*---------------------------- end footer ----------------------------*/
 
-/* homepage */
+/*---------------------------- homepage ----------------------------*/
 .headline { /*resizes the logo */
   max-width: 80%;
 }
@@ -100,7 +104,7 @@ nav a {
     background-color: #FFFFFF;
     border: 1px solid black;
     border-radius: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 2em;
 }
 
 /* the galleria slideshow NEEDS A HEIGHT, or else it won't load. Width is auto (or 100% of it's container) */
@@ -121,9 +125,9 @@ nav a {
 		height: 300px;
 	}
 }
-/* end homepage */
+/*----------------------------  end homepage ----------------------------*/
 
-/* start mission ------------------------ */
+/*---------------------------- start mission ------------------------ */
 .headline {
   max-width: 80%;
 }
@@ -158,6 +162,12 @@ nav a {
   margin: 0 0 0 8px;
   padding: 0;
   margin-top: 11em;
+}
+
+.section-links{	/*1st liste item in sidebar nav */
+	//.cent;
+	&:extend(.cent, .bold, .thin-border-bottom);
+	//&:extend(.bold);
 }
 
 @media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
@@ -200,10 +210,10 @@ nav a {
 #mission h1 {
 	font-size: 1.1em;
 }
-/* end mission -------------------------------------*/
+/*---------------------------- end mission -------------------------------------*/
 
 
-/* start contact -------------------------------------*/
+/*---------------------------- start contact -------------------------------------*/
 #contact-form{
 	margin-bottom: 30px;
 }
@@ -221,32 +231,39 @@ body > div.container-fluid > p:nth-child(3){
 	}
 }	
 
-/* end contact -----------------------*/
+/*---------------------------- end contact -----------------------*/
 
 
-/* start about us ----------------------*/
+/*---------------------------- start about us ----------------------*/
 .headline {
   max-width: 80%;
 }
 
-.tile h4 {
-    font-size: .9em;
-    font-style: italic;
-    color: #470A73;
+.tile {
+	/*height for bio tiles at largest screen size */
+	height: 800px;
+	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
+	padding: 0 14px 0 14px;/* override original tile class padding */
+
+	h4 {
+		font-size: .9em;
+		font-style: italic;
+		color: #470A73;
+	}
+	img{
+		margin: 1em auto;
+	}
 }
+
 .tile-image{ /*override original height of 100px from some unknown .less file */
 height:200px;
 }
 
 /*MUST ADD BIO CLASS TO EACH BOOTSTRAP TILE */
 .bio{ /* this is spacing between tiles to override 15-left/15-right from somewhere else */
-	padding:0 5px 0 5px;
+	padding:0 4px;
 }
-.tile {		/*height for bio tiles at largest screen size */
-	height: 800px;
-	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
-	padding: 0 14px 0 14px;/* override original tile class padding */
-}
+
 @media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
 	.tile {
 		height: 750px;
@@ -257,14 +274,14 @@ height:200px;
 		height: auto;
 	}
 }
-/* end about us -----------------------------------*/
+/*---------------------------- end about us -----------------------------------*/
 
 
-/* start library -------------------------------*/
+/*---------------------------- start library -------------------------------*/
 .form-inline {
 	margin-bottom: 1em;
 }
-/* end library -------------------------------*/
+/*---------------------------- end library -------------------------------*/
 
 
 #filler-space{
@@ -279,20 +296,20 @@ height:200px;
 	margin-left: 20px;
 }
 
-/* Style User's page styles ------------------------------------------------------------ */
+/*---------------------------- Style User's page  ----------------------------------- */
 #login-page label {
 	display: inline; /* make it span the entire screen */
 }
 #login-page label.larger-label {
 	color: color: #34495E;
 }
-/* End user's page styles ------------------------------------------------------------ */
+/*---------------------------- End user's page styles -------------------------------- */
 
-/* Organizations page--------------------------------------- */
+/*---------------------------- Organizations page--------------------------------------- */
 #organizations{ 
 	.sub-section h1 { /*make heading smaller on this page only */
 		margin-top: 0;
 		font-size: 2em;
 	}
 }
-/* End organizations--------------------------------------- */
+/*---------------------------- End organizations--------------------------------------- */
