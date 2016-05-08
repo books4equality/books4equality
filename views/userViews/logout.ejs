@@ -31,13 +31,13 @@
 
 <% if(user != undefined) { %>
 <div id="sure-message">
-	<div id="are-you-sure">
-		<h2>Are you sure you want to logout <%- user.username %> ? </h2>
-	</div>
-	<div id="buttons">
-		<a id="btn-yes" class="btn btn-primary btn-lg">Yes<a>
-		<a id="btn-no" class="btn btn-primary btn-lg">No<a>
-	</div>
+    <div id="are-you-sure">
+        <h2>Are you sure you want to logout <%- user.username %> ? </h2>
+    </div>
+    <div id="buttons">
+        <a id="btn-yes" class="btn btn-primary btn-lg">Yes<a>
+        <a id="btn-no" class="btn btn-primary btn-lg">No<a>
+    </div>
 </div>
 <% } else { %>
 	<p>Not Logged In</p>
