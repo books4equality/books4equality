@@ -1,55 +1,55 @@
 <footer>
-  <div class="footer-container">
-    <div class="row">
-      <div class="col-xs-7">
-        <h3 class="footer-title">Our stats</h3>
+    <div class="footer-container">
+        <div class="row">
+            <div class="col-xs-7">
+                <h3 class="footer-title">Our stats</h3>
 
-        <p>
-        <a href="/library"><strong><%= stats.count %></strong> books</a> collected so far.
-        </p>
+                <p>
+                    <a href="/library"><strong><%= stats.count %></strong> books</a> collected so far.
+                </p>
 
-        <!--
-        <p>
-          Do you like this initiative? Want to get more stuff like this?<br/>
-          Subscribe to our news and updates to stay tuned. We won't spam you.<br/>
+                <!--
+                <p>
+                  Do you like this initiative? Want to get more stuff like this?<br/>
+                  Subscribe to our news and updates to stay tuned. We won't spam you.<br/>
+        
+                  <div class="input-group">
+                      <form method='post' action='/subscribe'>
+                      <input class="form-control login-field" value="" placeholder="Enter your email" id="email" type="email">
+                      <span class="input-group-btn">
+                          <button id="btn-subscribe" class="btn btn-default btn-lg" href="#">Subscribe</button>
+                      </span>
+                      </form>
+                  </div>
+                </p>
+                -->
 
-          <div class="input-group">
-              <form method='post' action='/subscribe'>
-              <input class="form-control login-field" value="" placeholder="Enter your email" id="email" type="email">
-              <span class="input-group-btn">
-                  <button id="btn-subscribe" class="btn btn-default btn-lg" href="#">Subscribe</button>
-              </span>
-              </form>
-          </div>
-        </p>
-        -->
+                <div class="pvl">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://books4equality.com" data-text="Books For Equality, reduce the education gap one book at a time" data-via="books4equality">Tweet</a>
+                    <script>!function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location)?'http':'https'; if (!d.getElementById(id)){js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); }}(document, 'script', 'twitter-wjs');</script>
+                    <iframe id='git-container' src="http://ghbtns.com/github-btn.html?user=books4equality&amp;repo=books4equality&amp;type=watch&amp;count=true"></iframe>
 
-        <div class="pvl">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://books4equality.com" data-text="Books For Equality, reduce the education gap one book at a time" data-via="books4equality">Tweet</a>
-          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-          <iframe id='git-container' src="http://ghbtns.com/github-btn.html?user=books4equality&amp;repo=books4equality&amp;type=watch&amp;count=true"></iframe>
+                    <% include facebook %>
+                </div>
+            </div>
 
-          <% include facebook %>
+            <div class="col-xs-5">
+                <div class="footer-banner">
+                    <h3 class="footer-title">Books For Equality</h3>
+                    <ul>
+                        <li><a href="http://booksforafrica.org">Books For Africa</a></li>
+                        <li><a href="http://github.com/books4equality/books4equality">Download the source code on GitHub</a></li>
+                        <li>
+                            <a href='mailto:books4equality@gmail.com?body=For a book donation, please indicate Day, Time and Location and we will take care of everything else. Thank you! Books4Equality'>
+                                Donate books (email us)
+                            </a>
+                        </li>
+                        <% if (config.paypal.hosted_button_id) { %>
+                        <li><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=<%= config.paypal.hosted_button_id %>'>Donate some money</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div class="col-xs-5">
-        <div class="footer-banner">
-          <h3 class="footer-title">Books For Equality</h3>
-          <ul>
-            <li><a href="http://booksforafrica.org">Books For Africa</a></li>
-            <li><a href="http://github.com/books4equality/books4equality">Download the source code on GitHub</a></li>
-            <li>
-              <a href='mailto:books4equality@gmail.com?body=For a book donation, please indicate Day, Time and Location and we will take care of everything else. Thank you! Books4Equality'>
-                 Donate books (email us)
-              </a>
-            </li>
-            <% if (config.paypal.hosted_button_id) { %>
-            <li><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=<%= config.paypal.hosted_button_id %>'>Donate some money</a></li>
-            <% } %>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
 </footer>
