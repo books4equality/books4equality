@@ -8,44 +8,44 @@
 </p>
 
 <% if(typeof type !== 'undefined'){ %>
-	<% if(type =='error'){ %>
-		<div class="alert fade in alert-warning">
-			<a href="#" class="close" data-dismiss="alert">
-				<i class="front-icon-cross"></i>
-			</a>
-			There was an error sending message!
-		</div>
-	<% } if(type == 'empty'){ %>
-		<div class="alert fade in alert-warning">
-			<a href="#" class="close">
-				<i class="front-icon-cross"></i>
-			</a>
-			Please fill out All fields!
-		</div>
-	<% } if(type == 'success'){ %>
-		<div class="alert fade in alert-success">
-			<a href="#" class="close" data-dismiss="alert">
-				<i class="font-icon-cross"></i>
-			</a>
-				Message Sent
-		</div>
-	<% }
+<% if(type =='error'){ %>
+<div class="alert fade in alert-warning">
+    <a href="#" class="close" data-dismiss="alert">
+        <i class="front-icon-cross"></i>
+    </a>
+    There was an error sending message!
+</div>
+<% } if(type == 'empty'){ %>
+<div class="alert fade in alert-warning">
+    <a href="#" class="close">
+        <i class="front-icon-cross"></i>
+    </a>
+    Please fill out All fields!
+</div>
+<% } if(type == 'success'){ %>
+<div class="alert fade in alert-success">
+    <a href="#" class="close" data-dismiss="alert">
+        <i class="font-icon-cross"></i>
+    </a>
+    Message Sent
+</div>
+<% }
 } %>
 
 
 <form id="contact-form" method="post" action="contact/sendMail">
-	<label for="cName">Name*<br>
-	<input type="text" id="cName" class="form-control input-lg" name="contact[cName]" onfocus="this.select()" required="required" size="40" value="<% if(typeof name !== 'undefined'){ %><%= name %><% } %>">
-	</label>
-	
-	<label for="email" id="email-label">Email Address*<br>
-	<input type="text" id="email" class="form-control input-lg" name="contact[email]" onfocus="this.select()" required="required" value="<% if(typeof email !== 'undefined'){ %><%= email %><% } %>">
-	</label>
-	<br>
-	<label for="message">Message*<br>
-	<textarea id="message" class="form-control input-lg" name="contact[message]" required="required" ><% if(typeof body !== 'undefined'){ %><%= body %><% } %></textarea>
-	</label>
-	
-	<br>
-	<input type="submit" value="Send Message &#10142;" id="send" class="btn btn-primary">
+    <label for="cName">Name*<br>
+        <input type="text" id="cName" class="form-control input-lg" name="contact[cName]" onfocus="this.select()" required="required" size="40" value="<% if(typeof name !== 'undefined'){ %><%= name %><% } %>">
+    </label>
+
+    <label for="email" id="email-label">Email Address*<br>
+        <input type="text" id="email" class="form-control input-lg" name="contact[email]" onfocus="this.select()" required="required" value="<% if(typeof email !== 'undefined'){ %><%= email %><% } %>">
+    </label>
+    <br>
+    <label for="message">Message*<br>
+        <textarea id="message" class="form-control input-lg" name="contact[message]" required="required" ><% if(typeof body !== 'undefined'){ %><%= body %><% } %></textarea>
+    </label>
+
+    <br>
+    <input type="submit" value="Send Message &#10142;" id="send" class="btn btn-primary">
 </form>
