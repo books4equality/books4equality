@@ -1,23 +1,23 @@
 <% layout( '../layout') -%>
 
 <style>
-.login { 
-  background: none;
-  padding: 8px 38px 0px;
-}
+    .login { 
+        background: none;
+        padding: 8px 38px 0px;
+    }
 
-.login-screen {
-  min-height: 273px;
-  padding: 40px 150px 33px 306px;
-}
+    .login-screen {
+        min-height: 273px;
+        padding: 40px 150px 33px 306px;
+    }
 
-.login-icon {
-  top: 40px;
-}
+    .login-icon {
+        top: 40px;
+    }
 
-.form-p-label{
-  color: #34495e
-}
+    .form-p-label{
+        color: #34495e
+    }
 </style>
 
 
@@ -27,24 +27,24 @@
 
     <div id="login-form" class="login-form">
 
-      <form method="post" action="/organizations/login">
-        <!-- Email (field name must be 'username')-->
-        <div class="form-group">
-          <input type="text" class="form-control login-field" id="login-email" type="text" name="username" value="" placeholder="Email Address" />
-          <label class="login-field-icon fui-user" for="login-email"></label>
-        </div>
+        <form method="post" action="/organizations/login">
+            <!-- Email (field name must be 'username')-->
+            <div class="form-group">
+                <input type="text" class="form-control login-field" id="login-email" type="text" name="username" value="" placeholder="Email Address" />
+                <label class="login-field-icon fui-user" for="login-email"></label>
+            </div>
 
-        <!-- Password -->
-        <div class="form-group">
-          <input type="password" class="form-control login-field" id="login-password" name="password" placeholder="Password" />
-          <label class="login-field-icon fui-lock" for="login-pass"></label>
-        </div>
+            <!-- Password -->
+            <div class="form-group">
+                <input type="password" class="form-control login-field" id="login-password" name="password" placeholder="Password" />
+                <label class="login-field-icon fui-lock" for="login-pass"></label>
+            </div>
 
-        <div>
-          <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
-          <!--
-          <a class="login-link" href="#">Lost your password?</a>
-          -->
-        </div>
-      </form>
+            <div>
+                <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
+                <!--
+                <a class="login-link" href="#">Lost your password?</a>
+                -->
+            </div>
+        </form>
     </div>

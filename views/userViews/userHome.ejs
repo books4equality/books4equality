@@ -1,6 +1,5 @@
 <% layout('../layout') -%>
 
-
     <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
 
     <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -12,14 +11,11 @@
             {{#each books}}
             <% include ../partials/user-page-book-template %>
             {{/each}}
-
     </script>
 
     <div id="results"></div>
 
     <div id="filler-space"></div>
-
-
 
     <script>
         $(function () {

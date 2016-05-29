@@ -4,13 +4,13 @@
 
 <form class="clearfix">
     <div class="form-group col-xs-4">
-       <label for="barcode">Books4Equality barcode</label>
-       <input type="text" id="barcode" class="form-control" placeholder="B4E barcode" value="">
+        <label for="barcode">Books4Equality barcode</label>
+        <input type="text" id="barcode" class="form-control" placeholder="B4E barcode" value="">
     </div>
     <div class="form-group col-xs-4">
-       <label for="isbn">ISBN</label>
-       <input type="text" id="isbn" class="form-control" placeholder="ISBN">
-       <a id="search" class='btn btn-link'>Search book by ISBN</a>
+        <label for="isbn">ISBN</label>
+        <input type="text" id="isbn" class="form-control" placeholder="ISBN">
+        <a id="search" class='btn btn-link'>Search book by ISBN</a>
     </div>
 </form>
 
@@ -24,20 +24,20 @@
     <br>
 
     <form id="form_book" method="post" action="/api/books">
-      <!-- XXX form could be sent with ajax for a better UX -->
-      <input type="hidden" name="isbn" value="{{isbn}}" required>
-      <input type="hidden" name="barcode" value="{{barcode}}">
-      <input type="submit" data-loading-text="Saving..." class='btn btn-primary' value="Register this book with barcode {{barcode}}"></input>
+    <!-- XXX form could be sent with ajax for a better UX -->
+    <input type="hidden" name="isbn" value="{{isbn}}" required>
+    <input type="hidden" name="barcode" value="{{barcode}}">
+    <input type="submit" data-loading-text="Saving..." class='btn btn-primary' value="Register this book with barcode {{barcode}}"></input>
     </form>
 
     <br>
     <br>
-    
+
     <script>
-      $("input[type=submit]").click(function() {
-          $(this).button('loading');
-      });
-    </script>
+    $("input[type=submit]").click(function() {
+    $(this).button('loading');
+    });
+</script>
 </script>
 
 <div id="results"></div>
