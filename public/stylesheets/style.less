@@ -19,6 +19,10 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 	}
 }
 
+.jumbotron{
+	background-color: white;
+}
+
 .title1 { 
 	margin-top: -30px;
 }
@@ -42,6 +46,27 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 .float-right{
 	float: right;
 }
+.hide{
+	display: none;
+}
+
+/**************************** CSS spinny loader ******************/
+.spinny-loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #1abc9c;
+    border-radius: 51%;
+    width: 120px;
+    height: 120px;
+    margin-left: 50%;
+    text-align: center;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/*************************** end loader *************************/
 
 /*---------------------------- navbar ----------------------------*/
 .navbar {
@@ -234,6 +259,19 @@ body > div.container-fluid > p:nth-child(3){
 	}
 }	
 
+#contact-form .form-group-narrow{
+	max-width: 300px;
+}
+
+#contact-form  #message {
+		width: 100%;
+    max-width: 40em;
+    min-height: 10em;
+}
+#contact-form #email-label {
+	margin-left: 20px;
+}
+
 /*---------------------------- end contact -----------------------*/
 
 
@@ -291,13 +329,6 @@ height:200px;
     height:200px;
 }
 
-#contact-form  #message {
-    width: 40em;
-    height: 10em;
-}
-#contact-form #email-label {
-	margin-left: 20px;
-}
 
 /*---------------------------- Style User's page  ----------------------------------- */
 #login-page label {

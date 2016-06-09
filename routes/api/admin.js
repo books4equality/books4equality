@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * admin.js contains all of the book related routes that require 
+ * an admin account to access
+ *
+ *
+ */
+
 var express = require('express'),
     passport = require('passport'),
     BasicStrategy = require('passport-http').BasicStrategy,
@@ -7,58 +14,28 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     books = require('../../services/books'),
     logger = require('../../services/logger'),
-    //schools = require('../services/schools')
     School = require('../../lib/models/school');
-
-var ADMIN_PASS = process.env.OPENSHIFT_APP_UUID ||
-                 process.env.ADMIN_PASS || Math.random().toString(36).substring(7);
-
-logger.info('Administrative password', ADMIN_PASS)
-
-passport.use(new BasicStrategy(
-    function(username, password, done) {
-        if (password !== ADMIN_PASS) {
-            logger.warn('Authentication failed');
-            return done(null, false);
-        }
-
-        var user = {};
-        return done(null, user);
-    }
-));
 
 var router = express.Router();
 
-router.use(passport.initialize());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json({ limit: '10kb' }));
 
-var basicAuth = passport.authenticate('basic', {session: false});
 
-router.get('/admin', basicAuth, function(req, res) {
-    return res.render('admin/index');
-});
-
-/***
-The /admin routes are for the admin page on the website
-
-The /api routes in this file are for the public api routes which require
-basic auth
-
-
-*/
-
-router.get('/reserveList', function(req,res){//require admin account
-    var notAuthorizedMessage = 'Tsk tsk... Unauthorized. Please sign into an administrative account.';
+router.get('/', function(req, res) {
+    var notAuthorizedMessage = 
+        'Are you daft? Unauthorized.\n' +
+        'Please sign into an administrative account.';
 
     if(typeof req.session.user == 'undefined'){ 
         return res.status(401).send(notAuthorizedMessage);
     }
-    if(typeof req.session.user.admin == 'undefined' || req.session.user.admin == false){
+    if(typeof req.session.user.admin == 'undefined' || 
+              req.session.user.admin == false){
         return res.status(401).send(notAuthorizedMessage);
     }
 
-    return res.render('admin/reserveList'); 
+    return res.render('admin/index');
 });
 
 router.get('/reservedBooks', function(req,res){
@@ -103,7 +80,8 @@ router.post('/getBookByISBN', function(req, res, next) {
                     }
                     if(book.title){
                         //console.log(JSON.stringify(book.title));
-                        return res.status(200).send(JSON.stringify(book.title)); //Return book title if successful (200)
+                        //Return book title if successful (200)
+                        return res.status(200).send(JSON.stringify(book.title)); 
                     }
                     return res.status(489).send();
                 });
@@ -129,7 +107,8 @@ router.post('/books', function(req, res, next) {
     isbn.resolve(req.body.isbn, function(err, book) {
         if (err) {
             logger.warn('Not able to resolve %s', req.body.isbn, err);
-            return res.status(269).send(); //ISBN not resolved, handle in front end
+            //ISBN not resolved, handle in front end
+            return res.status(269).send(); 
             //return next(err);
         }
 
@@ -150,7 +129,8 @@ router.post('/books', function(req, res, next) {
                 if(isMatch && isMatch == true){
                     //password verified allow insert....
 
-                    // TODO check whether the barcode (req.body.barcode) already exists
+                    // TODO check whether the barcode (req.body.barcode) 
+                    // already exists
                     // handle error instead of throwing
 
                     // complete book with custom fields
@@ -169,7 +149,8 @@ router.post('/books', function(req, res, next) {
                         if (err) {
                             console.log(err);
                             if(err.code == 11000){
-                                return res.status(409).send();  //duplicate key, conflicting data
+                                //duplicate key, conflicting data
+                                return res.status(409).send();  
                             }
                             return res.status(500).send();
                         }
@@ -178,8 +159,8 @@ router.post('/books', function(req, res, next) {
                         if(result){
                             return res.status(204).send();
                         }
-
-                        return res.redirect('/admin'); // redirect after post pattern
+                        // redirect after post pattern
+                        return res.redirect('/admin'); 
                     });
 
                 } else { //Incorrect Password
@@ -191,19 +172,18 @@ router.post('/books', function(req, res, next) {
     });
 });
 
+// router.delete('/books/:id', function(req, res, next) {
+//     books.remove(req.params.id, function(err, result) {
+//         if (err) {
+//             return next(err);
+//         }
 
-router.delete('/books/:id', basicAuth, function(req, res, next) {
-    books.remove(req.params.id, function(err, result) {
-        if (err) {
-            return next(err);
-        }
+//         if (req.is('json')) {
+//             return res.json(result);
+//         }
 
-        if (req.is('json')) {
-            return res.json(result);
-        }
-
-        return res.redirect('/admin');
-    });
-});
+//         return res.redirect('/admin');
+//     });
+// });
 
 module.exports = router;

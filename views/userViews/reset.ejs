@@ -1,0 +1,99 @@
+<% layout( '../layout') -%>
+
+<style>
+    #reset-pass{
+        margin-top: 4em;
+        margin-bottom: 8em;
+    }
+</style>
+
+
+<div id="reset-success" class="alert fade in alert-success hide">
+    Password successfully reset
+</div>
+
+<div id="reset-failure" class="alert fade in alert-warning hide">
+    Failed to reset password, please contact site admin directly
+</div>
+
+<div id="incomplete-form" class="alert fade in alert-warning hide">
+</div>
+
+<h2>Password Reset</h2>
+
+<%if (typeof email != 'undefined' && email != '') { %>
+<div id="token-value" class="hide"><%= token %></div>
+    <div id="reset-pass">
+        <h4 class="login-header">Please enter a new password for <%= email %></h4>
+        <div class="form-group">
+            <input type="password" class="form-control login-field" id="password" type="text" name="email" value="" placeholder="New Password" />
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control login-field" id="confirm-password" type="text" name="email" value="" placeholder="Confirm Password" />
+        </div>
+
+        <div>
+            <input id="password-reset" class="btn btn-primary btn-lg " type="submit" value="Confirm Reset"/></a>
+        </div>
+    </div>
+<% } else { %>
+    <div id="token-dne" class="alert fade in alert-warning">
+        <%= error %>
+    </div>
+<% } %>
+
+<script>
+$(document).ready(function(){
+$('#password-reset').click(function(e){
+    console.log('clicked');
+    // Reset dialogs
+    $('#incomplete-form').empty();
+    $('#incomplete-form').addClass('hide');
+    $('#reset-failure').addClass('hide');
+    $('#reset-success').addClass('hide');
+
+    var newPass = $('#password').val();
+    var confirmPass = $('#confirm-password').val();
+    var url = window.location.href;
+    var token = url.substring(window.location.href.lastIndexOf('/') + 1);
+
+    if(typeof newPass == 'undefined' || newPass == '' ||
+        typeof confirmPass == 'undefined' || confirmPass == '' ){
+        $('#incomplete-form').append("You must fill out all fields");
+        $('#incomplete-form').removeClass('hide');
+    } else if(newPass != confirmPass) {
+        $('#incomplete-form').append("Passwords do not match");
+        $('#incomplete-form').removeClass('hide');
+    } else {
+        var json = {};
+        json.token = token;
+        json.password = newPass;
+        $.ajax({
+            url: '/users/reset/updatePassword',
+            type: 'POST',
+            dataType: 'json',
+            data: json,
+            statusCode: {
+                200: function(r) {
+                    console.log(r.responseText);
+                    $('#reset-success').removeClass('hide');
+                    //redirect after delay
+                    $(this).delay(2000).queue(function(){
+                        window.location.replace('/users');
+                        $(this).dequeue();
+                    });
+                },
+                500:function(r){
+                    console.log(r.responseText);
+                    $('#reset-failure').removeClass('hide');
+                }
+            }
+        });
+    }
+});
+
+
+});
+</script>
+

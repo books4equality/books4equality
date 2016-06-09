@@ -1,67 +1,257 @@
 <% layout('../layout') -%>
+<style>
+    .form-control{
+        margin-bottom: 1em;
+    }
+    .modal-dialog{
+        margin-top: 5em;
+    }
+</style>
 
+<link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+
+<script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <script src="/bower_components/handlebars/handlebars.min.js"></script>
 
-<form class="clearfix">
-    <div class="form-group col-xs-4">
-        <label for="barcode">Books4Equality barcode</label>
-        <input type="text" id="barcode" class="form-control" placeholder="B4E barcode" value="">
+<h1>Admin Page</h1>
+<h3>Listing of reserved books:</h3>
+
+<form class="form-inline">
+
+    <div class="form-group">
+        <input class="form-control input-lg" placeholder="Title..." type="text" id="title">
     </div>
-    <div class="form-group col-xs-4">
-        <label for="isbn">ISBN</label>
-        <input type="text" id="isbn" class="form-control" placeholder="ISBN">
-        <a id="search" class='btn btn-link'>Search book by ISBN</a>
+
+    <div class="form-group">
+        <input class="form-control input-lg" placeholder="User Email..." type="text" id="email">
     </div>
+
+    <div class="form-group">
+        <input class="form-control input-lg" placeholder="Username..." type="text" id="username">
+    </div>
+
+    <div class="form-group">
+        <input class="form-control input-lg" placeholder="ISBN..." type="text" id="isbn">
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control input-lg" placeholder="Barcode..." id="barcode">
+    </div>
+
+    <div class="form-group">
+        <select class="form-control input-lg" id="orderby">
+            <option value="">Order by</option>
+            <option value="_meta.ddc">DDC</option>
+            <option value="title">Title</option>
+            <option value="_meta.reservedBy.reservedDate">Reservation Date</option>
+        </select>
+    </div>
+
+    </br>
+    <a id="search" class='btn btn-primary'>Search</a>
+
+    <!-- <br> -->
+
 </form>
 
-<div class="clearfix visible-xs-block"></div>
+<p class="text-muted" id="hint-text">Press search with no fields filled to see all books...</p>
 
 <script id="entry-template" type="text/x-handlebars-template">
-    {{#with book}}
-    <% include ../partials/book-template %>
-    {{/with}}
+    {{#each books}}
+    <% include ../partials/admin-page-book-template %>
+    {{/each}}
 
-    <br>
-
-    <form id="form_book" method="post" action="/api/books">
-    <!-- XXX form could be sent with ajax for a better UX -->
-    <input type="hidden" name="isbn" value="{{isbn}}" required>
-    <input type="hidden" name="barcode" value="{{barcode}}">
-    <input type="submit" data-loading-text="Saving..." class='btn btn-primary' value="Register this book with barcode {{barcode}}"></input>
-    </form>
-
-    <br>
-    <br>
-
-    <script>
-    $("input[type=submit]").click(function() {
-    $(this).button('loading');
-    });
-</script>
 </script>
 
 <div id="results"></div>
 
+<div id="filler-space"></div>
+
 <script>
-$(function() {
-    var source = $("#entry-template").html();
-    var template = Handlebars.compile(source);
+    $(function () {
+        var source = $("#entry-template").html();
+        var template = Handlebars.compile(source);
 
-    $("#search").click(function() {
-        var isbn = $("#isbn").val();
-        if (!isbn) {
-            return false;
-        }
-
-        $.getJSON('/search/' + isbn)
-            .done(function(book) {
-                var barcode = $("#barcode").val();
-                var html = template({book: book, isbn: isbn, barcode: barcode});
-                $("#results").html(html);
-            })
-            .fail(function(data, status, xhr) {
-                $("#results").html('<p class="text-warning">Book with ISBN ' + isbn + ' not found</p>');
+        $("#search").click(function () {
+            var criteria = {};
+    ["title", "username", "email", "isbn", "barcode","orderby"].forEach(function (field) {
+                if ($("#" + field).val()) {
+                    criteria[field] = $("#" + field).val()
+                }
             });
+
+            $.getJSON('/admin/reservedBooks', criteria)
+                .done(function (books) {
+                    if (typeof books !== 'undefined' && books.length > 0) {
+                        var html = template({
+                            books: books
+                        });
+                    }else{
+                        var html =  '<div class="alert fade in alert-warning">'
+                                        +'<a href="#" class="close">'
+                                            +'<i class="front-icon-cross"></i>'
+                                        +'</a>'
+                                        +'No matching books were found.'
+                                    +'</div>';
+                    } 
+                    $("#results").html(html);
+                    $("#hint-text").hide();
+                    $("#filler-space").hide();
+
+                })
+                .fail(function (data, status, xhr) {
+                    alert('something went wrong'); // TODO
+                });
+        });
+
+        $("#advanced_search").click(function () {
+            $("#advanced_search_options").toggleClass('hide');
+        });
+
+        $("#title").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/admin/reservedBooks', {
+                        title: request.term
+                    })
+                    .done(function (books) {
+                        var data = [];
+                        books.forEach(function (book) {
+                            data.push(book.title);
+                        })
+                        response(data);
+                    })
+                    .fail(function (data, status, xhr) {
+                        alert('something went wrong'); // TODO
+                    });
+            },
+            minLength: 3,
+            delay: 300
+        });
+
+
+
+        $(document).on('click', '.unreserve-button', function(){
+            var barcode = $(this).attr('data-barcode');
+        
+            $(".confirm").confirm({//Confirm dialog
+                text: "Are you sure you want to take that book off reserve?",
+                title: "Confirmation required",
+                confirm: function(button) {
+
+                    $.ajax({
+                        url: '/users/unreserveBook',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'barcode':barcode},
+                        statusCode: {
+                            200: function() {
+                                console.log("successfully removed reservation");
+                                location.reload();
+
+                            },
+                            500:function(){
+                                console.log("server error");
+                                alert('Server failure');
+
+                            }
+                        }
+                    });
+                    
+                },
+                cancel: function(button) {
+                    // nothing to do
+                },
+                confirmButton: "Yes I am",
+                cancelButton: "No",
+                post: true,
+                confirmButtonClass: "btn-danger",
+                cancelButtonClass: "btn-default",
+                dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+            });
+        });
+
+
+
+        $(document).on('click', '.sign-out-button', function(){
+            var barcode = $(this).attr('data-barcode');
+
+            $(".confirm").confirm({//Confirm dialog
+                text: "Are you sure you want to sign that book out?",
+                title: "Confirmation required",
+                confirm: function(button) {
+
+                    $.ajax({
+                        url: '/users/signOutBook',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'barcode':barcode},
+                        statusCode: {
+                            200: function() {
+                                console.log("successfully signed out book");
+                                location.reload();
+
+                            },
+                            500:function(){
+                                console.log("server error");
+                                alert('Server failure');
+
+                            }
+                        }
+                    });
+                    
+                },
+                cancel: function(button) {
+                    // nothing to do
+                },
+                confirmButton: "Yes I am",
+                cancelButton: "No",
+                post: true,
+                confirmButtonClass: "btn-danger",
+                cancelButtonClass: "btn-default",
+                dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+            });
+        });
+
+        $(document).on('click', '.sign-in-button', function(){
+            var barcode = $(this).attr('data-barcode');
+
+            $(".confirm").confirm({//Confirm dialog
+                text: "Are you sure you want to sign that book back in?",
+                title: "Confirmation required",
+                confirm: function(button) {
+                    $.ajax({
+                        url: '/users/signInExistingBook',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'barcode':barcode},
+                        statusCode: {
+                            200: function() {
+                                console.log("successfully signed in book");
+                                location.reload();
+
+                            },
+                            500:function(){
+                                console.log("server error");
+                                alert('Server failure');
+
+                            }
+                        }
+                    });
+
+                },
+                cancel: function(button) {
+                    // nothing to do
+                },
+                confirmButton: "Yes I am",
+                cancelButton: "No",
+                post: true,
+                confirmButtonClass: "btn-danger",
+                cancelButtonClass: "btn-default",
+                dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+            });
+
+        });
+
+
     });
-});
 </script>

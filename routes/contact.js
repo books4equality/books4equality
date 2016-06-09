@@ -1,93 +1,33 @@
 var express = require('express'),
-    nodemailer = require('nodemailer'),
-    bodyParser = require('body-parser'),
-    validator = require("email-validator"),
+    mailer = require('../services/mailer'),
     router = express.Router(); 
 
-router.post('/sendMail',function(req, res, next){
-
-    //Check if required fields are filled
-    if(!req.body.contact.cName || !req.body.contact.email || !req.body.contact.message) {
-        res.render('contact', {
-                title: 'Contact',
-                page: 'Contact',
-                type: 'empty',
-                description: 'Email not successfully sent.'
-            });
-        return;
+/**
+ * @param {mailList} list of emails to send to
+ * @param {args} obj contains 'name','email','message'
+ *
+ */
+router.post('/sendContactEmail',function(req, res, next){
+    var to = ['contact@books4equality.com','tobehowe@books4equality.com'];
+    //Check for required fields
+    if(!req.body.cName || !req.body.email || !req.body.message){
+        return res.status(400).send('Missing Params');
     }
 
-    //check if valid email
-    var email_check = validator.validate(req.body.contact.email);
+    var subject = 'B4E contact page message';
+    //TODO: Add a nice html template for emails
+    var html = '<h2>Message from: ' + req.body.cName + 
+        ' (<a href="mailto:' + req.body.email + '">' + req.body.email + '</a>)</h2>' +
+        '<p>' + req.body.message + '</p>';
 
-    if(email_check == false){
-        res.render('contact', {
-                title: 'Contact',
-                page: 'Contact',
-                type: 'error',
-                description: 'Email not successfully sent.'
-            });
-        return;
-    }
-
-    //Setup mailer
-    var mailOpts, smtpTrans;
-   
-    var EMAIL_USER = process.env.GMAIL_SMTP_USER,
-        EMAIL_PASS = process.env.GMAIL_SMTP_PASS;
-
-
-    //Setup nodemailer transport    
-    smtpTrans = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: EMAIL_USER,
-            pass: EMAIL_PASS
+    
+    mailer.mail(to, subject, '', html, function(err, message){
+        if(err){ 
+            return res.status(500).send("Server Error");
+        } else {
+            return res.status(200).send(message);
         }
     });
-
-    //Only for if we are using the custom transporter, ie. gmail etc not direct
-
-    var mailList = ['contact@books4equality.com','tobehowe@books4equality.com'];
-
-    var errors = [];
-    
-    mailList.forEach(function(targetEmail){
-        mailOpts = {
-            from: req.body.contact.cName + ' &lt;' + req.body.contact.email + '&gt;',
-            to: targetEmail,
-            subject: 'B4E Contact message',
-            text: 'Name: ' + req.body.contact.cName + '\n' +
-                'Email: ' + req.body.contact.email + '\n' +
-                'Message: ' + req.body.contact.message + '\n'
-        };  
-        
-
-        smtpTrans.sendMail(mailOpts, function(error, info){
-            errors.push('Error:  ' + error);
-            console.log('Mail Info:  ' + info);
-        });
-    });
-
-
-    if(errors.length != 0){
-        console.log(errors);
-        res.render('contact', {
-            title: 'Contact',
-            page: 'Contact',
-            type: 'error',
-            description: 'Email not successfully sent.'
-        });
-    }else{
-        res.render('contact',{
-            title: 'contact',
-            page: 'contact',
-            type: 'success',
-            description: 'Email successfully sent'
-        });
-    }
-
-
 });
 
 module.exports = router;
