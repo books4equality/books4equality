@@ -1,6 +1,7 @@
 var express = require('express'),
 nodemailer = require('nodemailer'),
 validator = require("email-validator"),
+logger = require('./logger'),
 router = express.Router();
 
 /**
@@ -28,6 +29,7 @@ function mail(to, subject, text, html, callback){
 	};
 	transporter.sendMail(mailOpts, function (err, response) {
 	    if (err) {
+	    	logger.error("Mailer error: " + err);
 	    	return callback(err);
 	    } else {
 	     	return callback(null, "Mail sent");
