@@ -8,7 +8,8 @@ var express = require('express'),
  *
  */
 router.post('/sendContactEmail',function(req, res, next){
-    var to = ['contact@books4equality.com','tobehowe@books4equality.com'];
+    // var to = ['contact@books4equality.com','tobehowe@books4equality.com'];
+    var to = ['bquinn1992@gmail.com'];
     //Check for required fields
     if(!req.body.cName || !req.body.email || !req.body.message){
         return res.status(400).send('Missing Params');

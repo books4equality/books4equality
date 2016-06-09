@@ -15,8 +15,8 @@ function mail(to, subject, text, html, callback){
 	var transporter = nodemailer.createTransport( {
 	    service:  'Mailgun',
 	    auth: {
-	     user: 'postmaster@books4equality.com',
-	     pass: 'fc2dbd2d4f0475cb4aed9e6f2bfa1f16'   
+	     user: process.env.MAILGUN_USERNAME,
+	     pass: process.env.MAILGUN_PASSWORD
 	    }
 	});
 	var mailOpts = {
