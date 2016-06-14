@@ -339,34 +339,6 @@ router.post('/reset/updatePassword', function(req, res){
             }
             return res.status(200).send(message);
         });
-
-        // return res.status(500).send("Unknown Error");
-
-        //Mongoose update does not allow for hooks,
-        //We can't encrypt the password without re-saving
-        // User.remove({ email: user.email}, function(){
-        //     User.save({ email: user.email, 
-        //         user,
-        //         {multi: false}, 
-        //         function(err, result){
-        //             if(err){
-        //                 return res.status(500).send("Update error");
-        //             }
-        //             return res.status(200).send("Password Updated");
-        //         }
-        //     );
-        // });
-
-        // User.update({ email: user.email, 
-        //     user,
-        //     {multi: false}, 
-        //     function(err, result){
-        //         if(err){
-        //             return res.status(500).send("Update error");
-        //         }
-        //         return res.status(200).send("Password Updated");
-        //     }
-        // );
     });
 });
 
