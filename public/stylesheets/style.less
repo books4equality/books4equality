@@ -1,9 +1,9 @@
 * {
-    text-align: left; 	/* this rule messes with the about_us page if it doesn't exist */
+	text-align: left; 	/* this rule messes with the about_us page if it doesn't exist */
 }
 
 .container-fluid {
-    max-width: 970px !important;
+	max-width: 970px !important;
 }
 
 html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on all pages to fix mobile layout */
@@ -14,9 +14,13 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 }
 @media(max-width: 1250px){
 	.jumbotron p{
-	  margin-left: 1em;
-	  margin-right: 1em;
+		margin-left: 1em;
+		margin-right: 1em;
 	}
+}
+
+.jumbotron{
+	background-color: white;
 }
 
 .title1 { 
@@ -42,22 +46,43 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 .float-right{
 	float: right;
 }
+.hide{
+	display: none;
+}
+
+/**************************** CSS spinny loader ******************/
+.spinny-loader {
+	border: 16px solid #f3f3f3;
+	border-top: 16px solid #1abc9c;
+	border-radius: 51%;
+	width: 120px;
+	height: 120px;
+	margin-left: 50%;
+	text-align: center;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+/*************************** end loader *************************/
 
 /*---------------------------- navbar ----------------------------*/
 .navbar {
-    border-radius: 0;
+	border-radius: 0;
 }
 #logo-link {
-height: 53px; 		/*  min-height of navbar is 53px, so image must match */
-margin: -14px 0 0 -21px;	/* since it's contained in a bootstrap container, i messed with the margins to get it to fit */
-float:left;					/* must float to the left of the anchor tag */
-padding-right: .75em;
+	height: 53px; 		/*  min-height of navbar is 53px, so image must match */
+	margin: -14px 0 0 -21px;	/* since it's contained in a bootstrap container, i messed with the margins to get it to fit */
+	float:left;					/* must float to the left of the anchor tag */
+	padding-right: .75em;
 }
 
 /* Change Navbar font to Diavlo (font is locally installed) */
 @font-face {
-font-family: diavlo;
-src: url(fonts/Diavlo_BLACK_II_37.otf);
+	font-family: diavlo;
+	src: url(fonts/Diavlo_BLACK_II_37.otf);
 }
 
 #nav-container {
@@ -67,15 +92,15 @@ src: url(fonts/Diavlo_BLACK_II_37.otf);
 
 /*---------------------------- footer ----------------------------*/
 .footer-banner {
-    min-height: 0;
+	min-height: 0;
 }
 @media (max-width:790px) { 
-    footer .col-xs-5{
-      display: none; /* hides the green section on right on small screens */
-    } 
-    footer .col-xs-7{
-      margin-left: 2em;
-    }
+	footer .col-xs-5{
+		display: none; /* hides the green section on right on small screens */
+	} 
+	footer .col-xs-7{
+		margin-left: 2em;
+	}
 }
 .footer-container { /*removed inline style */
 	max-width: 970px;
@@ -88,25 +113,29 @@ src: url(fonts/Diavlo_BLACK_II_37.otf);
 	border: 0;
 	overflow: hidden; 
 }
+
+footer{
+	margin-top: 4em;
+}
 /*---------------------------- end footer ----------------------------*/
 
 /*---------------------------- homepage ----------------------------*/
 .headline { /*resizes the logo */
-  max-width: 80%;
+	max-width: 80%;
 }
 
 .homepage-img img {
 	width:240px;
-    vertical-align: bottom;
+	vertical-align: bottom;
 	padding: 0 0 10px 0;
 }
 
-	
+
 .sub-section {
-    padding: 10px 20px 5px;
-    background-color: #FFFFFF;
-    border: 1px solid black;
-    border-radius: 10px;
+	padding: 10px 20px 5px;
+	background-color: #FFFFFF;
+	border: 1px solid black;
+	border-radius: 10px;
 	margin-bottom: 2em;
 }
 
@@ -115,7 +144,8 @@ src: url(fonts/Diavlo_BLACK_II_37.otf);
 	height: 600px;
 }
 .galleria-theme-classic {
-	background: #676767;
+	background: lightgrey;
+	border-radius: 10px;
 }
 
 @media (max-width:600px) {	/*medium screen size */
@@ -132,39 +162,41 @@ src: url(fonts/Diavlo_BLACK_II_37.otf);
 
 /*---------------------------- start mission ------------------------ */
 .headline {
-  max-width: 80%;
+	max-width: 80%;
 }
-
+.container-fluid .jumbotron{
+	background-color: #eff0f2;
+}
 
 /* not sure if we need this */
 #wrapper {
-  transition: all 0.4s ease 0s;
-  float: right;
+	transition: all 0.4s ease 0s;
+	float: right;
 }
 
 #sidebar-wrapper {
-  top:0; /* move up to top of screen, navbar covers it at the top of page */
-  width: 150px;
-  position:fixed;	/*IMPORTANT, this is what keeps it from scrolling */
-  height: 100%;
-  /*overflow-y: auto; hopefully not really necessary*/
-  z-index: 1000;
-  transition: all 0.4s ease 0s;
-  /*background: #edeff1; */ /*removed this background so it's just white to match page*/
+	top:0; /* move up to top of screen, navbar covers it at the top of page */
+	width: 150px;
+	position:fixed;	/*IMPORTANT, this is what keeps it from scrolling */
+	height: 100%;
+	/*overflow-y: auto; hopefully not really necessary*/
+	z-index: 1000;
+	transition: all 0.4s ease 0s;
+	/*background: #edeff1; */ /*removed this background so it's just white to match page*/
 }
 
 #page-content-wrapper {
-  width: 100%;
+	width: 100%;
 }
 
 .sidebar-nav {
-  position: absolute;
-  top: 0;
-  width: 150px;
-  list-style: none;
-  margin: 0 0 0 8px;
-  padding: 0;
-  margin-top: 11em;
+	position: absolute;
+	top: 0;
+	width: 150px;
+	list-style: none;
+	margin: 0 0 0 8px;
+	padding: 0;
+	margin-top: 11em;
 }
 
 .section-links{	/*1st liste item in sidebar nav */
@@ -174,33 +206,33 @@ src: url(fonts/Diavlo_BLACK_II_37.otf);
 }
 
 @media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
-    #wrapper {
-      padding-left: 0;
-	  display:none; 
-    }
+	#wrapper {
+		padding-left: 0;
+		display:none; 
+	}
 
-    #sidebar-wrapper {
-      left: 0;
-    }
+	#sidebar-wrapper {
+		left: 0;
+	}
 
-    #wrapper.active {
-      position: relative;
-      left: 150px;
-    }
+	#wrapper.active {
+		position: relative;
+		left: 150px;
+	}
 
-    #wrapper.active #sidebar-wrapper {
-      left: 150px;
-      width: 150px;
-      transition: all 0.4s ease 0s;
-    }
+	#wrapper.active #sidebar-wrapper {
+		left: 150px;
+		width: 150px;
+		transition: all 0.4s ease 0s;
+	}
 
-    #mission-header{
-      margin-left: 1em;
-    }
+	#mission-header{
+		margin-left: 1em;
+	}
 
-    .col-xs-5{ /* don't know where this came from */
-      /*display: none; */
-    }
+	.col-xs-5{ /* don't know where this came from */
+	/*display: none; */
+}
 
 }
 
@@ -227,19 +259,32 @@ body > div.container-fluid > p:nth-child(3){
 
 @media (max-width:700px) { 
 	#contact-form #email-label{
-	  margin-left: 0;
+		margin-left: 0;
 	} 
 	#contact-form #message{
 		width: 100%;
 	}
 }	
 
+#contact-form .form-group-narrow{
+	max-width: 300px;
+}
+
+#contact-form  #message {
+	width: 100%;
+	max-width: 40em;
+	min-height: 10em;
+}
+#contact-form #email-label {
+	margin-left: 20px;
+}
+
 /*---------------------------- end contact -----------------------*/
 
 
 /*---------------------------- start about us ----------------------*/
 .headline {
-  max-width: 80%;
+	max-width: 80%;
 }
 
 .tile {
@@ -258,8 +303,30 @@ body > div.container-fluid > p:nth-child(3){
 	}
 }
 
+.tile input {
+  display: none;
+  visibility: hidden;
+}
+
+.tile label {
+  display: block;
+  text-align: center;
+  border-bottom: 1px solid #CCC;
+  color: #666;
+}
+
+.tile label:hover {
+  color: #000;
+}
+
+
+.summary-label-symbol{
+	display: inline;
+}
+
+
 .tile-image{ /*override original height of 100px from some unknown .less file */
-height:200px;
+	height:200px;
 }
 
 /*MUST ADD BIO CLASS TO EACH BOOTSTRAP TILE */
@@ -268,14 +335,14 @@ height:200px;
 }
 
 @media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
-	.tile {
-		height: 750px;
-	}
+.tile {
+	height: 750px;
+}
 }
 @media (max-width:768px) { /* at the smallest screen size "col-xs-12", reset height to auto, no pixels when it's only 1 per line */
-	.tile {
-		height: auto;
-	}
+.tile {
+	height: auto;
+}
 }
 /*---------------------------- end about us -----------------------------------*/
 
@@ -288,16 +355,9 @@ height:200px;
 
 
 #filler-space{
-    height:200px;
+	height:200px;
 }
 
-#contact-form  #message {
-    width: 40em;
-    height: 10em;
-}
-#contact-form #email-label {
-	margin-left: 20px;
-}
 
 /*---------------------------- Style User's page  ----------------------------------- */
 #login-page label {

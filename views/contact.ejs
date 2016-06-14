@@ -1,51 +1,85 @@
 <% layout('./layout') -%>
 
+<div class="spinny-loader hide"></div>
+
 <h1>Contact</h1>
 <!-- <p class='lead'>Books 4 Equality was created September, 2014 by three students of the University of Vermont.</p> -->
 
 <p>Books4Equality is reimagining the way students interact with their textbooks and school supplies. Send us a message using the form below.</p>
-<p>Or, send us an email: <a href="mailto:books4equality@gmail.com" class="underline">Books4Equality@gmail.com</a> 
 </p>
 
-<% if(typeof type !== 'undefined'){ %>
-<% if(type =='error'){ %>
-<div class="alert fade in alert-warning">
-    <a href="#" class="close" data-dismiss="alert">
-        <i class="front-icon-cross"></i>
-    </a>
-    There was an error sending message!
-</div>
-<% } if(type == 'empty'){ %>
-<div class="alert fade in alert-warning">
-    <a href="#" class="close">
-        <i class="front-icon-cross"></i>
-    </a>
-    Please fill out All fields!
-</div>
-<% } if(type == 'success'){ %>
-<div class="alert fade in alert-success">
-    <a href="#" class="close" data-dismiss="alert">
-        <i class="font-icon-cross"></i>
-    </a>
-    Message Sent
-</div>
-<% }
-} %>
+<div id="mail-success" class="alert fade in alert-success hide">Message sent</div>
 
-
-<form id="contact-form" method="post" action="contact/sendMail">
-    <label for="cName">Name*<br>
-        <input type="text" id="cName" class="form-control input-lg" name="contact[cName]" onfocus="this.select()" required="required" size="40" value="<% if(typeof name !== 'undefined'){ %><%= name %><% } %>">
-    </label>
-
-    <label for="email" id="email-label">Email Address*<br>
-        <input type="text" id="email" class="form-control input-lg" name="contact[email]" onfocus="this.select()" required="required" value="<% if(typeof email !== 'undefined'){ %><%= email %><% } %>">
-    </label>
+<div id="mail-failure" class="alert fade in alert-warning hide">
+    Failed to send message, please contact site admin directly: 
     <br>
-    <label for="message">Message*<br>
-        <textarea id="message" class="form-control input-lg" name="contact[message]" required="required" ><% if(typeof body !== 'undefined'){ %><%= body %><% } %></textarea>
-    </label>
+    <a href="mailto:books4equality@gmail.com" class="underline">Books4Equality@gmail.com</a>
+</div>
 
-    <br>
+<div id="incomplete-form" class="alert fade in alert-warning hide"></div>
+
+
+<form id="contact-form">
+    <input type="text" id="name" class="form-group form-control form-group-narrow" name="cName" onfocus="this.select()" required="required" size="40" placeholder="Name*">
+    <input type="text" id="email" class="form-control form-group form-group-narrow" name="email" onfocus="this.select()" required="required" placeholder="Email*">
+    <textarea id="message" class="form-control form-group form-group-wide" name="message" required="required" placeholder="Your Message*"></textarea>
     <input type="submit" value="Send Message &#10142;" id="send" class="btn btn-primary">
 </form>
+
+<p>Or, send us an email: <a href="mailto:books4equality@gmail.com" class="underline">Books4Equality@gmail.com</a> 
+
+
+<script>
+$(document).ready(function(){
+    $('#send').click(function(event){
+        event.preventDefault();
+        var json = {};        
+        error = [];
+
+        //Initialize errors to be hidden for multiple attempts
+        $('#email-success').addClass('hide');
+        $('#email-failure').addClass('hide');
+        $('#incomplete-form').addClass('hide');
+        $('#incomplete-form').empty();
+
+
+        $('.form-control').each(function(){
+            if($(this).val() == undefined || $(this).val() == ''){
+                error.push('\n' + $(this).attr('name') + ' is a required field');
+            } else {
+                json[$(this).attr('name')] = $(this).val();
+            }
+        });
+
+        if(error.length !== 0){
+            error.forEach(function (item) {
+                $('#incomplete-form').append('<div>' + item + '</div>')
+            });
+            $('#incomplete-form').removeClass('hide');
+            console.log(error);
+        } else {
+            console.log(json)
+            $.ajax({
+                url: '/contact/sendContactEmail',
+                type: 'POST',
+                dataType: 'json',
+                data: json,
+                statusCode: {
+                    200: function(r) {
+                        console.log(r.responseText);
+                        $('#mail-success').removeClass('hide');
+                    },
+                    400:function(r){
+                        console.log(r.responseText);
+                        $('#mail-failure').removeClass('hide');
+                    },
+                    500:function(r){
+                        console.log(r.responseText);
+                        $('#mail-failure').removeClass('hide');
+                    }
+                }
+            });
+        }
+    });
+});
+</script>

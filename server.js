@@ -8,6 +8,7 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     logger = require('./services/logger'),
     db = require('./services/db'),
+    mongoose = require('./services/mongoose.js'),
     books = require('./services/books'),
     routes = require('./routes/index'),
     contact = require('./routes/contact'),
@@ -112,6 +113,7 @@ db.connect(function(err) {
     if (err) {
         process.exit(1);
     }
+    mongoose.connect();
 
     initializeApplication();
 });
