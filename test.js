@@ -1,8 +1,10 @@
-var bcrypt = require('bcryptjs');
-    
-    var hashed
-    bcrypt.compare('benjo1992', '$2a$10$kzqkE32TYapHVWeG1EQuD.8dW2y14bbgIHosAveerzHmyw1gxFe8W',
- function(err, isMatch){
-      console.log(isMatch);
-    });
+var barcode = '798';
+var barcodelength = 9;
+var str = '';
+console.log(barcode.length);
 
+if(barcode.length < barcodelength){
+	str = new Array(barcodelength - barcode.length).join( '0' ) + barcode;
+} 
+
+console.log(str);

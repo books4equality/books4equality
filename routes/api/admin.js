@@ -48,6 +48,65 @@ router.get('/reservedBooks', function(req,res){
     });
 });
 
+
+//TODO: Clean up with async
+router.post('/getBookInfo', function(req, res, next) {
+
+    //Required parameters
+    var required = ['schoolID','barcode' ,'isbn', 'password'];
+    required.forEach(function(param){
+        if(!req.body[param]){
+            return res.status(400).send();
+        }
+    });
+
+    var criteria = {schoolID: req.body.schoolID};
+    var password = req.body.password
+
+    School.findOne(criteria, function(err, school){
+        if(err){                
+            return res.status(500).send();
+        }
+
+        if(!school){
+            console.log('School ' + req.body.schoolID + ' DNE');
+            return res.status(401).send();
+        }
+
+        school.comparePassword(password, function(err, isMatch){
+            if(isMatch && isMatch == true){
+                //TODO: Add a barcode check, gets isbn and dewey code and returns them to the app
+                books.findSchoolBookByBarcode(req.body.schoolID, req.body.barcode, function(err, book){
+                    if(err) return res.status(500).send(err);
+
+                    if(book){
+                        return res.status(289).send(JSON.stringify(book._meta));
+                    }
+
+                    //res.status(204).send("No Book found, continue...");
+                    console.log('No book found, continue...');
+                    //No book found for Barcode, try to find book info
+                    //from isbn resolver
+                    isbn.resolve(req.body.isbn, function(err, book) {
+                        if (err) {
+                            return res.status(500).send();
+                        }
+                        if(book.title){
+                            //console.log(JSON.stringify(book.title));
+                            //Return book title if successful (200)
+                            return res.status(200).send(JSON.stringify(book.title)); 
+                        }
+                        return res.status(489).send();
+                    });
+                });
+            } else { //Incorrect Password
+                console.log('Incorrect password');
+                return res.status(401).send();
+            }   
+        });
+    });
+});
+
 router.post('/getBookByISBN', function(req, res, next) {
 
     //Required parameters
@@ -126,6 +185,9 @@ router.post('/books', function(req, res, next) {
             }
 
             school.comparePassword(password, function(err, isMatch){
+                if(err){
+                    return res.status(500).send("Password verification error");
+                }
                 if(isMatch && isMatch == true){
                     //password verified allow insert....
 
@@ -133,10 +195,21 @@ router.post('/books', function(req, res, next) {
                     // already exists
                     // handle error instead of throwing
 
+                    //Sanitize barcode
+                    barcode = req.body.barcode;
+                    var barcodelength = 9;
+                    
+                    //Fill 0's
+                    if(barcode.length < barcodelength){
+                        barcode = new Array(barcodelength - barcode.length).join( '0' ) + barcode;
+                    } else if (barcode.length > barcodelength){
+                        return res.status(400).send("Bad Barcode");
+                    }
+
                     // complete book with custom fields
                     book._meta = {};
                     book._meta.isbn = req.body.isbn;
-                    book._meta.barcode = req.body.barcode;
+                    book._meta.barcode = barcode;
                     book._meta.ddc = req.body.ddc;
                     book._meta.donor_email = req.body.donor_email;
                     book._meta.creationDate = new Date();

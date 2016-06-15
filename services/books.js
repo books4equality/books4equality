@@ -20,14 +20,6 @@ function find(options, callback) {
         }
     };
 
-    /*
-    if(options.schoolID == null){
-        return callback(null, {});
-    } else {
-        criteria.$query["_meta.school" ] = options.schoolID;
-    }
-    */
-
     if (options.title) {
         criteria.$query.title = { $regex: options.title, $options: 'i' };
     }
@@ -92,7 +84,24 @@ function findOne(id, callback) {
 }
 
 function findOneByBarcode(barcode, callback){
-    var criteria = {'_meta.barcode': barcode,'_meta.available': true};
+    var criteria = {
+        '_meta.barcode': barcode,
+        '_meta.available': true
+    };
+
+    db.get().collection('books').findOne(criteria, function(err, book){
+        if(err){
+            return callback(err);
+        }
+        return callback(null, book);
+    });
+}
+
+function findSchoolBookByBarcode(schoolID, barcode, callback){
+    var criteria = {
+        '_meta.barcode': barcode,
+        '_meta.schoolID': schoolID
+    };
 
     db.get().collection('books').findOne(criteria, function(err, book){
         if(err){
@@ -308,13 +317,13 @@ function stats(callback) {
     });
 }
 
-
 module.exports = {
     signOutBook: signOutBook,
     signInExistingBook: signInExistingBook,
     findUsersBooks: findUsersBooks,
     unreserveBook: unreserveBook,
     findReservedBookByBarcode: findReservedBookByBarcode,
+    findSchoolBookByBarcode: findSchoolBookByBarcode,
     find: find,
     findOne: findOne,
     insert: insert,
