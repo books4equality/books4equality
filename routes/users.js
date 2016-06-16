@@ -1,3 +1,4 @@
+'use strict';
 //Packages
 var express = require('express'),
     async = require('async'),
@@ -309,7 +310,6 @@ router.get('/reset/:token', function(req, res) {
             return res.render('userViews/reset',{
                 error: 'Password reset token is invalid or has expired.'
             });
-            return res.redirect('/forgot');
         }
         return res.render('userViews/reset', {
             email: user.email,

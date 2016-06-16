@@ -1,3 +1,5 @@
+'use strict';
+
 /***
 api.js includes all of the routes for the public api
 
