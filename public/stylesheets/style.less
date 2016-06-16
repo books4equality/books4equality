@@ -31,21 +31,27 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 .italic {
 	font-style: italic;
 }
+
 .bold {
 	font-weight: bold;
 }
+
 .underline {
 	text-decoration: underline;
 }
+
 .cent{
 	text-align: center;
 }
+
 .thin-border-bottom{
 	border-bottom: 1px solid black;
 }
+
 .float-right{
 	float: right;
 }
+
 .hide{
 	display: none;
 }
@@ -168,72 +174,45 @@ footer{
 	background-color: #eff0f2;
 }
 
-/* not sure if we need this */
-#wrapper {
-	transition: all 0.4s ease 0s;
-	float: right;
-}
-
-#sidebar-wrapper {
-	top:0; /* move up to top of screen, navbar covers it at the top of page */
-	width: 150px;
-	position:fixed;	/*IMPORTANT, this is what keeps it from scrolling */
-	height: 100%;
-	/*overflow-y: auto; hopefully not really necessary*/
-	z-index: 1000;
-	transition: all 0.4s ease 0s;
-	/*background: #edeff1; */ /*removed this background so it's just white to match page*/
-}
-
-#page-content-wrapper {
-	width: 100%;
-}
-
-.sidebar-nav {
-	position: absolute;
-	top: 0;
+#mission-sidebar-nav {
 	width: 150px;
 	list-style: none;
-	margin: 0 0 0 8px;
 	padding: 0;
-	margin-top: 11em;
+	// position: fixed;
+	margin-top: 5em;
+}
+
+#mission-sidebar-nav-phantom {
+	width: 150px;
+	list-style: none;
+	padding: 0;
+	// position: fixed;
+	visibility: hidden;
+}
+
+#content-anchor{
+	margin-top: 6em;
+}
+
+#mission-sidebar-nav.stick {
+    position: fixed;
+	margin-top: 0;
+    top: 0;
 }
 
 .section-links{	/*1st liste item in sidebar nav */
-	//.cent;
-	&:extend(.cent, .bold, .thin-border-bottom);
-	//&:extend(.bold);
+	border-bottom: 1px solid #666;
+	padding-top: 1em;
+	font-size: 1.25em;
 }
 
-@media (max-width:1250px) { /* smaller than 1250, it overlaps the main centered content */
-	#wrapper {
-		padding-left: 0;
-		display:none; 
+@media (max-width:970px) { /* smaller than 1250, it overlaps the main centered content */
+	#mission-page .col-xs-2{
+		display: none;
 	}
-
-	#sidebar-wrapper {
-		left: 0;
+	#mission-main{
+		width: 100%;
 	}
-
-	#wrapper.active {
-		position: relative;
-		left: 150px;
-	}
-
-	#wrapper.active #sidebar-wrapper {
-		left: 150px;
-		width: 150px;
-		transition: all 0.4s ease 0s;
-	}
-
-	#mission-header{
-		margin-left: 1em;
-	}
-
-	.col-xs-5{ /* don't know where this came from */
-	/*display: none; */
-}
-
 }
 
 /* add a border on the left when mouse hovers */
@@ -311,7 +290,6 @@ body > div.container-fluid > p:nth-child(3){
 .tile label {
   display: block;
   text-align: center;
-  border-bottom: 1px solid #CCC;
   color: #666;
 }
 
@@ -319,6 +297,9 @@ body > div.container-fluid > p:nth-child(3){
   color: #000;
 }
 
+.details{
+	border-top: 1px solid #ccc;
+}
 
 .summary-label-symbol{
 	display: inline;
@@ -364,7 +345,7 @@ body > div.container-fluid > p:nth-child(3){
 	display: inline; /* make it span the entire screen */
 }
 #login-page label.larger-label {
-	color: color: #34495E;
+	color: #34495E;
 }
 /*---------------------------- End user's page styles -------------------------------- */
 

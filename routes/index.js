@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express'),
     books = require('../services/books');
 
@@ -50,5 +51,8 @@ router.get('/users', function(req, res, next) {
     );
 });
 
+router.get('/test', function(req,res,next){
+    res.render('test');
+});
 
 module.exports = router;

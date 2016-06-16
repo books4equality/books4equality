@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express'),
     mailer = require('../services/mailer'),
     router = express.Router(); 
