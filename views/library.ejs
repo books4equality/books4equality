@@ -1,5 +1,9 @@
 <% layout('./layout') -%>
 
+<style>
+
+</style>
+
 <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
 
 <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -8,107 +12,118 @@
 <h1>Library</h1>    
 <h3>Search for a book in our database:</h3>
 
-<form class="form-inline">
-
-    <div class="form-group">
-        <input class="form-control input-lg" placeholder="Title..." type="text" id="title">
-    </div>
-
-    <div class="form-group">
-        <input class="form-control input-lg" placeholder="ISBN..." type="text" id="isbn">
-    </div>
-
-    <div class="form-group">
-        <input class="form-control input-lg" placeholder="Category..." type="text" id="categories">
-    </div>
-
-    <a id="search" class='btn btn-primary'>Search</a>
-    <a id="advanced_search" class='btn btn-link'>Advanced search</a>
-
-    <br>
-    <div id="advanced_search_options" class="hide">
+<form>
+    <div class="col-md-5">
         <div class="form-group">
-            <select class="form-control input-lg" id="orderby">
-                <option value="">Order by</option>
-                <option value="title">Title</option>
-                <option value="publishedDate">Published Date</option>
+            <input class="form-control input-lg" placeholder="Title..." type="text" id="title">
+        </div>
+        <div class="form-group">
+            <input class="form-control input-lg" placeholder="ISBN..." type="text" id="isbn">
+        </div>
+        <div class="form-group">
+            <input class="form-control input-lg" placeholder="Category..." type="text" id="categories">
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="form-group">
+            <select class="form-control input-lg" id="school">
+                <option value="">School ID</option>
+                <option value="UVM">UVM</option>
             </select>
+        </div>
+        <div style="float:right; margin-bottom:1em">
+            <a id="advanced_search" class='btn btn-link'>Advanced search</a>
+            <a id="search" class='btn btn-lg btn-primary'>Search</a>
+        </div>
+        <br>
+        <div id="advanced_search_options" class="hide">
+            <div class="form-group">
+                <select class="form-control input-lg" id="orderby">
+                    <option value="">Order by</option>
+                    <option value="title">Title</option>
+                    <option value="publishedDate">Published Date</option>
+                </select>
+            </div>
         </div>
     </div>
 </form>
-    <p class="text-muted" id="hint-text">Press search with no fields filled to see all books...</p>
 
-    <script id="entry-template" type="text/x-handlebars-template">
-            {{#each books}}
-            <% include partials/book-template %>
-            {{/each}}
-    </script>
+<% /* <div style="clear:both"/> */ %>
+<div style="clear:both">
 
-    <div id="results"></div>
+<p class="text-muted" id="hint-text">Press search with no fields filled to see all books...</p>
 
-    <div id="filler-space"></div>
+<script id="entry-template" type="text/x-handlebars-template">
+        {{#each books}}
+        <% include partials/book-template %>
+        {{/each}}
+</script>
+ 
+<div id="results"></div>
 
-    
-    <script>
-        $(function () {
-            var source = $("#entry-template").html();
-            var template = Handlebars.compile(source);
 
-            $("#search").click(function () {
-                var criteria = {};
-        ["title", "categories", "isbn", "orderby"].forEach(function (field) {
-                    if ($("#" + field).val()) {
-                        criteria[field] = $("#" + field).val()
-                    }
+</div>
+
+<script>
+    $(function () {
+        var source = $("#entry-template").html();
+        var template = Handlebars.compile(source);
+
+        $("#search").click(function () {
+            var criteria = {};
+            ["title", "categories", "isbn", "orderby", "school"].forEach(function (field) {
+                if ($("#" + field).val()) {
+                    criteria[field] = $("#" + field).val()
+                }
+            });
+
+            $.getJSON('/api/books', criteria)
+                .done(function (books) {
+                    if (typeof books !== 'undefined' && books.length > 0) {
+                        var html = template({
+                            books: books
+                        });
+                    }else{
+                        var html =  '<div class="alert fade in alert-warning">'
+                                        +'<a href="#" class="close">'
+                                            +'<i class="front-icon-cross"></i>'
+                                        +'</a>'
+                                        +'No matching books were found.'
+                                    +'</div>';
+                    } 
+                    $("#results").html(html);
+                    $("#hint-text").hide();
+                    $("#filler-space").hide();
+
+                })
+                .fail(function (data, status, xhr) {
+                    alert('something went wrong'); // TODO
                 });
+        });
 
-                $.getJSON('/api/books', criteria)
+        $("#advanced_search").click(function () {
+            $("#advanced_search_options").toggleClass('hide');
+        });
+
+        $("#title").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/api/books', {
+                        title: request.term
+                    })
                     .done(function (books) {
-                        if (typeof books !== 'undefined' && books.length > 0) {
-                            var html = template({
-                                books: books
-                            });
-                        }else{
-                            var html =  '<div class="alert fade in alert-warning">'
-                                            +'<a href="#" class="close">'
-                                                +'<i class="front-icon-cross"></i>'
-                                            +'</a>'
-                                            +'No matching books were found.'
-                                        +'</div>';
-                        } 
-                        $("#results").html(html);
-                        $("#hint-text").hide();
-                        $("#filler-space").hide();
-
+                        var data = [];
+                        books.forEach(function (book) {
+                            data.push(book.title);
+                        })
+                        response(data);
                     })
                     .fail(function (data, status, xhr) {
                         alert('something went wrong'); // TODO
                     });
-            });
-
-            $("#advanced_search").click(function () {
-                $("#advanced_search_options").toggleClass('hide');
-            });
-
-            $("#title").autocomplete({
-                source: function (request, response) {
-                    $.getJSON('/api/books', {
-                            title: request.term
-                        })
-                        .done(function (books) {
-                            var data = [];
-                            books.forEach(function (book) {
-                                data.push(book.title);
-                            })
-                            response(data);
-                        })
-                        .fail(function (data, status, xhr) {
-                            alert('something went wrong'); // TODO
-                        });
-                },
-                minLength: 3,
-                delay: 300
-            });
-
+            },
+            minLength: 3,
+            delay: 300
         });
-    </script>
+
+    });
+</script>
