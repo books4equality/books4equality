@@ -18,31 +18,35 @@ function find(options, callback) {
         $query: {
             schoolID: null
         }
-    };
+    }
 
     if (options.title) {
-        criteria.$query.title = { $regex: options.title, $options: 'i' };
+        criteria.$query.title = { $regex: options.title, $options: 'i' }
     }
 
     if (options.categories) {
-        var categories = parseCategories(options.categories);
+        var categories = parseCategories(options.categories)
         if (categories.length > 0) {
-            criteria.$query.categories = { $in: categories };
+            criteria.$query.categories = { $in: categories }
         }
     }
 
     if (options.isbn) {
-        criteria.$query["_meta.isbn"] = options.isbn;
+        criteria.$query["_meta.isbn"] = options.isbn
     }
 
     if (options.barcode){
-        criteria.$query["_meta.barcode"] = options.barcode;
+        criteria.$query["_meta.barcode"] = options.barcode
     }
 
 
     if (options.orderby) {
         criteria.$orderby = {};
         criteria.$orderby[options.orderby] = parseInt(options.dir) || 1;
+    }
+
+    if(options.school) {
+        criteria.$query['_meta.schoolID'] = options.school
     }
 
     var hints = {
@@ -56,16 +60,12 @@ function find(options, callback) {
     logger.info('search criteria %j', criteria);
     logger.info('search hints %j', hints);
 
-    console.log(criteria);
     db.get().collection('books').find(criteria, hints).toArray(function(err, books) {
         if (err) {
-            return callback(err);
+            return callback(err)
         }
-
-        return callback(null, books);
-
-        
-    });
+        return callback(null, books)
+    })
 }
 
 function findOne(id, callback) {
@@ -199,23 +199,21 @@ function signOutBook(barcode, user, callback){
         '_meta.barcode': barcode
     };
 
-    var timeStamp = new Date();
-    var signOutInfo = { 'signOutDate': timeStamp };
+    var timeStamp = new Date()
+    var signOutInfo = { 'signOutDate': timeStamp }
 
     var updateQuery = {
         $set: {'_meta.signOutInfo': signOutInfo}
-    };
+    }
 
-    if(user.admin != true){
-        return callback(null, false);
+    if(!user.admin || user.admin == false){
+        return callback(null, false)
     }
 
     db.get().collection('books').update(criteria, updateQuery, function(err, result){
-        if(err){ return callback(err); }
-
-        return callback(null, result);
-
-    });
+        if(err) return callback(err)
+        return callback(null, true, result)
+    })
 }
 
 function signInExistingBook(barcode, user, book, callback){

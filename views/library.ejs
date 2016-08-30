@@ -1,9 +1,5 @@
 <% layout('./layout') -%>
 
-<style>
-
-</style>
-
 <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
 
 <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -28,7 +24,9 @@
         <div class="form-group">
             <select class="form-control input-lg" id="school">
                 <option value="">School ID</option>
-                <option value="UVM">UVM</option>
+                <% schools.forEach((school) => { %>
+                    <option value="<%= school.schoolID %>"><%= school.schoolID %></option>
+                <% }) %>
             </select>
         </div>
         <div style="float:right; margin-bottom:1em">
@@ -48,7 +46,10 @@
     </div>
 </form>
 
-<% /* <div style="clear:both"/> */ %>
+<div>
+
+</div>
+
 <div style="clear:both">
 
 <p class="text-muted" id="hint-text">Press search with no fields filled to see all books...</p>
