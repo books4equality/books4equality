@@ -11,11 +11,6 @@
         margin-bottom: 5px;
     }
 
-    .unreserve-button,.sign-out-button{
-        padding: 5px;
-        border-radius: 4px;
-    }
-
     .user-info{
         margin-top: 1em;
         margin-left: 1em;
@@ -28,8 +23,16 @@
         margin-top: 1em;
     }
 
+    .book-actions{
+        margin: 1em;
+    }
+
     .book-status{
         color:red;
+    }
+
+    #tabled-button a{
+        color: "white";
     }
 
 
@@ -77,16 +80,17 @@
         <span class="user-info">Email: {{_meta.reservedBy.email}}</span></br>
         <span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></br>
         <span class="user-info">Signout Date: {{_meta.signOutInfo.signOutDate}}</span></br>
-
     </div>
-
-    <div class="lower-book-divs">
-        <a class="sign-in-button btn btn-primary confirm" data-barcode="{{_meta.barcode}}">Sign Back In (Double Click)</a>
+    
+    <div class="book-actions">
+        <a class="sign-in-button btn btn-primary confirm" data-barcode="{{_meta.barcode}}">Sign Back In (Double Click)</a> 
     </div>
-
     {{else}}
     
     <p class="book-status">Book Status: Reserved</p>
+    {{#if _meta.tabled}}
+    <p class="book-status">Book marked as <b>tabled</b></p>
+    {{/if}}
 
     <div class="lower-book-divs">
         <p>User Information:</p>
@@ -94,11 +98,10 @@
         <span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></br>
     </div>
 
-    <div class="lower-book-divs">
+    <div class="book-actions">
         <a class="sign-out-button btn btn-primary confirm" data-barcode="{{_meta.barcode}}">Sign Out Book (Double Click)</a>
-    </div>
-    <div class="lower-book-divs take-off-reserve-div">
-        <a class="unreserve-button btn btn-primary confirm" data-barcode="{{_meta.barcode}}">Take off reserve (Double Click)</a>
+        <a class="tabled-button btn btn-warning confirm" data-barcode="{{_meta.barcode}}">Mark as tabled (Double Click)</a>
+        <a class="unreserve-button btn btn-danger confirm" data-barcode="{{_meta.barcode}}">Take off reserve (Double Click)</a>
     </div>
     
     {{/if}}

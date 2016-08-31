@@ -52,7 +52,10 @@ router.post('/reserveBookConfirmed', function(req,res){
     };
 
     var criteria = {'_meta.barcode': req.body.barcode,'_meta.available': true};
-    var set = {$set:{'_meta.available':false,'_meta.reservedBy': userInfo}};
+    var set = {
+      $set:{'_meta.available':false,'_meta.reservedBy': userInfo},
+      $push: { '_meta.reservedDates': userInfo.reservedDate }
+    };
 
     books.updateBook(criteria, set, function(err, result){
       if(err){
@@ -65,6 +68,25 @@ router.post('/reserveBookConfirmed', function(req,res){
     return res.status(401).send();
   }
 });
+
+router.post('/markTabled', (req, res) => {
+  var date = new Date()
+  if(req.session.user.admin && req.session.user.admin == true) {
+    var criteria = { '_meta.barcode': req.body.barcode }
+    console.log(criteria)
+    var set = {
+      $set: { '_meta.tabled': true },
+      $push: { '_meta.tabledDates': date }
+    }
+    books.updateBook(criteria, set, (err, result) => {
+      console.log(err,result)
+      if(err) return res.status(500).send()
+      return res.status(200).send()
+    })
+  } else {
+    return res.status(401).send()
+  }
+})
 
 router.get('/doesUserExist', function(req, res){
   userServices.findOne(req.query.email, function(err, result){
