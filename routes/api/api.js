@@ -10,13 +10,12 @@ var express = require('express'),
     books = require('../../services/books'),
     bodyParser = require('body-parser'),
     organizations = require('../../services/organizations'),
+    utils = require('../../services/utils'),
     router = express.Router()
-
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json({ limit: '10kb' }));
 router.use(cors()); // CORS support allows third-party sites to consume the API
-
 
 router.get('/', function(req, res, next) {
     return res.json({status: 1});
@@ -24,11 +23,11 @@ router.get('/', function(req, res, next) {
 
 // i.e. /books?title=anatomy&categories=lang:en,anatomy
 router.get('/books', function(req, res, next) {
-    var options = req.query;
+    var options = utils.sanitize(req.query);
 
     books.find(options, function(err, books) {
         if (err) {
-            return next(err); 
+            return next(err);
         }
 
         // TODO remove private information
@@ -49,7 +48,7 @@ router.get('/books/:id', function(req, res, next) {
 });
 
 router.get('/organizations', function(req, res, next) {
-    var options = req.query;
+    var options = utils.sanitize(req.query);
 
     organizations.find(options, function(err, organizations) {
         if (err) {

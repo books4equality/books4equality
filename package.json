@@ -3,34 +3,30 @@
   "description": "Books For Equality web site",
   "version": "1.1.0",
   "private": true,
-  "author": {
-    "name": "Guido García",
-    "email": "guido.garcia.bernardo@gmail.com"
-  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:palmerabollo/books4equality.git"
+    "url": "git@github.com:books4equality/books4equality.git"
   },
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "async": "^2.0.0-rc.6",
+    "async": "^2.0.1",
     "bcryptjs": "^2.3.0",
-    "body-parser": "^1.14.1",
+    "body-parser": "^1.15.2",
     "connect-ensure-login": "^0.1.1",
     "connect-mongo": "^0.8.0",
-    "cors": "^2.5.3",
-    "ejs": "^2.2.3",
+    "cors": "^2.8.0",
+    "ejs": "^2.5.1",
     "ejs-locals": "^1.0.2",
-    "email-validator": "^1.0.3",
-    "express": "^4.11.1",
+    "email-validator": "^1.0.5",
+    "express": "^4.14.0",
     "express-session": "^1.13.0",
     "express-subdomain": "^1.0.5",
     "jquery-confirm": "^1.5.1",
     "less-middleware": "^1.0.4",
-    "logops": "^0.2.0",
-    "memoizeasync": "^0.8.0",
+    "logops": "^1.0.6",
+    "memoizeasync": "^0.9.0",
     "mongodb": "^1.4.31",
     "mongoose": "^4.3.5",
     "multer": "^0.1.8",
@@ -39,13 +35,12 @@
     "nodemailer-mailgun-transport": "^1.1.0",
     "nodemailer-smtp-transport": "^2.5.0",
     "pagination": "^0.4.4",
-    "passport": "^0.2.1",
-    "passport-http": "^0.2.2",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
     "request": "^2.67.0",
     "revalidator": "^0.3.1",
-    "serve-favicon": "^2.2.0",
-    "waypoints": "^4.0.0"
+    "serve-favicon": "^2.2.0"
   },
   "keywords": [
     "books",
