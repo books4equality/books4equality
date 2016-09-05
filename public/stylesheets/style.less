@@ -94,6 +94,9 @@ html,body{ /* originally from layout.ejs (added by quinn nov 30)  Required on al
 #nav-container {
 	z-index: 1500;
 }
+.active_page{
+    background: cadetblue;
+}
 /*----------------------------end navbar ----------------------------*/
 
 /*---------------------------- footer ----------------------------*/
@@ -256,7 +259,7 @@ body > div.container-fluid > p:nth-child(3){
 
 #contact-form  #message {
 	width: 100%;
-	max-width: 40em;
+	/*max-width: 40em;*/	/*make message box be full width?*/
 	min-height: 10em;
 }
 #contact-form #email-label {
@@ -337,6 +340,57 @@ body > div.container-fluid > p:nth-child(3){
 .form-inline {
 	margin-bottom: 1em;
 }
+
+/*styles to show/hide pictures in list*/
+.show-more-state {  /*hide the checkbox */
+    display: none;
+}
+
+.show-more-target {     /*class targets anything that wants to be hidden & shown. Default state is hidden */
+    opacity: 0;             /* set to transparent to start */
+    font-size: 0;           /* initially virtually miniscule size, so when shown, text will "grow". Without this it just appears*/
+    max-height: 0;          /* this is kind of optional since font-size is also 0*/
+    transition: .5s ease-in-out;   /*transition all properties to change & show/hidden */
+}
+
+.show-more-state:checked ~ .show-more-container .show-more-target { /* checks if hidden input "show-more-state" is checked. Use "genral/following sibling" selector to get ".show-more-target" (the content to be hidden) that is inside ".show-more-container" (the general element that contains any content to be hidden/shown )*/
+    opacity: 1;             /*set opacity to visible*/
+    font-size: inherit;     /*get font size from parent*/
+    max-height: 999em;       /* this is kind of optional since font-size is also 0. But just in case, it makes height HUGE*/
+}
+
+.show-more-state ~ .read-more-trigger:before {  /* label text is empty. So initially set it to say "show more". (uses "following" selector) */
+    content: 'Show picture ↓';
+}
+
+.show-more-state:checked ~ .read-more-trigger:before {  /* if the checkbox is selected, change the text to "show less"*/
+    content: 'Hide Picture ↑';
+}
+
+.read-more-trigger {    /*this is essentially the style for the button (label)*/
+	&:hover{
+		background: #48c9b0;
+	}
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 .5em;
+    background: #1abc9c;
+    color: white;
+    border-radius: .25em;
+    transition: background .25s;
+}
+
+.show-more-target0{&:extend(.show-more-target);}
+.show-more-state:checked ~ .show-more-container0 .show-more-target0{ &:extend(.show-more-state:checked ~ .show-more-container .show-more-target); }
+
+.show-more-state ~ .read-more-trigger0:before {
+    content: 'Show ↓';
+}
+
+.show-more-state:checked ~ .read-more-trigger0:before {
+    content: 'Hide ↑';
+}
+.read-more-trigger0{&:extend(.read-more-trigger);}
 /*---------------------------- end library -------------------------------*/
 
 
