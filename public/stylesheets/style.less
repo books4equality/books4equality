@@ -379,7 +379,18 @@ body > div.container-fluid > p:nth-child(3){
     border-radius: .25em;
     transition: background .25s;
 }
-/*input id's must match for="__" on empty labels"*/
+
+.show-more-target0{&:extend(.show-more-target);}
+.show-more-state:checked ~ .show-more-container0 .show-more-target0{ &:extend(.show-more-state:checked ~ .show-more-container .show-more-target); }
+
+.show-more-state ~ .read-more-trigger0:before {
+    content: 'Show ↓';
+}
+
+.show-more-state:checked ~ .read-more-trigger0:before {
+    content: 'Hide ↑';
+}
+.read-more-trigger0{&:extend(.read-more-trigger);}
 /*---------------------------- end library -------------------------------*/
 
 
