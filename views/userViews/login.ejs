@@ -122,17 +122,21 @@
                 <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
             </div>
 
+						<!-- School -->
+						<div class="form-group">
+								<select class="form-control input-lg signup-field" id="signup-school" name="school">
+										<option value="">School ID</option>
+										<% schools.forEach((school) => { %>
+												<option value="<%= school.schoolID %>"><%= school.schoolID %></option>
+										<% }) %>
+								</select>
+						</div>
+
             <!-- Email -->
             <div class="form-group">
                 <input type="text" class="form-control signup-field" id="signup-email" name="email" placeholder="Email Address (UVM email only)">
                 <label class="login-field-icon fui-triangle-right-large" for="signup-email"></label>
             </div>
-
-            <!-- Username -->
-            <!-- <div class="form-group"> -->
-              <!-- <input type="text" class="form-control signup-field" id="signup-username" type="text" name="username" placeholder="Username"/> -->
-            <!-- <label class="login-field-icon fui-user" for="signup-name"></label> -->
-            <!-- </div>  -->
 
             <!-- Password -->
             <div class="form-group">

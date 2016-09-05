@@ -8,13 +8,9 @@ api.js includes all of the routes for the public api
 var express = require('express'),
     cors = require('cors'),
     books = require('../../services/books'),
-    nodemailer = require('nodemailer'),
     bodyParser = require('body-parser'),
     organizations = require('../../services/organizations'),
-    validator = require("email-validator");
-    //Console = console.Console;
-
-var router = express.Router(); 
+    router = express.Router()
 
 
 router.use(bodyParser.urlencoded({ extended: true }));

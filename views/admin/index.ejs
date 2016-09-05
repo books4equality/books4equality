@@ -14,7 +14,10 @@
 <script src="/bower_components/handlebars/handlebars.min.js"></script>
 
 <h1>Admin Page</h1>
-<h3>Listing of reserved books:</h3>
+
+<h4><a href="/admin/bookRegistrationPage">Book Registration form</a></h4>
+
+<h3>Search reserved books:</h3>
 
 <form class="form-inline">
 
@@ -46,6 +49,14 @@
             <option value="_meta.reservedBy.reservedDate">Reservation Date</option>
         </select>
     </div>
+    
+    <div class="form-group">
+        <select class="form-control input-lg" id="dir">
+            <option value="">Orderby Direction</option>
+            <option value="1">Ascending</option>
+            <option value="-1">Descending</option>
+        </select>
+    </div>
 
     </br>
     <a id="search" class='btn btn-primary'>Search</a>
@@ -74,7 +85,7 @@
 
         $("#search").click(function () {
             var criteria = {};
-    ["title", "username", "email", "isbn", "barcode","orderby"].forEach(function (field) {
+    ["title", "username", "email", "isbn", "barcode","orderby","dir"].forEach(function (field) {
                 if ($("#" + field).val()) {
                     criteria[field] = $("#" + field).val()
                 }
@@ -170,7 +181,43 @@
             });
         });
 
+        $(document).on('click', '.tabled-button', function() {
+          var barcode = $(this).attr('data-barcode');
+          console.log($(this).attr('class'))
+          console.log(barcode)
 
+          $(".confirm").confirm({
+            text:"Are you sure you want to mark as tabled?",
+            title: "Confirmation required",
+            confirm: function(button) {
+              $.ajax({
+                url: '/users/markTabled',
+                type: 'POST',
+                dataType: 'json',
+                data: { 'barcode': barcode },
+                statusCode: {
+                  200: function(){
+                    console.log("Successfully marked book as tabled")
+                    location.reload()
+                  },
+                  500: function(){
+                    console.log("server error")
+                    alert("Failed making update in database")
+                  }
+                }
+              })
+            },
+            cancel: function(){
+              console.log("canceled")
+            },
+            confirmButton: "Yes I am",
+            cancelButton: "No",
+            post: true,
+            confirmButtonClass: "btn-danger",
+            cancelButtonCLass: "btn-default",
+            dialogClass: "modal-dialog modal-lg"
+          })
+        })
 
         $(document).on('click', '.sign-out-button', function(){
             var barcode = $(this).attr('data-barcode');
