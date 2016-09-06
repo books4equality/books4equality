@@ -1,5 +1,5 @@
 function sanitize(object) {
-    var result = JSON.parse(JSON.stringify(object)); // tricky but efficient way to clone an object
+    var result = Object.assign({}, object);
     for (var key in result) {
         if (result[key].trim) {
             result[key] = result[key].trim();
