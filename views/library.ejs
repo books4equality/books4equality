@@ -161,6 +161,11 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
             minLength: 3,
             delay: 300
         });
-
+        
+        $("input.form-control").keyup(function(e) {
+            if (e.keyCode == 13) {
+                $("#search").click();
+            }
+        });
     });
 </script>
