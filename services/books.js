@@ -50,7 +50,7 @@ function find(options, callback) {
   }
 
   var hints = {
-    limit: 100
+    limit: 10
   }
 
   if (options.skip) {
@@ -255,7 +255,6 @@ function updateBook(criteria, set, callback) {
     return callback(null, result) //returns a WriteResult
   })
 }
-
 
 function insert(book, callback) {
   db.get().collection('books').save(book, function (err, result) {

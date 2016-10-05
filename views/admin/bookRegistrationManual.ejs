@@ -6,7 +6,7 @@
   }
 </style>
 
-<h1>Book Registration</h1>
+<h1>Manual Book Registration</h1>
 <h4>Register a book in the <%- schoolID %> library</h4>
 
 <!-- Success and error messages for password reset email -->
@@ -29,7 +29,17 @@
     <div class="form-group">
         <input class="form-control input-lg" placeholder="Donor Email..." type="text" id="donor_email">
     </div>
-    <% /* %>
+    <div class="form-group">
+        <input class="form-control input-lg" placeholder="Title..." type="text" id="title">
+    </div>
+    <div class="form-group">
+        <input class="form-control input-lg" placeholder="Authors... (Separated by commas.)" type="text" id="authors">
+    </div>
+    <div class="form-group">
+        <input class="form-control input-lg" placeholder="Edition..." type="text" id="edition">
+    </div>
+
+    <% /* Uncomment this section for selectable schoolID %>
     <div class="form-group">
       <select class="form-control input-lg" id="schoolID">
           <option value="">School ID</option>
@@ -45,7 +55,7 @@
     </div>
 </form>
 
-<a href="/admin/bookRegistrationPageManual">Manual book registration form</a>
+<a href="/admin/bookRegistrationPage">Regular book registration form</a>
 
 <script>
 $(function() {
@@ -68,7 +78,15 @@ $(function() {
           error.push($(this).attr('id') + ' is a required field');
         }
       } else {
-        json[$(this).attr('id')] = $(this).val();
+        if($(this).attr('id') == 'authors') {
+          json.authors = []
+          var authors = $(this).val().split(",")
+          authors.forEach(function(author){
+            json.authors.push(author.trim())
+          })
+        } else {
+          json[$(this).attr('id')] = $(this).val();
+        }
       }
     });
     json.schoolID = "<%- schoolID %>"
@@ -81,7 +99,7 @@ $(function() {
       console.log(error);
     } else {
       $.ajax({
-        url: '/api/admin/books',
+        url: '/api/admin/booksManualEntry',
         type: 'POST',
         dataType: 'json',
         data: json,
@@ -112,7 +130,7 @@ $(function() {
             $('#book-reg-failure').text('Duplicate barcode entered')
           },
           400: function() {
-            alert("Barcode mismatch.")
+            alert("Barcode is all shitty.")
           },
           204: function() {
             console.log("Success")
@@ -126,12 +144,9 @@ $(function() {
 
   $('#btn-clear').click((e) => {
     e.preventDefault()
-    clear()
     $('.form-control').val('')
     $('.alert').addClass('hide')
     $('#book-reg-failure').text('')
   })
 })
-
-
 </script>
