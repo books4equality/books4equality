@@ -1,5 +1,3 @@
-require('better-stack-traces/register')
-
 var express = require('express'),
   session = require('express-session'),
   MongoStore = require('connect-mongo')(session),
