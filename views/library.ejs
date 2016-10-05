@@ -5,10 +5,10 @@
 <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <script src="/bower_components/handlebars/handlebars.min.js"></script>
 
-<h1>Library</h1>    
+<h1>Library</h1>
 <h3>Search for a book in our database:</h3>
 
- 
+
 <input type="checkbox" class="show-more-state" id="hidden0">
 Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label>
 
@@ -16,25 +16,25 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
     <ol class="reserve-info show-more-target0">
         <li><input type="checkbox" class="show-more-state" id="hidden1">
             Sign Up/Log in <label for="hidden1" class="read-more-trigger"></label><!-- label comes after text & for="__" matches id of hidden input--><br>
-            <span class="show-more-container">            
+            <span class="show-more-container">
                 <img src="images/instructional/reserving/1-log-in.jpg" class="img-responsive show-more-target" alt="Log In">
             </span>
         </li>
         <li><input type="checkbox" class="show-more-state" id="hidden2">
             Search for a book <label for="hidden2" class="read-more-trigger"></label><!-- label comes after text & for="__" matches id of hidden input--><br>
-            <span class="show-more-container">            
+            <span class="show-more-container">
                 <img src="images/instructional/reserving/2-search.jpg" alt="Search the Library" class="img-responsive show-more-target">
             </span>
         </li>
         <li><input type="checkbox" class="show-more-state" id="hidden3">
             Reserve your book <label for="hidden3" class="read-more-trigger"></label><!-- label comes after text & for="__" matches id of hidden input--><br>
-            <span class="show-more-container">            
+            <span class="show-more-container">
                 <img src="images/instructional/reserving/3-reserve.jpg" alt="Reserve a Book" class="img-responsive show-more-target">
             </span>
         </li>
         <li><input type="checkbox" class="show-more-state" id="hidden4">
             Confirm your request <label for="hidden4" class="read-more-trigger"></label><!-- label comes after text & for="__" matches id of hidden input--><br>
-            <span class="show-more-container">            
+            <span class="show-more-container">
                 <img src="images/instructional/reserving/4-confirm.jpg" alt="Reserve a Book" class="img-responsive show-more-target">
             </span>
         </li>
@@ -57,14 +57,16 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
         </div>
     </div>
     <div class="col-md-5">
-        <div class="form-group">
-            <select class="form-control input-lg" id="school">
-                <option value="">School ID</option>
-                <% schools.forEach((school) => { %>
-                    <option value="<%= school.schoolID %>"><%= school.schoolID %></option>
-                <% }) %>
-            </select>
-        </div>
+        <% if(!schoolID) {  //Only show school picker if not signed in %>
+          <div class="form-group">
+              <select class="form-control input-lg" id="school">
+                  <option value="">School ID</option>
+                  <% schools.forEach((school) => { %>
+                      <option value="<%= school.schoolID %>"><%= school.schoolID %></option>
+                  <% }) %>
+              </select>
+          </div>
+        <% } %>
         <div style="float:right; margin-bottom:1em">
             <a id="advanced_search" class='btn btn-link'>Advanced search</a>
             <a id="search" class='btn btn-lg btn-primary'>Search</a>
@@ -92,10 +94,14 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
 
 <script id="entry-template" type="text/x-handlebars-template">
         {{#each books}}
-        <% include partials/book-template %>
+        <% if(schoolID) { %>
+        <%    include partials/book-template %>
+        <%  } else { %>
+        <%    include partials/book-template-not-signed-in %>
+        <%  } %>
         {{/each}}
 </script>
- 
+
 <div id="results"></div>
 
 
@@ -127,7 +133,7 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
                                         +'</a>'
                                         +'No matching books were found.'
                                     +'</div>';
-                    } 
+                    }
                     $("#results").html(html);
                     $("#hint-text").hide();
                     $("#filler-space").hide();
@@ -161,7 +167,7 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
             minLength: 3,
             delay: 300
         });
-        
+
         $("input.form-control").keyup(function(e) {
             if (e.keyCode == 13) {
                 $("#search").click();
