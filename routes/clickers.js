@@ -6,7 +6,7 @@ var express = require('express'),
   router = express.router();
 
 
-router.post('/api/books', basicAuth, function (req, res, next) {
+router.post('/api/books', function (req, res, next) {
   var start = Date.now();
   var clicker = {};
   clicker.clicker = req.body.isbn;

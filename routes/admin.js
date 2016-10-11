@@ -31,6 +31,14 @@ router.get('/bookRegistrationPage', (req, res) => {
   })
 })
 
+router.get('/bookStatsPage', (req, res) => {
+  if(!isAdmin(req)) return res.status(401).send(notAuthorizedMessage)
+  return res.render('admin/bookStatsPage', {
+    'page_name': 'bookStats',
+    'schoolID': req.session.user.schoolID
+  })
+})
+
 router.get('/bookRegistrationPageManual', (req, res) => {
   if (typeof req.session.user == 'undefined') {
     return res.status(401).send(notAuthorizedMessage)
@@ -46,3 +54,15 @@ router.get('/bookRegistrationPageManual', (req, res) => {
 })
 
 module.exports = router
+
+
+function isAdmin(req) {
+  if (
+    typeof req.session.user == 'undefined' ||
+    typeof req.session.user.admin == 'undefined' ||
+    req.session.user.admin == false
+    ) {
+    return false
+  }
+  return true
+}
