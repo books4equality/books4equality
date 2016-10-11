@@ -5,8 +5,8 @@ var MongoClient = require('mongodb').MongoClient,
 
 var db
 
-var url = process.env.MONGO_URL ||'mongodb://localhost:27017/b4e'
-if (process.env.OPENSHIFT_MONGODB_DB_HOST) {
+var url = 'mongodb://localhost:27017/b4e'
+if (process.env.OPENSHIFT_MONGODB_DB_URL) {
   url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME
 }
 

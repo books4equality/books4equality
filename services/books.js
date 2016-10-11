@@ -15,9 +15,7 @@ function parseCategories(categories) {
 
 function find(options, callback) {
   var criteria = {
-    $query: {
-      schoolID: null
-    }
+    $query: {}
   }
 
   if (options.title) {
@@ -45,8 +43,8 @@ function find(options, callback) {
     criteria.$orderby[options.orderby] = parseInt(options.dir) || 1
   }
 
-  if (options.school) {
-    criteria.$query['_meta.schoolID'] = options.school
+  if (options.schoolID) {
+    criteria.$query['_meta.schoolID'] = options.schoolID
   }
 
   var hints = {
@@ -154,6 +152,10 @@ function findReservedBooks(options, callback) {
     criteria.$query['_meta.barcode'] = options.barcode
   }
 
+  if(options.schoolID) {
+    criteria.$query['_meta.schoolID'] = options.schoolID
+  }
+
   if (options.orderby) {
     //var order = options.orderby;
     criteria.$orderby = {}
@@ -163,7 +165,7 @@ function findReservedBooks(options, callback) {
 
   }
 
-  //console.log(criteria);
+  logger.info(criteria)
 
   db.get().collection('books').find(criteria).toArray(function (err, books) {
     if (err) { return callback(err) }

@@ -59,7 +59,7 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
     <div class="col-md-5">
         <% if(!schoolID) {  //Only show school picker if not signed in %>
           <div class="form-group">
-              <select class="form-control input-lg" id="school">
+              <select class="form-control input-lg" id="schoolID">
                   <option value="">School ID</option>
                   <% schools.forEach((school) => { %>
                       <option value="<%= school.schoolID %>"><%= school.schoolID %></option>
@@ -114,12 +114,17 @@ Reservation Instructions <label for="hidden0" class="read-more-trigger0"></label
 
         $("#search").click(function () {
             var criteria = {};
-            ["title", "categories", "isbn", "orderby", "school"].forEach(function (field) {
+            ["title", "categories", "isbn", "orderby", "schoolID"].forEach(function (field) {
                 if ($("#" + field).val()) {
                     criteria[field] = $("#" + field).val()
                 }
             });
 
+            if(!$('#schoolID').val()) {
+                criteria.schoolID = '<%- schoolID %>'
+            }
+            
+            console.log(criteria)
             $.getJSON('/api/books', criteria)
                 .done(function (books) {
                     if (typeof books !== 'undefined' && books.length > 0) {

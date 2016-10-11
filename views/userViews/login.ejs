@@ -305,16 +305,11 @@ $('#btn-sign-up').click(function(event) {
 
 			var $email = json['email'];
 			if(typeof $email !== 'undefined'){
-				var emailArr = $email.split('@');
-				var emailPostfix = emailArr[1];
-
 				if(!validateEmail($email)){
 					error.push('Please use a valid email address');
 				}
-
-				if(emailPostfix != 'uvm.edu'){
-					error.push('You must have/use your UVM email');
-				}
+			} else {
+				error.push('Please enter an email.')
 			}
 
 			if(error.length !== 0){

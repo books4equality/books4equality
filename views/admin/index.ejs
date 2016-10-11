@@ -90,19 +90,20 @@
 
         $("#search").click(function () {
             var criteria = {};
-    ["title", "username", "email", "isbn", "barcode","orderby","dir"].forEach(function (field) {
+            ["title", "username", "email", "isbn", "barcode","orderby","dir"]
+                .forEach(function (field) {
                 if ($("#" + field).val()) {
                     criteria[field] = $("#" + field).val()
                 }
             });
 
-            $.getJSON('/admin/reservedBooks', criteria)
+            $.getJSON('/api/admin/reservedBooks', criteria)
                 .done(function (books) {
                     if (typeof books !== 'undefined' && books.length > 0) {
                         var html = template({
                             books: books
                         });
-                    }else{
+                    } else {
                         var html =  '<div class="alert fade in alert-warning">'
                                         +'<a href="#" class="close">'
                                             +'<i class="front-icon-cross"></i>'
@@ -116,7 +117,11 @@
 
                 })
                 .fail(function (data, status, xhr) {
-                    alert('something went wrong'); // TODO
+                    if(status === 401) {
+                        alert("You're not authorized for that.")
+                    } else {
+                        alert('something went wrong'); // TODO
+                    }
                 });
         });
 
@@ -126,7 +131,7 @@
 
         $("#title").autocomplete({
             source: function (request, response) {
-                $.getJSON('/admin/reservedBooks', {
+                $.getJSON('/api/admin/reservedBooks', {
                         title: request.term
                     })
                     .done(function (books) {

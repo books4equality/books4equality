@@ -20,6 +20,9 @@ router.use(bodyParser.json({ limit: '10kb' }))
 
 router.get('/reservedBooks', function (req, res) {
   var options = req.query
+  options.schoolID = req.session.user.schoolID
+  
+  if(!req.session.user.admin) return res.status(401).send()
 
   books.findReservedBooks(options, function (err, books) {
     if (err) { return res.status(500).send() }
@@ -180,11 +183,6 @@ router.post('/booksManualEntry', function(req, res) {
     //Success: returns 204 No Content
     console.log(result)
     return res.status(204).send()
-    // if (result) {
-    //   return res.status(204).send()
-    // }
-    // redirect after post pattern
-    // return res.redirect('/admin')
   })
 })
 
