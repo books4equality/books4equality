@@ -340,7 +340,7 @@ function sanitizeBarcode(barcode) {
   var barcodelength = 9
   //Fill 0's
   if (barcode.length < barcodelength) {
-    return new Array(barcodelength - barcode.length).join('0') + barcode
+    return new Array((barcodelength + 1) - barcode.length).join('0') + barcode
   } else if (barcode.length > barcodelength) {
     return false
   }

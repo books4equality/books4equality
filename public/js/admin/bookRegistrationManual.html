@@ -14,7 +14,7 @@ $(function() {
     $('.form-control').each(function(){
       if($(this).val() == undefined || $(this).val() == ''){
         if($(this).attr('id') == 'donor_email') { //Donor email is not required
-          json[$(this).attr('id')] = $(this).val()
+          json['donor_email'] = ''
         } else {
           error.push($(this).attr('id') + ' is a required field');
         }
@@ -69,8 +69,9 @@ $(function() {
             $('#book-reg-failure').removeClass('hide');
             $('#book-reg-failure').text('Duplicate barcode entered')
           },
-          400: function() {
-            alert("Barcode is all shitty.")
+          400: function(text) {
+            $('#book-reg-failure').removeClass('hide');
+            $('#book-reg-failure').text('Invalid barcode. Barcode should be 9 digits long.')
           },
           204: function() {
             console.log("Success")
