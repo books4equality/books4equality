@@ -16,10 +16,7 @@ var express = require('express'),
   User = require('../../../lib/models/user'),
   router = express.Router()
 
-var {
-  isAdmin,
-  isSU
-} = require('../../../services/helpers/isAdmin')
+var isAdmin = require('../../../services/helpers/isAdmin').isAdmin
 
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json({ limit: '10kb' }))
