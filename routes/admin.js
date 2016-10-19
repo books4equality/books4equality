@@ -3,10 +3,7 @@ var express = require('express'),
   schools = require('../services/schools'),
   User = require('../lib/models/user')
 
-var {
-  isAdmin, 
-  isSU
-} = require('../services/helpers/isAdmin')
+var isAdmin = require('../services/helpers/isAdmin').isAdmin
 
 var notAuthorizedMessage =
   'Are you daft? Unauthorized.\n' +
