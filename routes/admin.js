@@ -1,5 +1,12 @@
 var express = require('express'),
-  router = express.Router()
+  router = express.Router(),
+  schools = require('../services/schools'),
+  User = require('../lib/models/user')
+
+var {
+  isAdmin, 
+  isSU
+} = require('../services/helpers/isAdmin')
 
 var notAuthorizedMessage =
   'Are you daft? Unauthorized.\n' +
@@ -15,6 +22,29 @@ router.get('/', function (req, res) {
   }
 
   return res.render('admin/index')
+})
+
+router.get('/editAdmins', (req, res) => {
+  if(!isAdmin(req)) return res.status(401).send(notAuthorizedMessage)
+  if(req.session.user.superUser === true) {
+    User.find({}, (err, users) => {
+      if(err) return res.status(500).send()
+      return res.render('admin/editAdmins', {
+        'page_name': 'editAdmins',
+        users,
+        'schoolID': 'ALL SCHOOLS'
+      })
+    })
+  } else {
+    schools.getSchoolUsers(req.session.user.schoolID, (err, users) => {
+      if(err) return res.status(500).send('Database Failure')
+      return res.render('admin/editAdmins', {
+        'page_name': 'editAdmins',
+        users,
+        'schoolID': req.session.user.schoolID
+      })
+    })
+  }
 })
 
 router.get('/bookRegistrationPage', (req, res) => {
@@ -54,15 +84,3 @@ router.get('/bookRegistrationPageManual', (req, res) => {
 })
 
 module.exports = router
-
-
-function isAdmin(req) {
-  if (
-    typeof req.session.user == 'undefined' ||
-    typeof req.session.user.admin == 'undefined' ||
-    req.session.user.admin == false
-    ) {
-    return false
-  }
-  return true
-}

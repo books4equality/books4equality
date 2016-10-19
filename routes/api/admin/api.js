@@ -13,7 +13,13 @@ var express = require('express'),
   books = require('../../../services/books'),
   logger = require('../../../services/logger'),
   School = require('../../../lib/models/school'),
+  User = require('../../../lib/models/user'),
   router = express.Router()
+
+var {
+  isAdmin,
+  isSU
+} = require('../../../services/helpers/isAdmin')
 
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json({ limit: '10kb' }))
@@ -135,6 +141,15 @@ router.post('/getBookByISBN', function (req, res) {
   })
 })
 
+router.post('/addRemoveAdmin', (req, res) => {
+  if(!isAdmin(req)) return res.status(401).send()
+  var adminStatus = req.body.adminStatus
+  var email = req.body.email
+  User.findOneAndUpdate({'email': email}, {admin: adminStatus}, {}, (err) => {
+    if(err) return res.status(500).send()
+    return res.status(200).send()
+  })
+})
 
 router.post('/books', function (req, res) {
   if (req.session.user.admin == true) {

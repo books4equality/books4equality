@@ -1,0 +1,8 @@
+<% layout('../layout') -%>
+
+<h2>School Listing</h2>
+<div class='jumbotron'>
+  <% schools.forEach(function(school) { %>
+    <h5><%- school.schoolName %></h5>
+  <% }) %>
+</div>

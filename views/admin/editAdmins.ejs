@@ -1,0 +1,109 @@
+<% layout('../layout') -%>
+
+<h1>Edit admin accounts</h1>
+
+<h4>User list for <%- schoolID %> </h4>
+
+<div class="form-group">
+  <input type="text" id="filterInputName" class="form-control" onkeyup="filterByName()" placeholder="Search for names..">
+</div>
+
+<div class="form-group">
+  <input type="text" id="filterInputEmail" class="form-control" onkeyup="filterByEmail()" placeholder="Search for emails..">
+</div>
+
+
+
+<table id="userTable" class="table">
+  <tr>
+    <th>Email</th>
+    <th>Name</th>
+    <th>School</th>
+    <th>Admin Status</th>
+  </tr>
+  <% users.forEach(function(user) { %>
+  <tr>
+    <td><%- user.email %></td>
+    <td><%- user.firstName + ' ' + user.lastName %></td>
+    <td><%- user.schoolID %></td>
+    <td>
+      <% if(user.admin) { %>
+          <input class="admin_checkbox" type="checkbox" value="<%- user.email %>" checked/>
+      <% } else { %>
+          <input class="admin_checkbox" type="checkbox" value="<%- user.email %>"/>
+      <% } %>
+    </td>
+  </tr>
+  <% }) %>
+</table>
+
+
+<script>
+
+  $(function() {
+    $('.admin_checkbox').change(function() {
+      var userEmail = $(this).attr('value')
+      if(this.checked) {
+        changeAdminStatus(userEmail, true)
+      } else {
+        changeAdminStatus(userEmail, false)
+      }
+    });
+  })
+
+  function changeAdminStatus(email, status) {
+    $.post("/api/admin/addRemoveAdmin", {
+      'email': email,
+      'adminStatus': status
+    },
+    function(data, status){
+      if(status === 'success') {
+        alert("Successfully updated user.")
+      } else {
+        alert("Failed to update user.")
+      }
+    });
+  }
+
+  function filterByName() {
+    // Declare variables 
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("filterInputName");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("userTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      } 
+    }
+  }
+
+  function filterByEmail() {
+    // Declare variables 
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("filterInputEmail");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("userTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      } 
+    }
+  }
+</script>
