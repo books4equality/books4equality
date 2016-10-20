@@ -1,6 +1,27 @@
 <% layout('../layout') -%>
-<h1><%- schoolID %>'s Book Stats</h1>
-<% /* Collection cycle data, books given out, value, number requested */ %>
-<table>
 
+<style>
+  #stats_table {
+    margin-top: 2em;
+    margin-bottom: 6em;
+  }
+</style>
+
+<h1>Stats for <%= schoolID %></h1>
+
+<table class="table" id="stats_table">
+  <tr>
+    <th>Total Books in Library</th>
+    <th>Books on reserve</th>
+    <th>Books out currently</th>
+    <th>Number of accounts</th>
+    <th>Number of admins</th>
+  <tr>
+  <tr>
+    <td><%- stats.books %></td>
+    <td><%- stats.booksOnReserve %></td>
+    <td><%- stats.booksGivenOut %></td>
+    <td><%- stats.accounts %></td>
+    <td><%- stats.adminAccounts %></td>
+  </tr>
 </table>

@@ -26,9 +26,9 @@
     	border: none;
     }
 
-    #forgot-pass{
-
-    }
+		.form-selector{
+			float: right;
+		}
 
 </style>
 
@@ -80,7 +80,7 @@
             <!-- </form> -->
         </form>
 
-        <form id="user-login-form" class="login-form hide" autocomplete="on">
+        <form id="user-login-form" class="login-form" autocomplete="on">
             <!-- <form id="signin-form" method="post" action="#" enctype="multipart/form-data"> -->
             <h4 class="login-header">Log In</h4>
             <!-- Email (field name must be 'username')-->
@@ -96,18 +96,14 @@
             </div>
 
             <div>
-                <a class="btn btn-lg btn-link form-selector" data-formselect="user-signup-form">Sign Up</a>
                 <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
-                
-                <a id="forgot-pass" class="btn btn-lg btn-link form-selector" data-formselect="password-lost-form">Forgot Password?</a>
-                <!--
-                <a class="login-link" href="#">Lost your password?</a>
-                -->
+                <a id="forgot-pass" class="btn btn-lg btn-link" data-formselect="password-lost-form">Forgot Password?</a>
+								<a class="btn btn-lg btn-link form-selector" data-formselect="user-signup-form">Sign Up</a>
             </div>
             <!-- </form> -->
         </form>
 
-        <form id="user-signup-form"  class="login-form" autocomplete="on">
+        <form id="user-signup-form"  class="login-form hide" autocomplete="on">
             <!-- <form id=method="post" action="#" enctype="multipart/form-data"> -->
             <h4 class="login-header">Create an account</h4>
             <!-- firstName -->
@@ -151,8 +147,8 @@
             </div>
 
             <div>
-                <a class="btn btn-lg btn-link form-selector" data-formselect="user-login-form">Login</a>
                 <input id="btn-sign-up" class="btn btn-lg btn-info" type="submit" value="Sign Up"/></a>
+								<a class="btn btn-lg btn-link form-selector" data-formselect="user-login-form">Login</a>
             </div>
             <!-- </form> -->
         </form>
@@ -183,12 +179,19 @@ $(document).ready(function(){
 	});
 
 	//TODO: allow login on enter press (e.which == 13)
-	$('.input').keypress(function (e) {
-		if (e.which == 13 && !event.shiftKey) {
-			submitLogin(e);
-	    // alert("key");
-	    return false; 
-	  }
+	// $('.input').keypress(function (e) {
+	// 	if (e.which == 13 && !event.shiftKey) {
+	// 		submitLogin(e);
+	//     // alert("key");
+	//     return false; 
+	//   }
+	// });
+
+	$("input.form-control").keyup(function(e) {
+		if (e.keyCode == 13) {
+				// $("#btn-login").click();
+				submitLogin()
+		}
 	});
 
 	$('#btn-login').click(function(e){

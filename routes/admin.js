@@ -1,7 +1,8 @@
 var express = require('express'),
   router = express.Router(),
   schools = require('../services/schools'),
-  User = require('../lib/models/user')
+  User = require('../lib/models/user'),
+  getAllStats = require('../services/stats/schoolStats').getAllStats
 
 var isAdmin = require('../services/helpers/isAdmin').isAdmin
 
@@ -60,9 +61,13 @@ router.get('/bookRegistrationPage', (req, res) => {
 
 router.get('/bookStatsPage', (req, res) => {
   if(!isAdmin(req)) return res.status(401).send(notAuthorizedMessage)
-  return res.render('admin/bookStatsPage', {
-    'page_name': 'bookStats',
-    'schoolID': req.session.user.schoolID
+  getAllStats(req.session.user.schoolID, (err, stats) => {
+    if(err) return res.status(500).send("Server Error")
+    return res.render('admin/bookStatsPage', {
+      'page_name': 'bookStats',
+      'stats': stats,
+      'schoolID': req.session.user.schoolID
+    })
   })
 })
 

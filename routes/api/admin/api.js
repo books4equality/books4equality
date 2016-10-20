@@ -34,7 +34,6 @@ router.get('/reservedBooks', function (req, res) {
   })
 })
 
-
 //TODO: Clean up with async
 router.post('/getBookInfo', function (req, res) {
 
