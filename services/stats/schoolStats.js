@@ -1,5 +1,5 @@
 'use strict'
-
+var memoize = require('memoizeasync')
 var db = require('../db')
 var async = require('async')
 /**
@@ -92,7 +92,7 @@ function getAllStats(schoolID, outerCallback) {
   })
 }
 
-
+// Cache every 30 minutes
 module.exports = {
-  getAllStats
+  getAllStats: memoize(getAllStats, { maxAge: (1800000) })
 }

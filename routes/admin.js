@@ -62,10 +62,10 @@ router.get('/bookRegistrationPage', (req, res) => {
 router.get('/bookStatsPage', (req, res) => {
   if(!isAdmin(req)) return res.status(401).send(notAuthorizedMessage)
   getAllStats(req.session.user.schoolID, (err, stats) => {
-    if(err) return res.status(500).send("Server Error")
+    if(err) return res.status(500).send('Server Error')
     return res.render('admin/bookStatsPage', {
       'page_name': 'bookStats',
-      'stats': stats,
+      'schoolStats': stats,
       'schoolID': req.session.user.schoolID
     })
   })
