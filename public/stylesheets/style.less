@@ -278,7 +278,7 @@ body > div.container-fluid > p:nth-child(3){
 
 .tile {
 	/*height for bio tiles at largest screen size */
-	height: 800px;
+	height: 420px;
 	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
 	padding: 0 14px 0 14px;/* override original tile class padding */
 
@@ -290,31 +290,34 @@ body > div.container-fluid > p:nth-child(3){
 	img{
 		margin: 1em auto;
 	}
+
+	input {
+		display: none;
+		visibility: hidden;
+	}
+	label {
+		display: block;
+		text-align: center;
+		color: #666;
+		/*&:hover {
+			color: #000;
+		}*/
+	}
 }
 
-.tile input {
-  display: none;
-  visibility: hidden;
-}
-
-.tile label {
-  display: block;
-  text-align: center;
-  color: #666;
-}
-
-.tile label:hover {
-  color: #000;
-}
-
-.details{
-	border-top: 1px solid #ccc;
-}
 
 .summary-label-symbol{
 	display: inline;
 }
 
+.bio-links a{	/* links right after "Title", before "About [name]" like Email, linkedin, twitter */
+	display: inline-block;
+	font-size: 0.9em;
+}
+
+.details{
+    margin-top: none;
+}
 
 .tile-image{ /*override original height of 100px from some unknown .less file */
 	height:200px;
@@ -325,6 +328,7 @@ body > div.container-fluid > p:nth-child(3){
 	padding:0 4px;
 }
 
+/*don't need these **/
 @media (max-width:993px) {	/* set height for 2-per-row "col-sm-6", bootstrap small size */
 .tile {
 	height: 750px;
