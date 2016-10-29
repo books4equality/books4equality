@@ -241,20 +241,33 @@
     </div>
 </div>
 
-
 <script>
     //animate bios to arrear/disappear when clicked
     $(document).ready(function(){
         $('.summary').click(function(){
+            var scrollDuration = 380;   //how long scrolling up/down should take
+            var scrollHeight = 300;
             if ( $( this ).hasClass( "clicked" ) ) {
-                $(this).siblings('.details').addClass('hide');
+                $(this).closest('.tile').animate({  //actually scroll up
+                    scrollTop: -scrollHeight     //negative height scrolls up
+                }, scrollDuration);
+
+                //now need to pause execution while scrolling BEFORE addig the class "hide"
+                //Without a setTimeout(), the class "hide" is added immediately, the bio disappears & no scrolling happens
+            
+                var thisTile=this;         //save current "this" (a html tile) to avoid problems with setTimeout resetting the value of "this"
+                addHideClass = function(tile){     //add the class that makes the tile disappear
+                    $(tile).siblings('.details').addClass('hide');
+                };
+                setTimeout(addHideClass,scrollDuration,thisTile);   //call addHideClass with a "delay" equal to the time to scroll, & pass in current tile (a CORRECT reference to "this")
                 $(this).removeClass('clicked');
+                
             } else {
                 $(this).addClass('clicked');
                 $(this).siblings('.details').removeClass('hide');
                 $(this).closest('.tile').animate({
-                    scrollTop: 300
-                }, 300);
+                    scrollTop: scrollHeight      //positive height scrolls down
+                }, scrollDuration);
             }
 
         // ⊖
