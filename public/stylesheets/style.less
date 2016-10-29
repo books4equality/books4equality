@@ -278,7 +278,7 @@ body > div.container-fluid > p:nth-child(3){
 
 .tile {
 	/*height for bio tiles at largest screen size */
-	height: 420px;
+	height: 410px;
 	overflow: auto; /*adds a scroll bar if the height of the boxes isn't tall enough somehow */
 	padding: 0 14px 0 14px;/* override original tile class padding */
 
@@ -310,9 +310,12 @@ body > div.container-fluid > p:nth-child(3){
 	display: inline;
 }
 
-.bio-links a{	/* links right after "Title", before "About [name]" like Email, linkedin, twitter */
-	display: inline-block;
-	font-size: 0.9em;
+.bio-links  {
+	min-height:3em;		/* make this containing box for linsk always be bigger than the links (so it pushed "about [name]" down when there are fewer than 2 links) */
+	a{	/* links right after "Title", before "About [name]" like Email, linkedin, twitter */
+		display: inline-block;
+		font-size: 0.9em;
+	}
 }
 
 .details{
