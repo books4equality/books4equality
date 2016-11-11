@@ -27,7 +27,12 @@
         <input class="form-control input-lg" placeholder="DDC..." type="text" id="ddc">
     </div>
     <div class="form-group">
-        <input class="form-control input-lg" placeholder="Donor Email..." type="text" id="donor_email">
+        <select class="form-control input-lg" name="Donor Organization" id="donor_email">
+            <% organizations.forEach((o) => { %>
+                <option value="" disabled selected>Donor Organization</option>
+                <option value="<%= o.email %>"><%= o.name %></option>
+            <% }) %>
+        </select>
     </div>
     <div class="form-group">
         <input class="form-control input-lg" placeholder="Title..." type="text" id="title">
