@@ -1,52 +1,62 @@
 'use strict'
 
 var express = require('express'),
-  School = require('../lib/models/school'),
-  bodyParser = require('body-parser'),
-  router = express.Router()
+	School = require('../lib/models/school'),
+	bodyParser = require('body-parser'),
+	router = express.Router()
 
-router.use(bodyParser.urlencoded({ extended: true }))
-router.use(bodyParser.json({ limit: '10kb' }))
+router.use(bodyParser.urlencoded({
+	extended: true
+}))
+router.use(bodyParser.json({
+	limit: '10kb'
+}))
 
-router.get('/', function(req, res){
-  School.find({}, 'schoolID schoolName', function(err, schools){
-    if(err) return res.status(500).send()
-    res.render('schools/schoolList', {
-      schools
-    })
-  })
+router.get('/', function(req, res) {
+	School.find({}, 'schoolID schoolName', function(err, schools) {
+		if(err) return res.status(500).send()
+		res.render('schools/schoolList', {
+			schools
+		})
+	})
 })
 
 //register a new school
-router.post('/register', function(req, res){
-//Required parameters
-  var required = ['schoolID','password','schoolName']
-  required.forEach(function(param){
-  if(!req.body[param]){
-  return res.status(400).send()
-}
-})
+router.post('/register', function(req, res) {
+	//Required parameters
+	var required = ['schoolID', 'password', 'schoolName']
+	required.forEach(function(param) {
+		if(!req.body[param]) {
+			return res.status(400).send()
+		}
+	})
 
-  School.findOne({schoolID:req.body.schoolID}, function(err, school){
-  if(err){ return res.status(500).send() }
-  if(school){ return res.status(409).send() } //409 conflict
+	School.findOne({
+		schoolID: req.body.schoolID
+	}, function(err, school) {
+		if(err) {
+			return res.status(500).send()
+		}
+		if(school) {
+			return res.status(409).send()
+		} //409 conflict
 
-  var newSchool = new School()
-  newSchool.schoolID = req.body.schoolID
-  newSchool.password = req.body.password
-  newSchool.schoolName = req.body.schoolName
+		var newSchool = new School()
+		newSchool.schoolID = req.body.schoolID
+		newSchool.password = req.body.password
+		newSchool.schoolName = req.body.schoolName
 
-  newSchool.save(newSchool, function(err, result){
-  if(err){
-  console.log(err)
-  return res.status(500).send()
-}
+		newSchool.save(newSchool, function(err, result) {
+			if(err) {
+				console.log(err)
+				return res.status(500).send()
+			}
 
-  req.session.school = newSchool
-//204 No Content
-  return res.status(204).send()
-})
-})
+			req.session.school = newSchool
+				//204 No Content
+			return res.status(204).send()
+		})
+	})
 })
 
 // router.get('/info/:schoolID', function(req,res){
@@ -67,35 +77,43 @@ res:
 401 (bad user/pass combo)
 204 (awww yeaaahhhh)
 */
-router.post('/login', function(req,res){
-//Required parameters
-  var required = ['schoolID','password']
-  required.forEach(function(param){
-  if(!req.body[param]){
-  return res.status(400).send()
-}
+router.post('/login', function(req, res) {
+	//Required parameters
+	var required = ['schoolID', 'password']
+	required.forEach(function(param) {
+		if(!req.body[param]) {
+			return res.status(400).send()
+		}
+	})
+
+	School.findOne({
+		schoolID: req.body.schoolID
+	}, function(err, school) {
+		if(err) {
+			return res.status(500).send()
+		}
+		if(!school) {
+			return res.status(401).send()
+		}
+
+		school.comparePassword(req.body.password, function(err, isMatch) {
+			if(err) {
+				return res.status(500).send()
+			}
+			if(isMatch && isMatch == true) {
+
+				req.session.school = req.body.schoolID
+				return res.status(204).send()
+			}
+
+
+			return res.status(401).send()
+		})
+	})
 })
 
-  School.findOne({schoolID: req.body.schoolID}, function(err, school){
-  if(err){return res.status(500).send() }
-  if(!school){ return res.status(401).send() }
-
-  school.comparePassword(req.body.password, function(err, isMatch){
-  if(err){return res.status(500).send() }
-  if(isMatch && isMatch == true){ 
-
-  req.session.school = req.body.schoolID
-  return res.status(204).send() 
-}
-
-
-  return res.status(401).send()
-})
-})
-})
-
-router.post('/logout', function(req,res){
-  req.session.destroy()
+router.post('/logout', function(req, res) {
+	req.session.destroy()
 })
 
 
