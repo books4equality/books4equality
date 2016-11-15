@@ -17,6 +17,8 @@
     "connect-ensure-login": "^0.1.1",
     "connect-mongo": "^0.8.0",
     "cors": "^2.8.0",
+    "d3": "^4.3.0",
+    "d3-node": "^0.2.0",
     "ejs": "^2.5.1",
     "ejs-locals": "^1.0.2",
     "email-validator": "^1.0.5",
