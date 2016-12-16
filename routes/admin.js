@@ -46,6 +46,13 @@ router.get('/editAdmins', (req, res) => {
 	}
 })
 
+router.get('/sellBooks', (req, res) => {
+	if(!req.session.user.superUser) return res.status(401).send(notAuthorizedMessage)
+	return res.render('admin/sellBooks', {
+		'page_name': 'sellBooks'
+	})
+})
+
 router.get('/bookRegistrationPage', (req, res) => {
 	if(typeof req.session.user == 'undefined') {
 		return res.status(401).send(notAuthorizedMessage)

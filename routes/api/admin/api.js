@@ -40,6 +40,21 @@ router.get('/reservedBooks', function(req, res) {
 	})
 })
 
+router.post('/sellBook', (req, res) => {
+	if(!req.body.price || !req.body.barcode) return res.status(400).send()
+	if(!req.session.user.superUser) return res.status(401).send()
+	books.findOne(req.body.barcode, (err, book) => {
+		if(err) return res.status(500).send()
+		book._meta.available = false
+		book._meta.sellPrice = req.body.price
+		const criteria = { '_meta.barcode': req.body.barcode }
+		books.updateBook(criteria, book, (err, result) => {
+			if(err) return res.status(500).send()
+			return res.status(200).send()
+		})
+	})
+})
+
 //TODO: Clean up with async
 router.post('/getBookInfo', function(req, res) {
 

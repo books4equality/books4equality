@@ -1,0 +1,39 @@
+<% layout('../layout') -%>
+
+<h1>Sell Books</h1>
+
+<form style="width: 50%">
+  <div class="form-group">
+      <input class="form-control input-lg" placeholder="Enter barcode..." type="text" id="barcode">
+  </div>
+  <div class="form-group">
+      <input class="form-control input-lg" placeholder="Enter Price..." type="text" id="price">
+  </div>
+  <div style="float:left; margin-bottom:1em">
+      <a id="sell" class='btn btn-lg btn-primary'>Mark as sold</a>
+  </div>
+</form>
+
+<script>
+$(function () {
+  $('#sell').click((e) => {
+    e.preventDefault()
+
+    var body = {
+      barcode: $('#barcode').val().trim(),
+      price: $('#price').val().trim()
+    }
+    $.post("/api/admin/sellBook", body)
+      .done(function() {
+        alert('Successfully marked book as sold.')
+      })
+      .fail(function(data, status, xhr) {
+        if(status === 400) {
+          alert('Book not found')
+        } else {
+          alert('Server error.')
+        }
+      })
+  })
+})
+</script>

@@ -64,40 +64,30 @@
                 <span class="label label-primary">{{this}}</span> {{/each}}
                 <span class="label label-primary">lang:{{language}}</span>
             </td>
-                            
-
         </tr>
-
     </table>
-
     <!-- Book is signed out -->
     {{#if _meta.signOutInfo}}
-        <p class="book-status">Book Status: Signed Out</p>
-  
-    
+    <p class="book-status">Book Status: Signed Out</p>
     <div class="lower-book-divs">
         <p>User Information:</p>
         <span class="user-info">Email: {{_meta.reservedBy.email}}</span></br>
         <span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></br>
         <span class="user-info">Signout Date: {{_meta.signOutInfo.signOutDate}}</span></br>
     </div>
-    
     <div class="book-actions">
         <a class="sign-in-button btn btn-primary confirm" data-barcode="{{_meta.barcode}}">Sign Back In (Double Click)</a> 
     </div>
     {{else}}
-    
     <p class="book-status">Book Status: Reserved</p>
     {{#if _meta.tabled}}
     <p class="book-status">Book marked as <b>tabled</b></p>
     {{/if}}
-
     <div class="lower-book-divs">
         <p>User Information:</p>
         <span class="user-info">Email: {{_meta.reservedBy.email}}</span></br>
         <span class="user-info">Reserved Date: {{_meta.reservedBy.reservedDate}}</span></br>
     </div>
-
     <div class="book-actions">
         <a class="sign-out-button btn btn-primary confirm" data-barcode="{{_meta.barcode}}">Sign Out Book (Double Click)</a>
         <a class="tabled-button btn btn-warning confirm" data-barcode="{{_meta.barcode}}">Mark as tabled (Double Click)</a>

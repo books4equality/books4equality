@@ -71,13 +71,10 @@ function find(options, callback) {
 	})
 }
 
-function findOne(id, callback) {
-	var oid = new ObjectID(id)
+function findOne(barcode, callback) {
 	var criteria = {
-		_id: oid,
-		available: true
+		'_meta.barcode': barcode
 	}
-
 	db.get().collection('books').findOne(criteria, function(err, book) {
 		if(err) {
 			return callback(err)
@@ -283,7 +280,6 @@ function updateBook(criteria, set, callback) {
 		if(err) {
 			return callback(err)
 		}
-
 		return callback(null, result) //returns a WriteResult
 	})
 }
