@@ -72,7 +72,20 @@ router.post('/reserveBookConfirmed', function(req, res) {
 			if(err) {
 				return res.status(500).send()
 			}
-
+			// Send reservation email
+			var to = req.session.user.email
+			var subject = 'B4E book reservation'
+			var text = `
+			Hello ` + req.session.user.firstName + `,\n
+			Thank you for reserving a book from Books4Equality.\n
+			Your book's barcode is ` + req.body.barcode + `.\n
+			Please visit your school's Books4Equality Facebook page to learn when to pick up your book.\n\n
+			All the best,\n
+			Books4Equality Team
+			`
+			mailer.mail(to, subject, text, '', function(err) {
+				if(err) return res.status(500).send()
+			})
 			return res.status(200).send()
 		})
 	} else {
@@ -273,6 +286,18 @@ router.post('/register', function(req, res) {
 			return res.status(500).send()
 		}
 		req.session.user = newUser
+		// Send confirmation email
+		var to = req.session.user.email
+		var subject = 'B4E account registration'
+		var text = `
+		Hello ` + req.session.user.firstName + `,\n
+		Thank you for signing up for Books4Equality! To reserve a book, visit the library page and search for the title of the book you need. \n\n
+		All the best,\n
+		Books4Equality Team
+		`
+		mailer.mail(to, subject, text, '', function(err) {
+			if(err) return res.status(500).send()
+		})
 		return res.status(200).send(result)
 	})
 
