@@ -1,38 +1,38 @@
 <% layout( '../layout') -%>
 
-<style>
-    .login {
-      background: none;
-      padding: 8px 38px 0px;
-    }
-
-    .login-screen {
-      min-height: 273px;
-      padding: 40px 150px 33px 306px;
-    }
-
-    .login-icon {
-      top: 40px;
-    }
-
-    .login-header{
-        color: rgb(52,73,94);
-        margin-top: -5px;
-        margin-left: 15px;
-    }
-
-    a.form-control{
-    	display: inline;
-    	border: none;
-    }
-
-		.form-selector{
+	<style>
+		.login {
+			background: none;
+			padding: 8px 38px 0px;
+		}
+		
+		.login-screen {
+			min-height: 273px;
+			padding: 40px 150px 33px 306px;
+		}
+		
+		.login-icon {
+			top: 40px;
+		}
+		
+		.login-header {
+			color: rgb(52, 73, 94);
+			margin-top: -5px;
+			margin-left: 15px;
+		}
+		
+		a.form-control {
+			display: inline;
+			border: none;
+		}
+		
+		.form-selector {
 			float: right;
 		}
 
-</style>
+	</style>
 
-<span id="login-page"> <!-- page specfic id for css classes -->
+	<span id="login-page"> <!-- page specfic id for css classes -->
 
 <div id="login-success" class="alert fade in alert-success hide">
 		Login successful!
@@ -74,8 +74,8 @@
             </div>
 
             <div>
-                <a class="btn btn-lg btn-link form-selector" data-formselect="user-login-form">Sign Up</a>
-                <input id="password-reset" class="btn btn-primary btn-lg " type="submit" value="Confirm Reset"/></a>
+                <a class="btn btn-lg btn-link form-selector" data-formselect="user-signup-form">Sign Up</a>
+                <input id="password-reset" class="btn btn-primary btn-lg" type="submit" value="Confirm Reset"/></a>
             </div>
             <!-- </form> -->
         </form>
@@ -96,8 +96,8 @@
             </div>
 
             <div>
-                <input id="btn-login" class="btn btn-primary btn-lg " type="submit" value="Log In"/></a>
-                <a id="forgot-pass" class="btn btn-lg btn-link" data-formselect="password-lost-form">Forgot Password?</a>
+                <input id="btn-login" class="btn btn-primary btn-lg" type="submit" value="Log In"/></a>
+                <a id="forgot-pass" class="btn btn-lg btn-link form-selector" data-formselect="password-lost-form">Forgot Password?</a>
 								<a class="btn btn-lg btn-link form-selector" data-formselect="user-signup-form">Sign Up</a>
             </div>
             <!-- </form> -->
@@ -170,9 +170,9 @@
 
 
 <script>
-$(document).ready(function(){
+$(document).ready(function () {
 
-	$('.form-selector').click(function(){
+	$('.form-selector').click(function () {
 		var form = $(this).data("formselect");
 		$(this).closest('.login-form').addClass('hide');
 		$('#' + form).removeClass('hide');
@@ -187,21 +187,174 @@ $(document).ready(function(){
 	//   }
 	// });
 
-	$("input.form-control").keyup(function(e) {
-		if (e.keyCode == 13) {
-				// $("#btn-login").click();
-				submitLogin()
+	$("input.form-control").keyup(function (e) {
+		if(e.keyCode == 13) {
+			// $("#btn-login").click();
+			submitLogin()
 		}
 	});
 
-	$('#btn-login').click(function(e){
+	$('#btn-login').click(function (e) {
 		submitLogin(e);
 		return false;
 	});
 
-	function submitLogin(event){
+	$('#password-reset').click(function (event) {
+		// console.log('here')
+		event.preventDefault();
 		var json = {};
-		error = [];
+		var error = [];
+
+		$('#password-reset-sent').addClass('hide');
+		$('#password-reset-email-dne').addClass('hide');
+		$('#password-reset-not-sent').addClass('hide');
+		$('#incomplete-form').empty();
+		$('#incomplete-form').addClass('hide');
+
+		$('.lost-pass-field').each(function () {
+			if($(this).val() == undefined || $(this).val() == '') {
+				error.push('\n' + $(this).attr('name') + ' is a required field');
+			} else {
+				json[$(this).attr('name')] = $(this).val();
+			}
+		});
+
+		if(error.length !== 0) {
+			error.forEach(function (item) {
+				$('#incomplete-form').append('<div>' + item + '</div>')
+			});
+			$('#incomplete-form').removeClass('hide');
+			console.log(error);
+		} else {
+			$.ajax({
+				url: '/users/forgot',
+				type: 'POST',
+				dataType: 'json',
+				data: json,
+				statusCode: {
+					200: function () {
+						console.log("success");
+						$('#password-reset-sent').removeClass('hide');
+						//redirect after delay
+						$(this).delay(5000).queue(function () {
+							window.location.replace('/users');
+							$(this).dequeue();
+						});
+					},
+					500: function () {
+						console.log("error");
+						$('#password-reset-not-sent').removeClass('hide');
+					},
+					400: function () {
+						console.log("error");
+						$('#password-reset-email-dne').removeClass('hide');
+					}
+				}
+			});
+		}
+	});
+
+	$('#btn-sign-up').click(function (event) {
+		event.preventDefault();
+		var json = {};
+		var error = [];
+
+		$('#incomplete-form').empty();
+		$('#incomplete-form').addClass('hide');
+
+		//collect field values
+		$('.signup-field').each(function () {
+			if($(this).val() == undefined || $(this).val() == '') {
+				error.push($(this).attr('name') + ' is a required field');
+			} else {
+				json[$(this).attr('name')] = $(this).val();
+			}
+		});
+
+		var userJSON = {
+			'email': json['email']
+		};
+
+		//Validation
+		$.ajax({ //user exists check
+			url: '/users/doesUserExist',
+			type: 'GET',
+			dataType: 'json',
+			data: userJSON,
+			async: false,
+			statusCode: {
+				200: function (data) {
+					console.log("Username DNE, continue...");
+
+				},
+				500: function () {
+					console.log("error");
+					error.push('Server error finding usernames');
+
+				},
+				290: function () { //madeup status code
+					console.log('username exists');
+					error.push('Username already exists');
+					console.log(error);
+				}
+			}
+		});
+
+		if(json['password'] != json['password-confirm']) {
+			error.push('Passwords must match.')
+		}
+
+		var $email = json['email'];
+		if(typeof $email !== 'undefined') {
+			if(!validateEmail($email)) {
+				error.push('Please use a valid email address');
+			}
+		} else {
+			error.push('Please enter an email.')
+		}
+
+		if(error.length !== 0) {
+			error.forEach(function (item) {
+				$('#incomplete-form').append('<div>' + item + '</div>')
+			});
+			$('#incomplete-form').removeClass('hide');
+			console.log(error);
+		} else {
+			$.ajax({
+				url: '/users/register',
+				type: 'POST',
+				dataType: 'json',
+				data: json,
+				statusCode: {
+					200: function () {
+						console.log("success");
+						$('#main-login').addClass('hide');
+						$('#account-creation-success').removeClass('hide');
+						//redirect after delay
+						$(this).delay(2000).queue(function () {
+							window.location.replace('/users/userHome');
+							$(this).dequeue();
+						});
+					},
+					500: function () {
+						console.log("error");
+						$('#main-login').addClass('hide');
+						$('#account-creation-failure').removeClass('hide');
+					}
+				}
+			});
+
+		}
+	});
+
+	function validateEmail($email) {
+		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+		return emailReg.test($email);
+	}
+
+	function submitLogin(event) {
+		var json = {};
+		var error = [];
 
 		//Initialize errors to be hidden for multiple attempts
 		$('#bad-login').addClass('hide');
@@ -210,15 +363,15 @@ $(document).ready(function(){
 		$('#incomplete-form').empty();
 
 
-		$('.login-field').each(function(){
-			if($(this).val() == undefined || $(this).val() == ''){
+		$('.login-field').each(function () {
+			if($(this).val() == undefined || $(this).val() == '') {
 				error.push('\n' + $(this).attr('name') + ' is a required field');
 			} else {
 				json[$(this).attr('name')] = $(this).val();
 			}
 		});
 
-		if(error.length !== 0){
+		if(error.length !== 0) {
 			error.forEach(function (item) {
 				$('#incomplete-form').append('<div>' + item + '</div>')
 			});
@@ -231,21 +384,21 @@ $(document).ready(function(){
 				dataType: 'json',
 				data: json,
 				statusCode: {
-					200: function() {
+					200: function () {
 						console.log("success");
 						// redirect after 2 second delay
-						$('#login-success').removeClass('hide', function(){
-							setTimeout(function() {
+						$('#login-success').removeClass('hide', function () {
+							setTimeout(function () {
 								window.location.replace('/users/userHome');
-					    }, 2000);
+							}, 2000);
 						});
 					},
-			      	401:function(){ //incorrect username or password
-			      		console.log("incorrect login");
+					401: function () { //incorrect username or password
+						console.log("incorrect login");
 						//$('#main-login').hide();
 						$('#bad-login').removeClass('hide');
 					},
-					500:function(){
+					500: function () {
 						console.log("server error");
 						$('#main-login').addClass('hide');
 						$('#login-failure').removeClass('hide');
@@ -255,160 +408,12 @@ $(document).ready(function(){
 		}
 
 	}
-	//});
-
-
-$('#btn-sign-up').click(function(event) {
-	event.preventDefault();
-	var json = {};
-	error = [];
-
-	$('#incomplete-form').empty();
-	$('#incomplete-form').addClass('hide');
-
-		//collect field values
-		$('.signup-field').each(function(){
-			if($(this).val() == undefined || $(this).val() == ''){
-				error.push($(this).attr('name') + ' is a required field');
-			} else {
-				json[$(this).attr('name')] = $(this).val();
-			}
-		});
-
-		var userJSON = {'email': json['email']};
-
-		//Validation
-			$.ajax({  //user exists check
-				url: '/users/doesUserExist',
-				type: 'GET',
-				dataType: 'json',
-				data: userJSON,
-				async: false,
-				statusCode: {
-					200: function(data) {
-						console.log("Username DNE, continue...");
-
-					},
-					500:function(){
-						console.log("error");
-						error.push('Server error finding usernames');
-
-					},
-			    290:function(){  //madeup status code
-			    	console.log('username exists');
-			    	error.push('Username already exists');
-			    	console.log(error);
-			    }
-			  }
-			});
-
-			if(json['password'] != json['password-confirm']){
-				error.push('Passwords must match.')
-			}
-
-			var $email = json['email'];
-			if(typeof $email !== 'undefined'){
-				if(!validateEmail($email)){
-					error.push('Please use a valid email address');
-				}
-			} else {
-				error.push('Please enter an email.')
-			}
-
-			if(error.length !== 0){
-				error.forEach(function (item) {
-					$('#incomplete-form').append('<div>' + item + '</div>')
-				});
-				$('#incomplete-form').removeClass('hide');
-				console.log(error);
-			} else {
-				$.ajax({
-					url: '/users/register',
-					type: 'POST',
-					dataType: 'json',
-					data: json,
-					statusCode: {
-						200: function() {
-							console.log("success");
-							$('#main-login').addClass('hide');
-							$('#account-creation-success').removeClass('hide');
-						//redirect after delay
-						$(this).delay(2000).queue(function(){
-							window.location.replace('/users/userHome');
-							$(this).dequeue();
-						});
-					},
-					500:function(){
-						console.log("error");
-						$('#main-login').addClass('hide');
-						$('#account-creation-failure').removeClass('hide');
-					}
-				}
-			});
-
-			}
-		});
-
-$('#password-reset').click(function(event){
-	event.preventDefault();
-	var json = {};
-	error = [];
-
-	$('#password-reset-sent').addClass('hide');
-	$('#password-reset-email-dne').addClass('hide');
-	$('#password-reset-not-sent').addClass('hide');	
-	$('#incomplete-form').empty();
-	$('#incomplete-form').addClass('hide');
-
-	$('.lost-pass-field').each(function(){
-		if($(this).val() == undefined || $(this).val() == ''){
-			error.push('\n' + $(this).attr('name') + ' is a required field');
-		} else {
-			json[$(this).attr('name')] = $(this).val();
-		}
-	});
-
-	if(error.length !== 0){
-		error.forEach(function (item) {
-			$('#incomplete-form').append('<div>' + item + '</div>')
-		});
-		$('#incomplete-form').removeClass('hide');
-		console.log(error);
-	} else {
-		$.ajax({
-			url: '/users/forgot',
-			type: 'POST',
-			dataType: 'json',
-			data: json,
-			statusCode: {
-				200: function() {
-					console.log("success");
-					$('#password-reset-sent').removeClass('hide');
-					//redirect after delay
-					$(this).delay(5000).queue(function(){
-						window.location.replace('/users');
-						$(this).dequeue();
-					});
-				},
-				500:function(){
-					console.log("error");
-					$('#password-reset-not-sent').removeClass('hide');
-				},
-				400:function(){
-					console.log("error");
-					$('#password-reset-email-dne').removeClass('hide');
-				}
-			}
-		});
-	}
-});
-
-function validateEmail($email) {
-	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-	return emailReg.test( $email );
-}
 
 });
+
+
+
 </script>
 
 </span>
+

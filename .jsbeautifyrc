@@ -4,7 +4,7 @@
     "indent_with_tabs": true,
     "preserve_newlines": true,
     "max_preserve_newlines": 10,
-    "jslint_happy": false,
+    "jslint_happy": true,
     "space_after_anon_function": false,
     "brace_style": "collapse",
     "keep_array_indentation": false,
@@ -14,6 +14,8 @@
     "eval_code": false,
     "unescape_strings": false,
     "wrap_line_length": 0,
+    "indent_size": 2,
+    "indent_char": " ",
     "wrap_attributes": "auto",
     "wrap_attributes_indent_size": 4,
     "end_with_newline": true
