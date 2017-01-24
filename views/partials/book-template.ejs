@@ -35,19 +35,22 @@
                 <span><strong>{{title}}</strong>, {{publisher}} ({{publishedDate}})</span>
                 <br> {{#each authors}}
                 <em>{{this}}</em> · {{/each}}
-                <br> {{#if _meta.isbn}}
-                <span class="text-muted">ISBN:  {{_meta.isbn}}</span> {{/if}}
+                <br>
+		{{#if _meta.isbn}}
+                    <span class="text-muted">ISBN:  {{_meta.isbn}}</span>
+		{{/if}}
                 {{#if _meta.ddc}}
-                · <span class="text-muted">DDC:  {{_meta.ddc}}</span> {{/if}}
+                    · <span class="text-muted">DDC:  {{_meta.ddc}}</span>
+		{{/if}}
+                {{#if _meta.barcode}}
+                    · <span class="text-muted">Barcode:  {{_meta.barcode}}</span>
+		{{/if}}
                 <br>
                 <span>Tags: </span> {{#each categories}}
                 <span class="label label-primary">{{this}}</span> {{/each}}
                 <span class="label label-primary">lang:{{language}}</span>
             </td>
-                            
-
         </tr>
-
     </table>
 
     {{#if _meta.reservedBy}}    
